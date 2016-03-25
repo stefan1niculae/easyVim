@@ -29,5 +29,16 @@ node_modules
 # Optional npm cache directory
 .npm
 
+# JetBrains files
+.idea
 # Optional REPL history
 .node_repl_history
+
+# Environment files
+*.env
+
+# Code style restrictions
+.eslintrc.yml
+
+# TO BE ADDED another dot files and dependencies
+

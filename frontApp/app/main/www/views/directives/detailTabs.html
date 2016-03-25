@@ -1,0 +1,8 @@
+<button type="button" class="btn btn-default btn-tab" ng-repeat="tab in tabList"
+        ng-click="onClickTab(tab)"
+        ng-class="{'btn-primary':isActiveTab(tab.url)}">
+  <span ng-if="tab.backButton" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+  {{tab.title}}
+</button>
+
+<div class="mainTabView" ng-include="currentTab.url"></div>

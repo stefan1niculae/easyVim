@@ -34,7 +34,7 @@ bower_components
 *.classpath
 *.project
 target
-www
+/www/*
 .bin/*
 .bin/**
 */.bin/*

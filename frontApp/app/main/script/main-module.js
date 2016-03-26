@@ -15,15 +15,15 @@
 
   function configure($urlRouterProvider, $httpProvider, $stateProvider) {
 
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/badges");
 
     $httpProvider.interceptors.push('httpResponseInterceptor');
-    $httpProvider.defaults.withCredentials = true;
-    //$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
-    $stateProvider.state('notAuthorized', {
-      url: "/not",
-      templateUrl: "views/notAuthorized.html",
+    $stateProvider.state('badges', {
+      url: "/badges",
+      templateUrl: "views/badges.html",
+      controller: 'badgesController',
+      controllerAs: 'badgesCtrl',
       hideNavbar: false
     });
 

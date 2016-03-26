@@ -22,6 +22,20 @@ angular.module("easyVimWeb")
         });
     };
 
+    $scope.createBadge = function () {
+      $scope.busy = true;
+      mainService.addBadge()
+        .then(function (res) {
+          console.log("RESPONSE AT CREATE", res);
+        })
+        .catch(function (err) {
+          $scope.error = err;
+        })
+        .finally(function () {
+          $scope.busy = false;
+        });
+    };
+
     getData();
 
 

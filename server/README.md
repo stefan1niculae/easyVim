@@ -10,9 +10,7 @@ What you need:
       --npm install--
 
   For build:
-    npm start
-  For more info:
-    DEBUG=server:* npm start
+    npm start (the server restarts automatically if files are being modified)
     
 To add new dependences: 
   --for tools-- 

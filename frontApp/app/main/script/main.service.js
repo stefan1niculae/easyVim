@@ -4,7 +4,7 @@ angular.module("easyVimWeb")
     var service = {};
 
     var makeCall = function (verb, url, data, params, headers) {
-      var base = "";
+      var base = "/api";
       return $http({
         method: verb,
         data: data,
@@ -18,7 +18,11 @@ angular.module("easyVimWeb")
     };
 
     service.getBadges = function () {
-      return makeCall('GET', '/api/badges');
+      return makeCall('GET', '/badges');
+    };
+
+    service.addBadge = function () {
+      return makeCall('POST', '/badges', {experience: 5});
     };
 
     return service;

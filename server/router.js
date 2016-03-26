@@ -2,10 +2,35 @@
 
 const express = require('express');
 const router = express.Router();
+const Badge = require('./models/badge');
 
-router.get('/badges', function (req, res) {
-    res.json(['badge1', 'badge2']);
-});
+router.route('/badges')
+    .get(function (req, res) {
+        Badge.find({}, function (err, badges) {
+            if (!err) {
+                res.json(badges);
+            }
+        })
+    })
+    .post(function (req, res) {
+        console.log("!!!!!!!!!!!!!!!!!!!!!! INTRA");
+        var badge = new Badge();
+
+        badge.experience = req.body.experience;
+
+        badge.save(function (err, elem) {
+            if (!err) {
+                res.json({_id: elem._id});
+            }
+            else {
+                res.send(err)
+            }
+        });
+
+
+        //res.json({message: 'badge created'});
+
+    });
 
 //router.get('/cheetsheet', function (req, res) {
 //    res.json();

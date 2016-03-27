@@ -1,0 +1,68 @@
+Improvable action := an editor action that works but could have been improved, ie: fewer keystrokes.
+An improvable action has an action sequence that triggers it and a suggested improvement.
+
+Action Sequence := sequence of commands done in quick succession.
+The sequence is considered over when the user has stopped touching the keyboard for a little bit.
+The start of the sequence is the index of the before the first command in the AS.
+Then end of the sequence is the index of the cursor after the last command in the AS.
+
+Proposed IAs:
+  MOVEMENT
+
+  Horizontal word movement
+    trigger: AS containing only left/right directional keys (with optional shift/alt modifier)
+             start line == end line, start col <> line col
+    improvm: <n> [W] or <n> [B] for right/left (start of) words and [E] for (end of) right word
+             where n is the number of words traversed in the trigger
+
+  Vertical movement
+    trigger: AS containing only up/down directional keys TODO
+    improvm: <n> [J] or <n> [K]
+
+  Anchor movement
+    trigger: AS of only directional keys that leaves the cursor right before/after a distict symbol (eg: ?~@ etc)
+             and the symbol does not occur between the traversed indices
+    improvm: [f] or [F] or [t] or [T] followed by <symbol>
+
+  Start/end of line movement
+    trigger: home/end keys
+    improvm: [^] or [0] or [$] (won't reduce keystrokes but will keep your finger close to the home row)
+
+  Brackets pair movement
+    trigger: AS containing only directional keys starting at one bracket and ending at its pair
+    improvm: [%]
+
+
+  DELETION/CHANGE
+  [d] can be replaced by [c]
+
+  Whole line(s) deletion
+    trigger: deletion (del/bksp) when the selection is from the start of the row to the end
+    improvm: [dd]
+
+    trigger: deletion of multiple fully selected rows TODO
+    improvm: <n> [dd]
+
+  Deletion inside brackets
+    trigger: deletion where a selection is strictly inside a pair of brackets
+    improvm: [di(] or [di{] etc
+
+  Delete to end of row
+    trigger: TODO
+    improvm: [D]
+
+
+  SELECTION
+  any IAs from the movement section can be included here and preceeded by [V]
+
+  Multiple line selection
+    trigger: TODO
+    imporvm: [V] followed by <n> [J] or <n> [K]
+
+
+  MISC
+
+  Case change
+    trigger: AS containing deletion of a letter and insertion at the same index of the same letter but in different case
+    improvm: [~]
+

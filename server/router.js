@@ -13,23 +13,19 @@ router.route('/badges')
         })
     })
     .post(function (req, res) {
-        console.log("!!!!!!!!!!!!!!!!!!!!!! INTRA");
         var badge = new Badge();
 
         badge.experience = req.body.experience;
 
         badge.save(function (err, elem) {
             if (!err) {
-                res.json({_id: elem._id});
+                res.json({_id: elem._id, message: 'Badge created'});
             }
             else {
                 res.send(err)
             }
         });
-
-
-        //res.json({message: 'badge created'});
-
+        
     });
 
 //router.get('/cheetsheet', function (req, res) {

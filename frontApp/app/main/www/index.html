@@ -22,10 +22,20 @@
 
 <!-- Add your site or application content here -->
 
-<nav></nav>
+
+<div class="container">
+
+    <ul class="nav-list">
+      <li ng-repeat="view in views" ui-sref="badges" class="list-item">
+        <a>{{view.name}}</a>
+      </li>
+
+    </ul>
 
 
-<div ui-view></div>
+  <div ui-view class="main-view"></div>
+</div>
+
 
 <script src="lib/lodash/lodash.js"></script>
 <script src="lib/angular/angular.js"></script>

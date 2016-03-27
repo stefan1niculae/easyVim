@@ -4,6 +4,25 @@ angular.module('easyVimWeb')
 
     $scope.busy = false;
 
+    $scope.views = [
+      {
+        name: 'Learn',
+        state: 'badges'
+      },
+      {
+        name: 'Challenges',
+        state: 'badges'
+      },
+      {
+        name: 'Cheetsheet',
+        state: 'badges'
+      },
+      {
+        name: 'Badges',
+        state: 'badges'
+      }
+    ];
+
     var user = app.user = authService.getUser();
     app.hideNavbar = false;
     app.title = null;

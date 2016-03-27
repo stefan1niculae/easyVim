@@ -44,16 +44,17 @@ app.use('/api', router);
 
 // catch 404 and forward to error handler
 app.use(function (err, req, res, next) {
-    logger.error("Not Found");
+    logger.error("Not Found", err);
     res.status(404).send({
         error: err,
         message: "Not Found"
-    });});
+    });
+});
 
 // error handler
 // no stacktraces leaked to user on production
 app.use(function (err, req, res, next) {
-    logger.error("Eroare de server", err);
+    logger.error("Server Error", err);
 
     res.status(err.status || 500);
     res.status(500).send({

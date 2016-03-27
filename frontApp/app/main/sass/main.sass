@@ -1,54 +1,41 @@
 *
-  padding: 0
+  box-sizing: border-box
   margin: 0
-
-.clear
-  clear: both
-
-.floatLeft
-  float: left
-
-.floatRight
-  float: right
-
-.textLeft
-  text-align: left
-
-.textRight
-  text-align: right
-
-.textCenter
-  text-align: center
-
-.textJustify
-  text-align: justify
-
-.blockCenter
-  display: block
-  margin-left: auto
-  margin-right: auto
-/* remember to set width */
-
-.bold
-  font-weight: bold
-
-.italic
-  font-style: italic
-
-.underline
-  text-decoration: underline
-
-.noindent
-  margin-left: 0
-  padding-left: 0
-
-.nomargin
-  margin: 0
-
-.nopadding
   padding: 0
 
-.nobullet
+.nav-list
+  &:hover
+    width: 250px
+  position: fixed
+  display: inline-block
+  padding: 10px
+  top: 0
+  left: 0
+  height: 100%
+  width: 50px
+  background: darkslategray
+  transition: width ease 1s
+
+ul
+  li
+    margin-bottom: 25px
   list-style: none
-  list-style-image: none
+  margin: 0
+  padding: 0
 
+.list-item
+  a
+    color: shade(darkslategray, 50%)
+    text-decoration: none
+    transition: color ease .35s
+    &:hover
+      color: white
+      cursor: pointer
+
+.main-view
+  position: relative
+  margin-left: 75px
+  transition: margin-left ease 1s
+
+.nav-list:hover + .main-view
+  margin-left: 275px

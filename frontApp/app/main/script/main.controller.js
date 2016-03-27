@@ -14,8 +14,8 @@ angular.module('easyVimWeb')
         state: 'badges'
       },
       {
-        name: 'Cheetsheet',
-        state: 'badges'
+        name: 'Cheat Sheet',
+        state: 'cheatSheet'
       },
       {
         name: 'Badges',

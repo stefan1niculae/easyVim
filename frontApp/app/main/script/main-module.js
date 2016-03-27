@@ -1,8 +1,7 @@
 (function (angular) {
   'use strict';
 
-  angular
-    .module('easyVimWeb', [
+  angular.module('easyVimWeb', [
       'easyVim.login',
       'ngAnimate',
       'ngResource',
@@ -26,6 +25,14 @@
       controllerAs: 'badgesCtrl',
       hideNavbar: false
     });
+
+    $stateProvider.state('cheatSheet', {
+      url: '/cheatSheet',
+      templateUrl: 'views/cheatSheet.html',
+      controller: 'cheatSheetController',
+      controllerAs: 'cheatSheetCtrl',
+      hideNavbar: false
+    })
 
   }
 

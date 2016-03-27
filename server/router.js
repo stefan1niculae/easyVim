@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Badge = require('./models/badge');
+const Cheat = require('./models/cheat')
 
 router.route('/badges')
     .get(function (req, res) {
@@ -25,7 +26,29 @@ router.route('/badges')
                 res.send(err)
             }
         });
-        
+
+    });
+
+router.route('/cheat-sheet')
+    .get(function (req, res) {
+        Cheat.find({}, function (err, cheatSheet) {
+            if (!err) {
+                res.json(cheatSheet);
+            }
+        })
+    })
+    .post(function (req, res) {
+        var cheat = new Cheat(req.body);
+
+        cheat.save(function (err, elem) {
+            if (!err) {
+                res.json({_id: elem._id, message: 'Cheat created'});
+            }
+            else {
+                res.send(err)
+            }
+        });
+
     });
 
 //router.get('/cheetsheet', function (req, res) {

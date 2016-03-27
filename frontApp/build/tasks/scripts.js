@@ -9,6 +9,6 @@ gulp.task('scripts',['compile-features'], function () {
 		.pipe(concat('app.js'))
 		.pipe(gulp.dest(paths.destJs))
 		.pipe(rename('app.min.js'))
-		//.pipe(uglify())
+		.pipe(uglify())
 		.pipe(gulp.dest(paths.destJs))
 });

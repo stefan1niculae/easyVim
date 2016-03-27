@@ -25,8 +25,8 @@
 
 <div class="container">
 
-    <ul class="nav-list">
-      <li ng-repeat="view in views" ui-sref="badges" class="list-item">
+    <ul class="nav-list" ng-if="!app.hideNavbar">
+      <li ng-repeat="view in views" ui-sref="{{view.state}}" class="list-item">
         <a>{{view.name}}</a>
       </li>
 

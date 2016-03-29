@@ -1,0 +1,14 @@
+h1 {
+    font-family: "Helvetica Neue", sans-serif;
+    text-align: center;
+}
+
+.centered {
+    width: 80%;
+    margin: auto;
+}
+
+#editor-text {
+    font-family: Hack, monospace;
+    width: 100%;
+}

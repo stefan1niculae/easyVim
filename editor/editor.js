@@ -52,7 +52,7 @@
   KeyListener = (function() {
     KeyListener.prototype.MAX_TIME_BETWEEN_STROKES = 750;
 
-    KeyListener.prototype.MIN_MOVEMENT_STROKES = 0;
+    KeyListener.prototype.MIN_MOVEMENT_STROKES = 3;
 
     KeyListener.property('seqStart', {
       set: function(index) {
@@ -184,7 +184,7 @@
       wwww  wwwww  ww www ww wwwwwwwww
       WWWW WWWWWWW WW WWWWWW WWWWWWWWWW
        */
-      if (traversed.length > 0 && this.currSeq.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.containsOnly(Keys.directional)) {
+      if (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.containsOnly(Keys.directional)) {
         if (wentForward) {
           shouldBeWS = last;
           shouldNotBeWS = next;
@@ -194,9 +194,6 @@
         }
         if (next === void 0 || (shouldBeWS.match(/\s/) && shouldNotBeWS.match(/\S/))) {
           count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf("\n\n");
-          if (next === void 0) {
-            count++;
-          }
           if (!wentForward && beforeStart !== void 0 && (beforeStart != null ? beforeStart.match(/\S/) : void 0)) {
             count++;
           }

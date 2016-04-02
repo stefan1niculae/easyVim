@@ -43,7 +43,7 @@ Keys.directional = [Keys.left, Keys.right, Keys.up, Keys.down]
 
 class KeyListener
   MAX_TIME_BETWEEN_STROKES: 750  # in ms
-  MIN_MOVEMENT_STROKES: 0
+  MIN_MOVEMENT_STROKES: 3
 
   @property 'seqStart',
     set: (index) -> @_seqStartIndex = index
@@ -162,7 +162,9 @@ class KeyListener
 
     # Movement
     # No need to correct if you only went a very small distance
-    if traversed.length > 0 and @currSeq.length >= @MIN_MOVEMENT_STROKES and @currSeq.containsOnly Keys.directional
+    # We check both the traversed distance and the number of keystrokes
+    # because a sequence might look like L L L L R R R which is really just left
+    if traversed.length >= @MIN_MOVEMENT_STROKES and @currSeq.length >= @MIN_MOVEMENT_STROKES and @currSeq.containsOnly Keys.directional
       # Stopping at the start of a WORD (stopped right before a non whitespace) or at the start/end of text
       # This does not give a suggestion if the user stops in the middle of a couple of blank lines
 
@@ -179,13 +181,12 @@ class KeyListener
       # The above examples or reached start/end of text
       if next is undefined or (shouldBeWS.match(/\s/) and shouldNotBeWS.match(/\S/))
           count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n" # a WORD is delimited by whitespace
-          count++ if next is undefined
 
           # The B command is different from the W command: it also goes back to the start of the current word
           # whereas W skips all the way to the start of the next word
           # whether you started form the middle of the current one or not
           if !wentForward and beforeStart != undefined and beforeStart?.match /\S/
-            count++
+              count++
 
           motion = if wentForward then "W" else "B"
           suggestCommand count, motion

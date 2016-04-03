@@ -233,12 +233,16 @@ class KeyListener
     immNext = @text[@seqEnd.index]
     # This does not take into account the case when you go from a long line to a short line to a long one again
     # eg: (| denotes cursor position)
-    # longlo|ng
-    # short|
-    # longlo|ng
-    targetLineEndCol = @text[@seqEnd.index...].indexOf '\n'
+    # longlo|ng   <-- start
+    # short|      <-- stop
+    # longlo|ng   <-- next, here
+    if @seqEnd.line is 1
+      lineEndCol = @text.indexOf '\n'
+    else
+      lineStartIndex = 1 + @text[0..@seqEnd.index-1].lastIndexOf '\n'
+      lineEndCol = @text[lineStartIndex...].indexOf('\n')
     if @seqEnd.col is @seqStart.col or (
-      (immNext is '\n' or immNext is undefined) and targetLineEndCol < @seqStart.col)
+      (immNext is '\n' or immNext is undefined) and lineEndCol < @seqStart.col)
       motion = if wentForward then "j" else "k"
       suggestCommand distance, motion
       return true
@@ -272,7 +276,7 @@ class KeyListener
 
     stoppedAt = @text[@seqEnd.index]
     if stoppedAt?.match /^\S$/
-      lineStart = 1 + @text[0..@seqEnd.index].lastIndexOf '\n'
+      lineStart = if @seqEnd.line is 1 then 0 else 1 + @text[0..@seqEnd.index].lastIndexOf '\n'
       fromLineStart = @text[lineStart..@seqEnd.index-1]
       # Check if this is the first non-blank character of the line(ie: everything before it is whitespace)
       # Could have also been s+ because at least one whitespace char has to be there
@@ -378,8 +382,7 @@ $ ->
 
 loadSampleText = () ->
   $.ajax
-#    url: "samples/fF and tT tests.txt"
-    url: "samples/J and K tests.txt"
+    url: "samples/fF and tT tests.txt"
     dataType: "text"
     success: (data) ->
       $ "#editor-text"

@@ -231,14 +231,19 @@
         Remember: J looks a bit like a down arrow so it means go down
                   Also in romanian the word for down starts with J
        */
-      var distance, immNext, motion, targetLineEndCol;
+      var distance, immNext, lineEndCol, lineStartIndex, motion;
       distance = Math.abs(this.seqEnd.line - this.seqStart.line);
       if (distance === 0 || distance > this.MAX_VERT_MOVEMENT_COUNT) {
         return false;
       }
       immNext = this.text[this.seqEnd.index];
-      targetLineEndCol = this.text.slice(this.seqEnd.index).indexOf('\n');
-      if (this.seqEnd.col === this.seqStart.col || ((immNext === '\n' || immNext === void 0) && targetLineEndCol < this.seqStart.col)) {
+      if (this.seqEnd.line === 1) {
+        lineEndCol = this.text.indexOf('\n');
+      } else {
+        lineStartIndex = 1 + this.text.slice(0, +(this.seqEnd.index - 1) + 1 || 9e9).lastIndexOf('\n');
+        lineEndCol = this.text.slice(lineStartIndex).indexOf('\n');
+      }
+      if (this.seqEnd.col === this.seqStart.col || ((immNext === '\n' || immNext === void 0) && lineEndCol < this.seqStart.col)) {
         motion = wentForward ? "j" : "k";
         suggestCommand(distance, motion);
         return true;
@@ -268,7 +273,7 @@
       }
       stoppedAt = this.text[this.seqEnd.index];
       if (stoppedAt != null ? stoppedAt.match(/^\S$/) : void 0) {
-        lineStart = 1 + this.text.slice(0, +this.seqEnd.index + 1 || 9e9).lastIndexOf('\n');
+        lineStart = this.seqEnd.line === 1 ? 0 : 1 + this.text.slice(0, +this.seqEnd.index + 1 || 9e9).lastIndexOf('\n');
         fromLineStart = this.text.slice(lineStart, +(this.seqEnd.index - 1) + 1 || 9e9);
         if (fromLineStart.match(/^\s*$/)) {
           suggestCommand(1, '^');
@@ -369,7 +374,7 @@
 
   loadSampleText = function() {
     return $.ajax({
-      url: "samples/J and K tests.txt",
+      url: "samples/fF and tT tests.txt",
       dataType: "text",
       success: function(data) {
         return $("#editor-text").text(data);

@@ -51,9 +51,12 @@ class KeyListener
   # Multiple keystrokes form a sequence, this is how we tell they are in the same sequence
   MAX_TIME_BETWEEN_STROKES: 750  # in ms
   # No need to correct if the user has only pressed the directional keys just once or twice
-  MIN_MOVEMENT_STROKES: 3
+  MIN_MOVEMENT_STROKES: 2
   # It's not feasible to suggest 10W or 14B because that is hard to see without computer guidance
-  MAX_MOVEMENT_COUNT: 6
+  MAX_WORD_MOVEMENT_COUNT: 6
+  # It's easier for vertical line navigation to see the number of lines
+  # (the [relative] line numbers are displayed on the side)
+  MAX_VERT_MOVEMENT_COUNT: 40
 
   @property 'seqStart',
     set: (index) -> @_seqStartIndex = index
@@ -131,7 +134,7 @@ class KeyListener
 
   registerPossibleStart: ->
     # Set starting index when starting adding the first action in the sequence
-    if @currSeq.length == 0
+    if @currSeq.length is 0
       @seqStart = @htmlElem.selectionStart
 
 
@@ -192,13 +195,42 @@ class KeyListener
         (@currSeq.contains(Keys.mouse) and traversed.length > 0) or (
           traversed.length >= @MIN_MOVEMENT_STROKES and @currSeq.length >= @MIN_MOVEMENT_STROKES))
 
-      prevRelevant = @suggestHomeEndMovement next
+      # Don't give more than one suggestion per sequence
+      # but give the "best" suggestion out of the available ones (order them)
+      prevRelevant = @suggestJKMovement wentForward
+      prevRelevant = @suggestHomeEndMovement next if not prevRelevant
       @suggestWordMovement traversed, wentForward, beforeStart, last, next if not prevRelevant
 
 
     # Prepare for the next sequence
     @currSeq = []
     @timer = null
+
+
+  suggestJKMovement: (wentForward) ->
+    ###
+    From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#up-down-motions)
+      k       [count] lines upward |linewise|.
+      j			  [count] lines downward |linewise|.
+
+      Remember: J looks a bit like a down arrow so it means go down
+    ###
+    distance = Math.abs @seqEnd.line - @seqStart.line
+
+    # Didn't move vertically or moved too much
+    if distance is 0 or distance > @MAX_VERT_MOVEMENT_COUNT
+      return false
+
+    # Landed on the same column, because the target line is at least the same length as the starting one
+    # or landed on the last column (ie: next char is newline), because the target line is not long enough
+    # or we reached the end of the file
+    immNext = @text[@seqEnd.index]
+    if @seqEnd.col >= @seqStart.col or immNext is '\n' or immNext is undefined
+      motion = if wentForward then "j" else "k"
+      suggestCommand distance, motion
+      return true
+
+    return false
 
 
   suggestHomeEndMovement: (next) ->
@@ -211,11 +243,11 @@ class KeyListener
 
     # Moving horizontally on a line (start and end lines are the same, columns must differ...
     # ... but that requirement is met by checking that traversed has nonzero length)
-    if @seqStart.line != @seqEnd.line
+    if @seqStart.line isnt @seqEnd.line
       return false
 
     # At the start of the line (column is one)
-    if @seqEnd.col == 1
+    if @seqEnd.col is 1
       suggestCommand 1, '0'
       return true
 
@@ -282,11 +314,13 @@ class KeyListener
     if not (next is undefined or (shouldBeWS.match(/^\s$/) and shouldNotBeWS.match(/^\S$/)))
       return false
 
-    count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n" # a WORD is delimited by whitespace
+    # A WORD is delimited by whitespace
+    # and single newlines count as WORDs as well
+    count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n"
     # The B command is different from the W command: it also goes back to the start of the current word
     # whereas W skips all the way to the start of the next word
     # whether you started form the middle of the current one or not
-    if !wentForward and beforeStart != undefined and beforeStart?.match /\S/
+    if !wentForward and beforeStart isnt undefined and beforeStart?.match /\S/
       count++
     motion = if wentForward then "W" else "B"
 
@@ -305,7 +339,7 @@ $ ->
 
 loadSampleText = () ->
   $.ajax
-    url: "samples/^ $ 0 tests.txt"
+    url: "samples/J and K tests.txt"
     dataType: "text"
     success: (data) ->
       $ "#editor-text"

@@ -57,9 +57,11 @@
   KeyListener = (function() {
     KeyListener.prototype.MAX_TIME_BETWEEN_STROKES = 750;
 
-    KeyListener.prototype.MIN_MOVEMENT_STROKES = 3;
+    KeyListener.prototype.MIN_MOVEMENT_STROKES = 2;
 
-    KeyListener.prototype.MAX_MOVEMENT_COUNT = 6;
+    KeyListener.prototype.MAX_WORD_MOVEMENT_COUNT = 6;
+
+    KeyListener.prototype.MAX_VERT_MOVEMENT_COUNT = 40;
 
     KeyListener.property('seqStart', {
       set: function(index) {
@@ -202,13 +204,39 @@
       last = wentForward ? traversed.slice(-1) : traversed[0];
       next = wentForward ? this.text[this.seqEnd.index] : this.text[this.seqEnd.index - 1];
       if (this.currSeq.containsOnly(Keys.directional) && ((this.currSeq.contains(Keys.mouse) && traversed.length > 0) || (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES))) {
-        prevRelevant = this.suggestHomeEndMovement(next);
+        prevRelevant = this.suggestJKMovement(wentForward);
+        if (!prevRelevant) {
+          prevRelevant = this.suggestHomeEndMovement(next);
+        }
         if (!prevRelevant) {
           this.suggestWordMovement(traversed, wentForward, beforeStart, last, next);
         }
       }
       this.currSeq = [];
       return this.timer = null;
+    };
+
+    KeyListener.prototype.suggestJKMovement = function(wentForward) {
+
+      /*
+      From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#up-down-motions)
+        k       [count] lines upward |linewise|.
+        j			  [count] lines downward |linewise|.
+      
+        Remember: J looks a bit like a down arrow so it means go down
+       */
+      var distance, immNext, motion;
+      distance = Math.abs(this.seqEnd.line - this.seqStart.line);
+      if (distance === 0 || distance > this.MAX_VERT_MOVEMENT_COUNT) {
+        return false;
+      }
+      immNext = this.text[this.seqEnd.index];
+      if (this.seqEnd.col >= this.seqStart.col || immNext === '\n' || immNext === void 0) {
+        motion = wentForward ? "j" : "k";
+        suggestCommand(distance, motion);
+        return true;
+      }
+      return false;
     };
 
     KeyListener.prototype.suggestHomeEndMovement = function(next) {
@@ -306,7 +334,7 @@
 
   loadSampleText = function() {
     return $.ajax({
-      url: "samples/^ $ 0 tests.txt",
+      url: "samples/J and K tests.txt",
       dataType: "text",
       success: function(data) {
         return $("#editor-text").text(data);

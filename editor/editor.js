@@ -57,11 +57,13 @@
   KeyListener = (function() {
     KeyListener.prototype.MAX_TIME_BETWEEN_STROKES = 750;
 
-    KeyListener.prototype.MIN_MOVEMENT_STROKES = 2;
+    KeyListener.prototype.MIN_MOVEMENT_STROKES = 0;
 
     KeyListener.prototype.MAX_WORD_MOVEMENT_COUNT = 6;
 
     KeyListener.prototype.MAX_VERT_MOVEMENT_COUNT = 40;
+
+    KeyListener.prototype.MAX_ANCHOR_MOVEMENT_COUNT = 4;
 
     KeyListener.property('seqStart', {
       set: function(index) {
@@ -204,34 +206,39 @@
       last = wentForward ? traversed.slice(-1) : traversed[0];
       next = wentForward ? this.text[this.seqEnd.index] : this.text[this.seqEnd.index - 1];
       if (this.currSeq.containsOnly(Keys.directional) && ((this.currSeq.contains(Keys.mouse) && traversed.length > 0) || (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES))) {
-        prevRelevant = this.suggestJKMovement(wentForward);
+        prevRelevant = this.suggestVertMovement(wentForward);
         if (!prevRelevant) {
           prevRelevant = this.suggestHomeEndMovement(next);
         }
         if (!prevRelevant) {
-          this.suggestWordMovement(traversed, wentForward, beforeStart, last, next);
+          prevRelevant = this.suggestWordMovement(traversed, wentForward, beforeStart, last, next);
+        }
+        if (!prevRelevant) {
+          this.suggestAnchorMovement(wentForward, next);
         }
       }
       this.currSeq = [];
       return this.timer = null;
     };
 
-    KeyListener.prototype.suggestJKMovement = function(wentForward) {
+    KeyListener.prototype.suggestVertMovement = function(wentForward) {
 
       /*
       From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#up-down-motions)
-        k       [count] lines upward |linewise|.
-        j			  [count] lines downward |linewise|.
+        k       [count] lines upward.
+        j			  [count] lines downward.
       
         Remember: J looks a bit like a down arrow so it means go down
+                  Also in romanian the word for down starts with J
        */
-      var distance, immNext, motion;
+      var distance, immNext, motion, targetLineEndCol;
       distance = Math.abs(this.seqEnd.line - this.seqStart.line);
       if (distance === 0 || distance > this.MAX_VERT_MOVEMENT_COUNT) {
         return false;
       }
       immNext = this.text[this.seqEnd.index];
-      if (this.seqEnd.col >= this.seqStart.col || immNext === '\n' || immNext === void 0) {
+      targetLineEndCol = this.text.slice(this.seqEnd.index).indexOf('\n');
+      if (this.seqEnd.col === this.seqStart.col || ((immNext === '\n' || immNext === void 0) && targetLineEndCol < this.seqStart.col)) {
         motion = wentForward ? "j" : "k";
         suggestCommand(distance, motion);
         return true;
@@ -243,9 +250,9 @@
 
       /*
       From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#<Home>)
-        0			  To the first character of the line.  |exclusive| motion.
-        ^			  To the first non-blank character of the line. |exclusive| motion.
-        $       To the end of the line.  When a count is given also go [count - 1] lines downward |inclusive|.
+        0			  To the first character of the line. motion.
+        ^			  To the first non-blank character of the line. motion.
+        $       To the end of the line.
        */
       var fromLineStart, lineStart, stoppedAt;
       if (this.seqStart.line !== this.seqEnd.line) {
@@ -277,14 +284,14 @@
       From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
         4. Word motions
       
-          w			[count] words forward.  |exclusive| motion.
-          W			[count] WORDS forward.  |exclusive| motion.
-          e			Forward to the end of word [count] |inclusive|. Does not stop in an empty line.
-          E			Forward to the end of WORD [count] |inclusive|. Does not stop in an empty line.
-          b			[count] words backward.  |exclusive| motion.
-          B			[count] WORDS backward.  |exclusive| motion.
-          ge	  Backward to the end of word [count] |inclusive|.
-          gE		Backward to the end of WORD [count] |inclusive|.
+          w			[count] words forward. motion.
+          W			[count] WORDS forward. motion.
+          e			Forward to the end of word [count]. Does not stop in an empty line.
+          E			Forward to the end of WORD [count]. Does not stop in an empty line.
+          b			[count] words backward. motion.
+          B			[count] WORDS backward. motion.
+          ge	  Backward to the end of word [count].
+          gE		Backward to the end of WORD [count].
       
           A word consists of a sequence of letters, digits and underscores, or a
           sequence of other non-blank characters, separated with white space (spaces,
@@ -315,11 +322,39 @@
         count++;
       }
       motion = wentForward ? "W" : "B";
-      if (count > this.MAX_MOVEMENT_COUNT) {
+      if (count > this.MAX_WORD_MOVEMENT_COUNT) {
         return false;
       }
       suggestCommand(count, motion);
       return true;
+    };
+
+    KeyListener.prototype.suggestAnchorMovement = function(wentForward, next) {
+
+      /*
+      From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
+        2. Left-right motions
+      
+        f{char}   To the [count]'th occurrence of {char} to the right. The cursor is placed on {char}.
+        F{char}   To the [count]'th occurrence of {char} to the left.  The cursor is placed on {char}.
+      
+        t{char}   Till before [count]'th occurrence of {char} to the right. The cursor is placed on the character left of {char}.
+        T{char}   Till after  [count]'th occurrence of {char} to the left.  The cursor is placed on the character right of {char}.
+      
+        eg:
+        abc def?
+        f?---->
+        t?--->
+      
+        def? 123456
+            <----F?
+             <---T?
+      
+        Remember: F can be for Find or Forward to
+        We say an anchor is a defining element, one you can jump to, anchor to
+       */
+      console.log("next = " + next);
+      return false;
     };
 
     return KeyListener;

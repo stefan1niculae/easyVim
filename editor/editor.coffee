@@ -51,12 +51,16 @@ class KeyListener
   # Multiple keystrokes form a sequence, this is how we tell they are in the same sequence
   MAX_TIME_BETWEEN_STROKES: 750  # in ms
   # No need to correct if the user has only pressed the directional keys just once or twice
-  MIN_MOVEMENT_STROKES: 2
+  MIN_MOVEMENT_STROKES: 0
   # It's not feasible to suggest 10W or 14B because that is hard to see without computer guidance
   MAX_WORD_MOVEMENT_COUNT: 6
   # It's easier for vertical line navigation to see the number of lines
   # (the [relative] line numbers are displayed on the side)
   MAX_VERT_MOVEMENT_COUNT: 40
+  # Again, the human eye can't easily count more than 4-5 occurrences,
+  # especially if they are interwoven with many other symbols
+  MAX_ANCHOR_MOVEMENT_COUNT: 4
+
 
   @property 'seqStart',
     set: (index) -> @_seqStartIndex = index
@@ -197,9 +201,10 @@ class KeyListener
 
       # Don't give more than one suggestion per sequence
       # but give the "best" suggestion out of the available ones (order them)
-      prevRelevant = @suggestJKMovement wentForward
+      prevRelevant = @suggestVertMovement wentForward
       prevRelevant = @suggestHomeEndMovement next if not prevRelevant
-      @suggestWordMovement traversed, wentForward, beforeStart, last, next if not prevRelevant
+      prevRelevant = @suggestWordMovement traversed, wentForward, beforeStart, last, next if not prevRelevant
+      @suggestAnchorMovement wentForward, next if not prevRelevant
 
 
     # Prepare for the next sequence
@@ -207,13 +212,14 @@ class KeyListener
     @timer = null
 
 
-  suggestJKMovement: (wentForward) ->
+  suggestVertMovement: (wentForward) ->
     ###
     From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#up-down-motions)
-      k       [count] lines upward |linewise|.
-      j			  [count] lines downward |linewise|.
+      k       [count] lines upward.
+      j			  [count] lines downward.
 
       Remember: J looks a bit like a down arrow so it means go down
+                Also in romanian the word for down starts with J
     ###
     distance = Math.abs @seqEnd.line - @seqStart.line
 
@@ -225,7 +231,14 @@ class KeyListener
     # or landed on the last column (ie: next char is newline), because the target line is not long enough
     # or we reached the end of the file
     immNext = @text[@seqEnd.index]
-    if @seqEnd.col >= @seqStart.col or immNext is '\n' or immNext is undefined
+    # This does not take into account the case when you go from a long line to a short line to a long one again
+    # eg: (| denotes cursor position)
+    # longlo|ng
+    # short|
+    # longlo|ng
+    targetLineEndCol = @text[@seqEnd.index...].indexOf '\n'
+    if @seqEnd.col is @seqStart.col or (
+      (immNext is '\n' or immNext is undefined) and targetLineEndCol < @seqStart.col)
       motion = if wentForward then "j" else "k"
       suggestCommand distance, motion
       return true
@@ -236,11 +249,11 @@ class KeyListener
   suggestHomeEndMovement: (next) ->
     ###
     From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#<Home>)
-      0			  To the first character of the line.  |exclusive| motion.
-      ^			  To the first non-blank character of the line. |exclusive| motion.
-      $       To the end of the line.  When a count is given also go [count - 1] lines downward |inclusive|.
+      0			  To the first character of the line. motion.
+      ^			  To the first non-blank character of the line. motion.
+      $       To the end of the line.
     ###
-
+#    console.log "start line = #{@seqStart.line}, end line = #{@seqEnd.line}"
     # Moving horizontally on a line (start and end lines are the same, columns must differ...
     # ... but that requirement is met by checking that traversed has nonzero length)
     if @seqStart.line isnt @seqEnd.line
@@ -276,14 +289,14 @@ class KeyListener
     From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
       4. Word motions
 
-        w			[count] words forward.  |exclusive| motion.
-        W			[count] WORDS forward.  |exclusive| motion.
-        e			Forward to the end of word [count] |inclusive|. Does not stop in an empty line.
-        E			Forward to the end of WORD [count] |inclusive|. Does not stop in an empty line.
-        b			[count] words backward.  |exclusive| motion.
-        B			[count] WORDS backward.  |exclusive| motion.
-        ge	  Backward to the end of word [count] |inclusive|.
-        gE		Backward to the end of WORD [count] |inclusive|.
+        w			[count] words forward. motion.
+        W			[count] WORDS forward. motion.
+        e			Forward to the end of word [count]. Does not stop in an empty line.
+        E			Forward to the end of WORD [count]. Does not stop in an empty line.
+        b			[count] words backward. motion.
+        B			[count] WORDS backward. motion.
+        ge	  Backward to the end of word [count].
+        gE		Backward to the end of WORD [count].
 
         A word consists of a sequence of letters, digits and underscores, or a
         sequence of other non-blank characters, separated with white space (spaces,
@@ -324,12 +337,38 @@ class KeyListener
       count++
     motion = if wentForward then "W" else "B"
 
-    if count > @MAX_MOVEMENT_COUNT
+    if count > @MAX_WORD_MOVEMENT_COUNT
       return false
 
     suggestCommand count, motion
     return true
 
+
+  suggestAnchorMovement: (wentForward, next) ->
+    ###
+    From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
+      2. Left-right motions
+
+      f{char}   To the [count]'th occurrence of {char} to the right. The cursor is placed on {char}.
+      F{char}   To the [count]'th occurrence of {char} to the left.  The cursor is placed on {char}.
+
+      t{char}   Till before [count]'th occurrence of {char} to the right. The cursor is placed on the character left of {char}.
+      T{char}   Till after  [count]'th occurrence of {char} to the left.  The cursor is placed on the character right of {char}.
+
+      eg:
+      abc def?
+      f?---->
+      t?--->
+
+      def? 123456
+          <----F?
+           <---T?
+
+      Remember: F can be for Find or Forward to
+      We say an anchor is a defining element, one you can jump to, anchor to
+    ###
+    console.log "next = #{next}"
+    return false
 
 
 $ ->
@@ -339,6 +378,7 @@ $ ->
 
 loadSampleText = () ->
   $.ajax
+#    url: "samples/fF and tT tests.txt"
     url: "samples/J and K tests.txt"
     dataType: "text"
     success: (data) ->

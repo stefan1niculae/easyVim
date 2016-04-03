@@ -11,4 +11,5 @@ h1 {
 #editor-text {
     font-family: Hack, monospace;
     width: 100%;
+    font-size: 15px;
 }

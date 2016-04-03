@@ -40,19 +40,26 @@
     return true;
   };
 
+  Array.prototype.contains = function(target) {
+    return _.contains(this, target);
+  };
+
   this.Keys = {
     left: 37,
     right: 39,
     up: 38,
-    down: 40
+    down: 40,
+    mouse: -1
   };
 
-  Keys.directional = [Keys.left, Keys.right, Keys.up, Keys.down];
+  Keys.directional = [Keys.left, Keys.right, Keys.up, Keys.down, Keys.mouse];
 
   KeyListener = (function() {
     KeyListener.prototype.MAX_TIME_BETWEEN_STROKES = 750;
 
     KeyListener.prototype.MIN_MOVEMENT_STROKES = 3;
+
+    KeyListener.prototype.MAX_MOVEMENT_COUNT = 5;
 
     KeyListener.property('seqStart', {
       set: function(index) {
@@ -94,12 +101,16 @@
     function KeyListener(elem1) {
       var code, name, self;
       this.elem = elem1;
+      this.htmlElem = this.elem[0];
       self = this;
-      this.elem.keyup(function() {
-        return self.registerKey(event.which);
-      });
       this.elem.keydown(function() {
         return self.registerKeyDown(event.which);
+      }).keyup(function() {
+        return self.registerKeyUp(event.which);
+      }).mousedown(function() {
+        return self.registerMouseDown();
+      }).mouseup(function() {
+        return self.registerMouseUp();
       });
       this.supportedKeyCodes = [];
       for (name in Keys) {
@@ -110,23 +121,17 @@
     }
 
     KeyListener.prototype.registerKeyDown = function(code) {
-      var htmlElem;
       if (indexOf.call(this.supportedKeyCodes, code) < 0) {
         return;
       }
-      if (this.currSeq.length === 0) {
-        htmlElem = this.elem[0];
-        return this.seqStart = htmlElem.selectionStart;
-      }
+      return this.registerPossibleStart();
     };
 
-    KeyListener.prototype.registerKey = function(code) {
-      var htmlElem;
+    KeyListener.prototype.registerKeyUp = function(code) {
       if (indexOf.call(this.supportedKeyCodes, code) < 0) {
         return;
       }
-      htmlElem = this.elem[0];
-      this.seqEnd = htmlElem.selectionStart;
+      this.registerEnd();
       this.currSeq.push(code);
       if (this.timer != null) {
         clearTimeout(this.timer);
@@ -134,18 +139,41 @@
       return this.timer = setTimeout(this.processSeq.bind(this), this.MAX_TIME_BETWEEN_STROKES);
     };
 
+    KeyListener.prototype.registerPossibleStart = function() {
+      if (this.currSeq.length === 0) {
+        return this.seqStart = this.htmlElem.selectionStart;
+      }
+    };
+
+    KeyListener.prototype.registerEnd = function() {
+      return this.seqEnd = this.htmlElem.selectionStart;
+    };
+
+    KeyListener.prototype.registerMouseDown = function() {
+      return this.registerPossibleStart();
+    };
+
+    KeyListener.prototype.registerMouseUp = function() {
+      this.registerEnd();
+      this.currSeq.push(Keys.mouse);
+      return this.processSeq();
+    };
+
     KeyListener.prototype.processSeq = function() {
-      var beforeStart, count, last, motion, next, shouldBeWS, shouldNotBeWS, text, traversed, wentForward;
+      var beforeStart, count, from, last, motion, next, shouldBeWS, shouldNotBeWS, text, to, traversed, wentForward;
       text = this.elem.text();
       wentForward = this.seqEnd.index - this.seqStart.index > 0;
       if (this.seqStart.index === this.seqEnd.index) {
         traversed = '';
       } else {
         if (wentForward) {
-          traversed = text.slice(this.seqStart.index, +(this.seqEnd.index - 1) + 1 || 9e9);
+          from = this.seqStart.index;
+          to = this.seqEnd.index;
         } else {
-          traversed = text.slice(this.seqEnd.index, +(this.seqStart.index - 1) + 1 || 9e9);
+          from = this.seqEnd.index;
+          to = this.seqStart.index;
         }
+        traversed = text.slice(from, +(to - 1) + 1 || 9e9);
       }
 
       /*
@@ -184,21 +212,25 @@
       wwww  wwwww  ww www ww wwwwwwwww
       WWWW WWWWWWW WW WWWWWW WWWWWWWWWW
        */
-      if (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.containsOnly(Keys.directional)) {
-        if (wentForward) {
-          shouldBeWS = last;
-          shouldNotBeWS = next;
-        } else {
-          shouldBeWS = next;
-          shouldNotBeWS = last;
-        }
-        if (next === void 0 || (shouldBeWS.match(/\s/) && shouldNotBeWS.match(/\S/))) {
-          count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf("\n\n");
-          if (!wentForward && beforeStart !== void 0 && (beforeStart != null ? beforeStart.match(/\S/) : void 0)) {
-            count++;
+      if (this.currSeq.containsOnly(Keys.directional)) {
+        if ((this.currSeq.contains(Keys.mouse) && traversed.length > 0) || (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES)) {
+          if (wentForward) {
+            shouldBeWS = last;
+            shouldNotBeWS = next;
+          } else {
+            shouldBeWS = next;
+            shouldNotBeWS = last;
           }
-          motion = wentForward ? "W" : "B";
-          suggestCommand(count, motion);
+          if (next === void 0 || (shouldBeWS.match(/\s/) && shouldNotBeWS.match(/\S/))) {
+            count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf("\n\n");
+            if (!wentForward && beforeStart !== void 0 && (beforeStart != null ? beforeStart.match(/\S/) : void 0)) {
+              count++;
+            }
+            motion = wentForward ? "W" : "B";
+            if (count <= this.MAX_MOVEMENT_COUNT) {
+              suggestCommand(count, motion);
+            }
+          }
         }
       }
       this.currSeq = [];

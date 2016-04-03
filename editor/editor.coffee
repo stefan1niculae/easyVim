@@ -32,6 +32,8 @@ Array::containsOnly = (targets) ->
       return false
   return true
 
+Array::contains = (target) -> _.contains(@, target)
+
 
 
 @Keys =
@@ -39,11 +41,15 @@ Array::containsOnly = (targets) ->
   right:  39
   up:     38
   down:   40
-Keys.directional = [Keys.left, Keys.right, Keys.up, Keys.down]
+
+  mouse:  -1
+
+Keys.directional = [Keys.left, Keys.right, Keys.up, Keys.down, Keys.mouse]
 
 class KeyListener
   MAX_TIME_BETWEEN_STROKES: 750  # in ms
   MIN_MOVEMENT_STROKES: 3
+  MAX_MOVEMENT_COUNT: 5
 
   @property 'seqStart',
     set: (index) -> @_seqStartIndex = index
@@ -66,16 +72,16 @@ class KeyListener
 
 
   constructor: (@elem) ->
+    @htmlElem = @elem[0]
+
     self = @  # ahh closures
-    # Set the event listener
+    # Set the event listeners
     @elem
       # Because we use the key-up/down events, software-repeated presses are not registered
-      .keyup ->
-        self.registerKey event.which
-
-    @elem
-      .keydown ->
-        self.registerKeyDown event.which
+      .keydown    -> self.registerKeyDown event.which
+      .keyup      -> self.registerKeyUp event.which
+      .mousedown  -> self.registerMouseDown()
+      .mouseup    -> self.registerMouseUp()
 
     @supportedKeyCodes = []
     for name, code of Keys
@@ -84,30 +90,57 @@ class KeyListener
     # Prepare for receiving sequences
     @currSeq = []
 
+
   registerKeyDown: (code) ->
     if code not in @supportedKeyCodes
       return
-
     # We set the sequence start on the key-down event because we need to know where
-    # the user started moving, BEFORE he moved
-    if @currSeq.length == 0
-      htmlElem = @elem[0]
-      @seqStart = htmlElem.selectionStart
+    # the user started moving, BEFORE moving
+    @registerPossibleStart()
 
-  registerKey: (code) ->
+
+  registerKeyUp: (code) ->
     if code not in @supportedKeyCodes
       return
 
-    # Set starting index when starting adding the first action in the sequence
-    htmlElem = @elem[0]
-    @seqEnd = htmlElem.selectionStart  # TODO this will need to be updated when working with selections
-
+    @registerEnd()
     @currSeq.push code
 
     # Start counting, when the timer reaches zero, process the sequence
     # If additional keys are registered before it reaches zero, reset it
     clearTimeout @timer if @timer?
     @timer = setTimeout @processSeq.bind(@), @MAX_TIME_BETWEEN_STROKES  # ahh closures again
+
+
+  registerPossibleStart: ->
+    if @currSeq.length == 0
+#      console.log "registered start at #{@htmlElem.selectionStart}"
+      @seqStart = @htmlElem.selectionStart
+#    else
+#      console.log "didn't register start at #{@htmlElem.selectionStart}"
+
+
+  registerEnd: ->
+    # Set starting index when starting adding the first action in the sequence
+    @seqEnd = @htmlElem.selectionStart  # TODO this will need to be updated when working with selections
+#    console.log "registered end at #{@htmlElem.selectionStart}"
+
+
+
+  registerMouseDown: ->
+    # We don't clear the current sequence because L L Click has to be corrected into
+    # something different that just ignoring the L L
+    @registerPossibleStart()
+
+
+  registerMouseUp: ->
+    # This doesn't work very well if the user is holding the mouse button
+    # while moving with the directional keys
+    @registerEnd()
+    @currSeq.push Keys.mouse
+
+    # Process a mouse click right away: don't wait anymore
+    @processSeq()
 
 
   processSeq: ->
@@ -119,9 +152,12 @@ class KeyListener
       traversed = ''
     else
       if wentForward
-        traversed = text[@seqStart.index..@seqEnd.index-1]
+        from = @seqStart.index
+        to   = @seqEnd.index
       else
-        traversed = text[@seqEnd.index..@seqStart.index-1]
+        from = @seqEnd.index
+        to   = @seqStart.index
+      traversed = text[from..to-1]
 
     ###
     When traversing 'abcd' from left to right -->, the letter we stopped at is 'd'
@@ -162,34 +198,38 @@ class KeyListener
 
     # Movement
     # No need to correct if you only went a very small distance
-    # We check both the traversed distance and the number of keystrokes
-    # because a sequence might look like L L L L R R R which is really just left
-    if traversed.length >= @MIN_MOVEMENT_STROKES and @currSeq.length >= @MIN_MOVEMENT_STROKES and @currSeq.containsOnly Keys.directional
-      # Stopping at the start of a WORD (stopped right before a non whitespace) or at the start/end of text
-      # This does not give a suggestion if the user stops in the middle of a couple of blank lines
+    if @currSeq.containsOnly Keys.directional
 
-      # 'abc def' from 'b' to 'd'
-      if wentForward
-        shouldBeWS = last
-        shouldNotBeWS = next
+      # A click has to be corrected always
+      # We check both the traversed distance and the number of keystrokes
+      # because a sequence might look like L L L L R R R which is really just left
+      if (@currSeq.contains(Keys.mouse) and traversed.length > 0) or (
+          traversed.length >= @MIN_MOVEMENT_STROKES and @currSeq.length >= @MIN_MOVEMENT_STROKES)
 
-      # 'abc def' from 'e' to 'a'
-      else
-        shouldBeWS = next
-        shouldNotBeWS = last
+        # 'abc def' from 'b' to 'd'
+        if wentForward
+          shouldBeWS = last
+          shouldNotBeWS = next
 
-      # The above examples or reached start/end of text
-      if next is undefined or (shouldBeWS.match(/\s/) and shouldNotBeWS.match(/\S/))
-          count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n" # a WORD is delimited by whitespace
+        # 'abc def' from 'e' to 'a'
+        else
+          shouldBeWS = next
+          shouldNotBeWS = last
 
-          # The B command is different from the W command: it also goes back to the start of the current word
-          # whereas W skips all the way to the start of the next word
-          # whether you started form the middle of the current one or not
-          if !wentForward and beforeStart != undefined and beforeStart?.match /\S/
-              count++
+        # The above examples or reached start/end of text
+        # Stopping at the start of a WORD (stopped right before a non whitespace) or at the start/end of text
+        # This does not give a suggestion if the user stops in the middle of a couple of blank lines
+        if next is undefined or (shouldBeWS.match(/\s/) and shouldNotBeWS.match(/\S/))
+            count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n" # a WORD is delimited by whitespace
 
-          motion = if wentForward then "W" else "B"
-          suggestCommand count, motion
+            # The B command is different from the W command: it also goes back to the start of the current word
+            # whereas W skips all the way to the start of the next word
+            # whether you started form the middle of the current one or not
+            if !wentForward and beforeStart != undefined and beforeStart?.match /\S/
+                count++
+
+            motion = if wentForward then "W" else "B"
+            suggestCommand count, motion if count <= @MAX_MOVEMENT_COUNT
 
     # Prepare for the next sequence
     @currSeq = []

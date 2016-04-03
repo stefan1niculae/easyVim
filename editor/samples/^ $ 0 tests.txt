@@ -1,5 +1,6 @@
 int main()
-{
+{ // comm
+    int x = 2          + 5;
     printf("Hello, World!\n");
 }
 

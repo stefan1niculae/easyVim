@@ -98,10 +98,21 @@
       };
     };
 
-    function KeyListener(elem1) {
+    KeyListener.property('elem', {
+      get: function() {
+        return $(this.selector);
+      }
+    });
+
+    KeyListener.property('htmlElem', {
+      get: function() {
+        return this.elem[0];
+      }
+    });
+
+    function KeyListener(selector) {
       var code, name, self;
-      this.elem = elem1;
-      this.htmlElem = this.elem[0];
+      this.selector = selector;
       self = this;
       this.elem.keydown(function() {
         return self.registerKeyDown(event.which);
@@ -244,12 +255,12 @@
   $(function() {
     var listener;
     loadSampleText();
-    return listener = new KeyListener($("#editor-text"));
+    return listener = new KeyListener("#editor-text");
   });
 
   loadSampleText = function() {
     return $.ajax({
-      url: "samples/W and B tests.txt",
+      url: "samples/^ $ 0 tests.txt",
       dataType: "text",
       success: function(data) {
         return $("#editor-text").text(data);

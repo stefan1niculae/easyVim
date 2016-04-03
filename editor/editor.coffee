@@ -71,9 +71,19 @@ class KeyListener
     col:  index - startOfLine
 
 
-  constructor: (@elem) ->
-    @htmlElem = @elem[0]
+  # FIXME changes made in the text file are not reflected in this...
+  # ... traversing still happens on the original document
+  # is it because of closures? and how the key/mouse events are bound?
+  @property 'elem',
+    get: -> $ @selector
 
+  # We can't just set it because it won't be a pointer
+  # changes in the element won't reflect in the @htmlElem value
+  @property 'htmlElem',
+    get: -> @elem[0]
+
+
+  constructor: (@selector) ->
     self = @  # ahh closures
     # Set the event listeners
     @elem
@@ -113,17 +123,13 @@ class KeyListener
 
 
   registerPossibleStart: ->
+    # Set starting index when starting adding the first action in the sequence
     if @currSeq.length == 0
-#      console.log "registered start at #{@htmlElem.selectionStart}"
       @seqStart = @htmlElem.selectionStart
-#    else
-#      console.log "didn't register start at #{@htmlElem.selectionStart}"
 
 
   registerEnd: ->
-    # Set starting index when starting adding the first action in the sequence
     @seqEnd = @htmlElem.selectionStart  # TODO this will need to be updated when working with selections
-#    console.log "registered end at #{@htmlElem.selectionStart}"
 
 
 
@@ -131,6 +137,7 @@ class KeyListener
     # We don't clear the current sequence because L L Click has to be corrected into
     # something different that just ignoring the L L
     @registerPossibleStart()
+    # The first click will be registered as starting from the index zero
 
 
   registerMouseUp: ->
@@ -158,6 +165,7 @@ class KeyListener
         from = @seqEnd.index
         to   = @seqStart.index
       traversed = text[from..to-1]
+#    console.log "traversed:#{traversed}."
 
     ###
     When traversing 'abcd' from left to right -->, the letter we stopped at is 'd'
@@ -240,12 +248,12 @@ class KeyListener
 
 $ ->
   loadSampleText()
-  listener = new KeyListener $ "#editor-text"
+  listener = new KeyListener "#editor-text"
 
 
 loadSampleText = () ->
   $.ajax
-    url: "samples/W and B tests.txt"
+    url: "samples/^ $ 0 tests.txt"
     dataType: "text"
     success: (data) ->
       $ "#editor-text"

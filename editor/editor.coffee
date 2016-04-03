@@ -51,7 +51,7 @@ class KeyListener
   # Multiple keystrokes form a sequence, this is how we tell they are in the same sequence
   MAX_TIME_BETWEEN_STROKES: 750  # in ms
   # No need to correct if the user has only pressed the directional keys just once or twice
-  MIN_MOVEMENT_STROKES: 0
+  MIN_MOVEMENT_STROKES: 1
   # It's not feasible to suggest 10W or 14B because that is hard to see without computer guidance
   MAX_WORD_MOVEMENT_COUNT: 6
   # It's easier for vertical line navigation to see the number of lines
@@ -178,7 +178,6 @@ class KeyListener
         from = @seqEnd.index
         to   = @seqStart.index
       traversed = @text[from..to-1]
-#    console.log "traversed:#{traversed}."
 
     ###
     When traversing 'abcd' from left to right -->, the letter we stopped at is 'd'
@@ -204,7 +203,7 @@ class KeyListener
       prevRelevant = @suggestVertMovement wentForward
       prevRelevant = @suggestHomeEndMovement next if not prevRelevant
       prevRelevant = @suggestWordMovement traversed, wentForward, beforeStart, last, next if not prevRelevant
-      @suggestAnchorMovement wentForward, next if not prevRelevant
+      @suggestAnchorMovement traversed, wentForward if not prevRelevant
 
 
     # Prepare for the next sequence
@@ -257,7 +256,7 @@ class KeyListener
       ^			  To the first non-blank character of the line. motion.
       $       To the end of the line.
     ###
-#    console.log "start line = #{@seqStart.line}, end line = #{@seqEnd.line}"
+
     # Moving horizontally on a line (start and end lines are the same, columns must differ...
     # ... but that requirement is met by checking that traversed has nonzero length)
     if @seqStart.line isnt @seqEnd.line
@@ -348,7 +347,7 @@ class KeyListener
     return true
 
 
-  suggestAnchorMovement: (wentForward, next) ->
+  suggestAnchorMovement: (traversed, wentForward) ->
     ###
     From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
       2. Left-right motions
@@ -365,13 +364,24 @@ class KeyListener
       t?--->
 
       def? 123456
-          <----F?
-           <---T?
+         <-----F?
+          <----T?
 
       Remember: F can be for Find or Forward to
       We say an anchor is a defining element, one you can jump to, anchor to
     ###
-    console.log "next = #{next}"
+    next = @text[@seqEnd.index]  # TODO refactor 'next' from processSeq, immNext, stoppedAt, this next
+    count = traversed.occurrencesOf next
+
+    # Add the one AFTER the cursor (that is not counted when going forward)
+    # but not if it is the target char
+    if wentForward and traversed[0] isnt next
+      count++
+    motion = if wentForward then 'f' else 'F'
+    if count <= @MAX_ANCHOR_MOVEMENT_COUNT
+      suggestCommand count, motion + next
+      return true
+
     return false
 
 
@@ -389,4 +399,5 @@ loadSampleText = () ->
         .text data
 
 suggestCommand = (count, motion) ->
-  console.log "Suggestion: #{if count > 1 then count else ""}#{motion}"
+  console.log "Suggestion:#{if count is 1 then "" else count}#{motion}."
+

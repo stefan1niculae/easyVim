@@ -57,7 +57,7 @@
   KeyListener = (function() {
     KeyListener.prototype.MAX_TIME_BETWEEN_STROKES = 750;
 
-    KeyListener.prototype.MIN_MOVEMENT_STROKES = 0;
+    KeyListener.prototype.MIN_MOVEMENT_STROKES = 1;
 
     KeyListener.prototype.MAX_WORD_MOVEMENT_COUNT = 6;
 
@@ -214,7 +214,7 @@
           prevRelevant = this.suggestWordMovement(traversed, wentForward, beforeStart, last, next);
         }
         if (!prevRelevant) {
-          this.suggestAnchorMovement(wentForward, next);
+          this.suggestAnchorMovement(traversed, wentForward);
         }
       }
       this.currSeq = [];
@@ -334,7 +334,7 @@
       return true;
     };
 
-    KeyListener.prototype.suggestAnchorMovement = function(wentForward, next) {
+    KeyListener.prototype.suggestAnchorMovement = function(traversed, wentForward) {
 
       /*
       From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
@@ -352,13 +352,23 @@
         t?--->
       
         def? 123456
-            <----F?
-             <---T?
+           <-----F?
+            <----T?
       
         Remember: F can be for Find or Forward to
         We say an anchor is a defining element, one you can jump to, anchor to
        */
-      console.log("next = " + next);
+      var count, motion, next;
+      next = this.text[this.seqEnd.index];
+      count = traversed.occurrencesOf(next);
+      if (wentForward && traversed[0] !== next) {
+        count++;
+      }
+      motion = wentForward ? 'f' : 'F';
+      if (count <= this.MAX_ANCHOR_MOVEMENT_COUNT) {
+        suggestCommand(count, motion + next);
+        return true;
+      }
       return false;
     };
 
@@ -383,7 +393,7 @@
   };
 
   suggestCommand = function(count, motion) {
-    return console.log("Suggestion: " + (count > 1 ? count : "") + motion);
+    return console.log("Suggestion:" + (count === 1 ? "" : count) + motion + ".");
   };
 
 }).call(this);

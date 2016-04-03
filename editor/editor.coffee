@@ -46,10 +46,14 @@ Array::contains = (target) -> _.contains(@, target)
 
 Keys.directional = [Keys.left, Keys.right, Keys.up, Keys.down, Keys.mouse]
 
+
 class KeyListener
+  # Multiple keystrokes form a sequence, this is how we tell they are in the same sequence
   MAX_TIME_BETWEEN_STROKES: 750  # in ms
+  # No need to correct if the user has only pressed the directional keys just once or twice
   MIN_MOVEMENT_STROKES: 3
-  MAX_MOVEMENT_COUNT: 5
+  # It's not feasible to suggest 10W or 14B because that is hard to see without computer guidance
+  MAX_MOVEMENT_COUNT: 6
 
   @property 'seqStart',
     set: (index) -> @_seqStartIndex = index
@@ -81,6 +85,9 @@ class KeyListener
   # changes in the element won't reflect in the @htmlElem value
   @property 'htmlElem',
     get: -> @elem[0]
+
+  @property 'text',
+    get: -> @elem.text()
 
 
   constructor: (@selector) ->
@@ -151,7 +158,6 @@ class KeyListener
 
 
   processSeq: ->
-    text = @elem.text()
     wentForward = @seqEnd.index - @seqStart.index > 0
 
     # After a directional sequence the indices can be equal only at one of the text ends
@@ -164,7 +170,7 @@ class KeyListener
       else
         from = @seqEnd.index
         to   = @seqStart.index
-      traversed = text[from..to-1]
+      traversed = @text[from..to-1]
 #    console.log "traversed:#{traversed}."
 
     ###
@@ -173,10 +179,67 @@ class KeyListener
     Same goes for the next char: on left to right direction, the next char is the one to the right of d
     But on right to left direction, the next char is the one before a
     ###
-    beforeStart = text[@seqStart.index - 1]  # the character before the cursor (on the sequence start)
+    beforeStart = @text[@seqStart.index - 1]  # the character before the cursor (on the sequence start)
     last = if wentForward then traversed[-1..] else traversed[0]
-    next = if wentForward then text[@seqEnd.index] else text[@seqEnd.index - 1]
+    next = if wentForward then @text[@seqEnd.index] else @text[@seqEnd.index - 1]
 
+    # Movement
+    # No need to correct if you only went a very small distance
+    # A click has to be corrected always
+    # For keystrokes, we check both the traversed distance and the number of keystrokes
+    # because a sequence might look like L L L L R R R which is really just L
+    if @currSeq.containsOnly(Keys.directional) and (
+        (@currSeq.contains(Keys.mouse) and traversed.length > 0) or (
+          traversed.length >= @MIN_MOVEMENT_STROKES and @currSeq.length >= @MIN_MOVEMENT_STROKES))
+
+      prevRelevant = @suggestHomeEndMovement next
+      @suggestWordMovement traversed, wentForward, beforeStart, last, next if not prevRelevant
+
+
+    # Prepare for the next sequence
+    @currSeq = []
+    @timer = null
+
+
+  suggestHomeEndMovement: (next) ->
+    ###
+    From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#<Home>)
+      0			  To the first character of the line.  |exclusive| motion.
+      ^			  To the first non-blank character of the line. |exclusive| motion.
+      $       To the end of the line.  When a count is given also go [count - 1] lines downward |inclusive|.
+    ###
+
+    # Moving horizontally on a line (start and end lines are the same, columns must differ...
+    # ... but that requirement is met by checking that traversed has nonzero length)
+    if @seqStart.line != @seqEnd.line
+      return false
+
+    # At the start of the line (column is one)
+    if @seqEnd.col == 1
+      suggestCommand 1, '0'
+      return true
+
+    # At the end of the line (next character is newline)
+    # ... remember, start and end line have to be the same (and the traversed distance nonzero)
+    if next is '\n'
+      suggestCommand 1, '$'
+      return true
+
+    stoppedAt = @text[@seqEnd.index]
+    if stoppedAt?.match /^\S$/
+      lineStart = 1 + @text[0..@seqEnd.index].lastIndexOf '\n'
+      fromLineStart = @text[lineStart..@seqEnd.index-1]
+      # Check if this is the first non-blank character of the line(ie: everything before it is whitespace)
+      # Could have also been s+ because at least one whitespace char has to be there
+      # otherwise it would have been picked by the '0' suggestion
+      if fromLineStart.match /^\s*$/
+        suggestCommand 1, '^'
+        return true
+
+    return false
+
+
+  suggestWordMovement: (traversed, wentForward, beforeStart, last, next) ->
     ###
     From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
       4. Word motions
@@ -204,45 +267,34 @@ class KeyListener
     WWWW WWWWWWW WW WWWWWW WWWWWWWWWW
     ###
 
-    # Movement
-    # No need to correct if you only went a very small distance
-    if @currSeq.containsOnly Keys.directional
+    # 'abc def' from 'b' to 'd'
+    if wentForward
+      shouldBeWS = last
+      shouldNotBeWS = next
+    # 'abc def' from 'e' to 'a'
+    else
+      shouldBeWS = next
+      shouldNotBeWS = last
 
-      # A click has to be corrected always
-      # We check both the traversed distance and the number of keystrokes
-      # because a sequence might look like L L L L R R R which is really just left
-      if (@currSeq.contains(Keys.mouse) and traversed.length > 0) or (
-          traversed.length >= @MIN_MOVEMENT_STROKES and @currSeq.length >= @MIN_MOVEMENT_STROKES)
+    # The above examples or reached start/end of text
+    # Stopping at the start of a WORD (stopped right before a non whitespace) or at the start/end of text
+    # This does not give a suggestion if the user stops in the middle of a couple of blank lines
+    if not (next is undefined or (shouldBeWS.match(/^\s$/) and shouldNotBeWS.match(/^\S$/)))
+      return false
 
-        # 'abc def' from 'b' to 'd'
-        if wentForward
-          shouldBeWS = last
-          shouldNotBeWS = next
+    count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n" # a WORD is delimited by whitespace
+    # The B command is different from the W command: it also goes back to the start of the current word
+    # whereas W skips all the way to the start of the next word
+    # whether you started form the middle of the current one or not
+    if !wentForward and beforeStart != undefined and beforeStart?.match /\S/
+      count++
+    motion = if wentForward then "W" else "B"
 
-        # 'abc def' from 'e' to 'a'
-        else
-          shouldBeWS = next
-          shouldNotBeWS = last
+    if count > @MAX_MOVEMENT_COUNT
+      return false
 
-        # The above examples or reached start/end of text
-        # Stopping at the start of a WORD (stopped right before a non whitespace) or at the start/end of text
-        # This does not give a suggestion if the user stops in the middle of a couple of blank lines
-        if next is undefined or (shouldBeWS.match(/\s/) and shouldNotBeWS.match(/\S/))
-            count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf "\n\n" # a WORD is delimited by whitespace
-
-            # The B command is different from the W command: it also goes back to the start of the current word
-            # whereas W skips all the way to the start of the next word
-            # whether you started form the middle of the current one or not
-            if !wentForward and beforeStart != undefined and beforeStart?.match /\S/
-                count++
-
-            motion = if wentForward then "W" else "B"
-            suggestCommand count, motion if count <= @MAX_MOVEMENT_COUNT
-
-    # Prepare for the next sequence
-    @currSeq = []
-    @timer = null
-
+    suggestCommand count, motion
+    return true
 
 
 

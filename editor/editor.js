@@ -59,7 +59,7 @@
 
     KeyListener.prototype.MIN_MOVEMENT_STROKES = 3;
 
-    KeyListener.prototype.MAX_MOVEMENT_COUNT = 5;
+    KeyListener.prototype.MAX_MOVEMENT_COUNT = 6;
 
     KeyListener.property('seqStart', {
       set: function(index) {
@@ -107,6 +107,12 @@
     KeyListener.property('htmlElem', {
       get: function() {
         return this.elem[0];
+      }
+    });
+
+    KeyListener.property('text', {
+      get: function() {
+        return this.elem.text();
       }
     });
 
@@ -171,8 +177,7 @@
     };
 
     KeyListener.prototype.processSeq = function() {
-      var beforeStart, count, from, last, motion, next, shouldBeWS, shouldNotBeWS, text, to, traversed, wentForward;
-      text = this.elem.text();
+      var beforeStart, from, last, next, prevRelevant, to, traversed, wentForward;
       wentForward = this.seqEnd.index - this.seqStart.index > 0;
       if (this.seqStart.index === this.seqEnd.index) {
         traversed = '';
@@ -184,7 +189,7 @@
           from = this.seqEnd.index;
           to = this.seqStart.index;
         }
-        traversed = text.slice(from, +(to - 1) + 1 || 9e9);
+        traversed = this.text.slice(from, +(to - 1) + 1 || 9e9);
       }
 
       /*
@@ -193,9 +198,52 @@
       Same goes for the next char: on left to right direction, the next char is the one to the right of d
       But on right to left direction, the next char is the one before a
        */
-      beforeStart = text[this.seqStart.index - 1];
+      beforeStart = this.text[this.seqStart.index - 1];
       last = wentForward ? traversed.slice(-1) : traversed[0];
-      next = wentForward ? text[this.seqEnd.index] : text[this.seqEnd.index - 1];
+      next = wentForward ? this.text[this.seqEnd.index] : this.text[this.seqEnd.index - 1];
+      if (this.currSeq.containsOnly(Keys.directional) && ((this.currSeq.contains(Keys.mouse) && traversed.length > 0) || (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES))) {
+        prevRelevant = this.suggestHomeEndMovement(next);
+        if (!prevRelevant) {
+          this.suggestWordMovement(traversed, wentForward, beforeStart, last, next);
+        }
+      }
+      this.currSeq = [];
+      return this.timer = null;
+    };
+
+    KeyListener.prototype.suggestHomeEndMovement = function(next) {
+
+      /*
+      From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#<Home>)
+        0			  To the first character of the line.  |exclusive| motion.
+        ^			  To the first non-blank character of the line. |exclusive| motion.
+        $       To the end of the line.  When a count is given also go [count - 1] lines downward |inclusive|.
+       */
+      var fromLineStart, lineStart, stoppedAt;
+      if (this.seqStart.line !== this.seqEnd.line) {
+        return false;
+      }
+      if (this.seqEnd.col === 1) {
+        suggestCommand(1, '0');
+        return true;
+      }
+      if (next === '\n') {
+        suggestCommand(1, '$');
+        return true;
+      }
+      stoppedAt = this.text[this.seqEnd.index];
+      if (stoppedAt != null ? stoppedAt.match(/^\S$/) : void 0) {
+        lineStart = 1 + this.text.slice(0, +this.seqEnd.index + 1 || 9e9).lastIndexOf('\n');
+        fromLineStart = this.text.slice(lineStart, +(this.seqEnd.index - 1) + 1 || 9e9);
+        if (fromLineStart.match(/^\s*$/)) {
+          suggestCommand(1, '^');
+          return true;
+        }
+      }
+      return false;
+    };
+
+    KeyListener.prototype.suggestWordMovement = function(traversed, wentForward, beforeStart, last, next) {
 
       /*
       From the Vim documentation (online at http://vimdoc.sourceforge.net/htmldoc/motion.html#word-motions)
@@ -223,29 +271,27 @@
       wwww  wwwww  ww www ww wwwwwwwww
       WWWW WWWWWWW WW WWWWWW WWWWWWWWWW
        */
-      if (this.currSeq.containsOnly(Keys.directional)) {
-        if ((this.currSeq.contains(Keys.mouse) && traversed.length > 0) || (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES)) {
-          if (wentForward) {
-            shouldBeWS = last;
-            shouldNotBeWS = next;
-          } else {
-            shouldBeWS = next;
-            shouldNotBeWS = last;
-          }
-          if (next === void 0 || (shouldBeWS.match(/\s/) && shouldNotBeWS.match(/\S/))) {
-            count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf("\n\n");
-            if (!wentForward && beforeStart !== void 0 && (beforeStart != null ? beforeStart.match(/\S/) : void 0)) {
-              count++;
-            }
-            motion = wentForward ? "W" : "B";
-            if (count <= this.MAX_MOVEMENT_COUNT) {
-              suggestCommand(count, motion);
-            }
-          }
-        }
+      var count, motion, shouldBeWS, shouldNotBeWS;
+      if (wentForward) {
+        shouldBeWS = last;
+        shouldNotBeWS = next;
+      } else {
+        shouldBeWS = next;
+        shouldNotBeWS = last;
       }
-      this.currSeq = [];
-      return this.timer = null;
+      if (!(next === void 0 || (shouldBeWS.match(/^\s$/) && shouldNotBeWS.match(/^\S$/)))) {
+        return false;
+      }
+      count = traversed.matchesOf(/\s+/) + traversed.occurrencesOf("\n\n");
+      if (!wentForward && beforeStart !== void 0 && (beforeStart != null ? beforeStart.match(/\S/) : void 0)) {
+        count++;
+      }
+      motion = wentForward ? "W" : "B";
+      if (count > this.MAX_MOVEMENT_COUNT) {
+        return false;
+      }
+      suggestCommand(count, motion);
+      return true;
     };
 
     return KeyListener;

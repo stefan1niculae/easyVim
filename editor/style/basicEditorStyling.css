@@ -8,7 +8,7 @@ h1 {
     margin: auto;
 }
 
-#editor-text {
+#editor {
     font-family: Hack, monospace;
     width: 100%;
     font-size: 15px;

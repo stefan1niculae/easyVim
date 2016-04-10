@@ -386,17 +386,40 @@ class KeyListener
 
 
 $ ->
-  loadSampleText()
-  listener = new KeyListener "#editor-text"
+  textarea = $("#editor")[0]
+
+  editor = enableEditorFunctionality textarea
+  loadSampleText editor
+  listener = new KeyListener textarea
 
 
-loadSampleText = () ->
+enableEditorFunctionality = (textarea) ->
+  editor = CodeMirror.fromTextArea textarea,
+    # Default options
+    lineNumbers: true
+    autofocus: true
+
+    theme: "solarized light"
+#    theme: "material"
+    keyMap: "vim"
+    mode: "gfm"  # Github-Flavored Markdown
+
+    # Addons
+    matchBrackets: true
+    closeBrackets: true
+    styleActiveLine: true
+
+  editor.setSize "100%", "600px"  # TODO move this to the styling part
+
+  return editor
+
+
+loadSampleText = (editor) ->
   $.ajax
-    url: "samples/fF and tT tests.txt"
+    url: "samples/gfm sample.txt"
     dataType: "text"
     success: (data) ->
-      $ "#editor-text"
-        .text data
+      editor.setValue data
 
 suggestCommand = (count, motion) ->
   console.log "Suggestion:#{if count is 1 then "" else count}#{motion}."

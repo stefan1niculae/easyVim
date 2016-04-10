@@ -4,19 +4,35 @@
   <meta charset="UTF-8">
   <title>EasyVim editor playground</title>
 
-  <link rel="stylesheet" href="basicEditorStyling.css">
+  <link rel="stylesheet" href="style/basicEditorStyling.css">
+  <link rel="stylesheet" href="lib/codemirror/codemirror.css">
+  <link rel="stylesheet" href="lib/codemirror/theme/solarized.css">
 </head>
 <body>
 
   <div class="centered">
     <h1>EasyVim editor playground</h1>
-    <textarea id="editor-text" rows="40">
+    <textarea id="editor" rows="40">
     </textarea>
   </div>
 
   <script src="lib/jquery-2.2.2.min.js"></script>
   <script src="lib/underscore-min.js"></script>
   <!--<script src="underscore.string.min.js"></script>-->
+
+  <script src="lib/codemirror/codemirror.js"></script>
+  <script src="lib/codemirror/keymap/vim.js"></script>
+  <script src="lib/codemirror/mode/gfm/gfm.js"></script>
+
+  <script src="lib/codemirror/addon/selection/active-line.js"></script>
+  <script src="lib/codemirror/addon/edit/closebrackets.js"></script> <!-- FIXME -->
+  <script src="lib/codemirror/addon/edit/matchbrackets.js"></script>
+  <script src="lib/codemirror/addon/edit/continuelist.js"></script> <!-- TODO what is this? -->
+
+  <script src="lib/codemirror/mode/markdown/markdown.js"></script>
+  <script src="lib/codemirror/addon/mode/overlay.js"></script>
+
   <script src="editor.js"></script>
+
 </body>
 </html>

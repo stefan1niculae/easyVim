@@ -42,7 +42,8 @@ ul
 
 .myProgress
   position: relative
-  width: 300px
+  margin-top: 10px
+  width: 85%
   height: 5px
   background-color: darkgrey
 
@@ -51,6 +52,25 @@ ul
   width: 50%
   height: 100%
   background-color: green
+
+.lessonListItem
+  width: 20%
+  height: 50px
+  border: 1px solid
+  border-radius: 10px
+  &:hover
+    height: 70px
+    .lessonListItemExtension
+      visibility: visible
+
+.lessonListItem > div
+  margin-left: 20px
+  margin-top: 5px
+  &:hover
+    visibility: visible
+
+.lessonListItemExtension
+  visibility: hidden
 
 #firstDiv
   font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif

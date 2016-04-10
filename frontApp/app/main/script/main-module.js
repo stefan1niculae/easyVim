@@ -32,6 +32,14 @@
       controller: 'cheatSheetController',
       controllerAs: 'cheatSheetCtrl',
       hideNavbar: false
+    });
+
+    $stateProvider.state('lesson', {
+      url: '/lesson',
+      templateUrl: 'views/lesson.html',
+      controller: 'lessonController',
+      controllerAs: 'lessonCtrl',
+      hideNavBar: false
     })
 
   }

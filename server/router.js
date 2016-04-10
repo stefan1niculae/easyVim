@@ -3,7 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const Badge = require('./models/badge');
-const Cheat = require('./models/cheat')
+const Cheat = require('./models/cheat');
+const Lesson = require('./models/lesson');
 
 router.route('/badges')
     .get(function (req, res) {
@@ -43,6 +44,28 @@ router.route('/cheat-sheet')
         cheat.save(function (err, elem) {
             if (!err) {
                 res.json({_id: elem._id, message: 'Cheat created'});
+            }
+            else {
+                res.send(err)
+            }
+        });
+
+    });
+
+router.route('/lesson')
+    .get(function (req, res) {
+        Lesson.find({}, function (err, lesson) {
+            if (!err) {
+                res.json(lesson);
+            }
+        })
+    })
+    .post(function (req, res) {
+        var lesson = new Lesson(req.body);
+
+        lesson.save(function (err, elem) {
+            if (!err) {
+                res.json({_id: elem._id, message: 'Lesson created'});
             }
             else {
                 res.send(err)

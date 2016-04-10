@@ -29,5 +29,9 @@ angular.module("easyVimWeb")
       return makeCall('GET', '/cheat-sheet');
     };
 
+    service.getLessons = function () {
+      return makeCall('GET', '/lesson');
+    };
+
     return service;
   });

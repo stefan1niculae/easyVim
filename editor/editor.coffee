@@ -65,14 +65,14 @@ class KeyListener
   @property 'seqStart',
     set: (index) -> @_seqStartIndex = index
     get: ->
-      textToCursor = @elem.text()[0...@_seqStartIndex]
+      textToCursor = @text[0...@_seqStartIndex]
       lineCol = @computeLineCol textToCursor, @_seqStartIndex
       return $.extend {index: @_seqStartIndex}, lineCol
 
   @property 'seqEnd',
     set: (index) -> @_seqEndIndex = index
     get: ->
-      textToCursor = @elem.text()[0...@_seqEndIndex]
+      textToCursor = @text[0...@_seqEndIndex]
       lineCol = @computeLineCol textToCursor, @_seqEndIndex
       return $.extend {index: @_seqEndIndex}, lineCol
 
@@ -88,25 +88,16 @@ class KeyListener
   @property 'elem',
     get: -> $ @selector
 
-  # We can't just set it because it won't be a pointer
-  # changes in the element won't reflect in the @htmlElem value
-  @property 'htmlElem',
-    get: -> @elem[0]
+  @property 'cursorIndex',
+    get: ->
+      pos = @editor.getCursor()
+      @editor.indexFromPos pos
 
   @property 'text',
-    get: -> @elem.text()
+    get: -> @editor.getValue()
 
 
-  constructor: (@selector) ->
-    self = @  # ahh closures
-    # Set the event listeners
-    @elem
-      # Because we use the key-up/down events, software-repeated presses are not registered
-      .keydown    -> self.registerKeyDown event.which
-      .keyup      -> self.registerKeyUp event.which
-      .mousedown  -> self.registerMouseDown()
-      .mouseup    -> self.registerMouseUp()
-
+  constructor: (@editor) ->
     @supportedKeyCodes = []
     for name, code of Keys
       @supportedKeyCodes.push code
@@ -114,9 +105,17 @@ class KeyListener
     # Prepare for receiving sequences
     @currSeq = []
 
+    # Set the event listeners
+    self = @  # ahh closures
+    # TODO accept software-repetead presses as well!
+    @editor.on "keydown",   -> self.registerKeyDown event.which
+    @editor.on "keyup",     -> self.registerKeyUp event.which
+    @editor.on "mousedown", -> self.registerMouseDown()  # FIXME
+    @editor.on "mouseup",   -> self.registerMouseUp()  # FIXME
+
+
 
   registerKeyDown: (code) ->
-    console.log "registered code #{code}"
     if code not in @supportedKeyCodes
       return
     # We set the sequence start on the key-down event because we need to know where
@@ -140,11 +139,11 @@ class KeyListener
   registerPossibleStart: ->
     # Set starting index when starting adding the first action in the sequence
     if @currSeq.length is 0
-      @seqStart = @htmlElem.selectionStart
+      @seqStart = @cursorIndex
 
 
   registerEnd: ->
-    @seqEnd = @htmlElem.selectionStart  # TODO this will need to be updated when working with selections
+    @seqEnd = @cursorIndex
 
 
 
@@ -201,6 +200,7 @@ class KeyListener
 
       # Don't give more than one suggestion per sequence
       # but give the "best" suggestion out of the available ones (order them)
+      prevRelevant = false
       prevRelevant = @suggestVertMovement wentForward
       prevRelevant = @suggestHomeEndMovement next if not prevRelevant
       prevRelevant = @suggestWordMovement traversed, wentForward, beforeStart, last, next if not prevRelevant
@@ -371,6 +371,7 @@ class KeyListener
       Remember: F can be for Find or Forward to
       We say an anchor is a defining element, one you can jump to, anchor to
     ###
+    # TODO ignore when next is newline (although this shouldn't happen because that means to press $)
     next = @text[@seqEnd.index]  # TODO refactor 'next' from processSeq, immNext, stoppedAt, this next
     count = traversed.occurrencesOf next
 
@@ -390,8 +391,7 @@ $ ->
   textarea = $("#editor")[0]
   editor = enableEditorFunctionality textarea
   loadSampleText editor, ->
-    console.log editor.getValue()
-    listener = new KeyListener textarea
+    listener = new KeyListener editor
 
 
 enableEditorFunctionality = (textarea) ->
@@ -416,7 +416,7 @@ enableEditorFunctionality = (textarea) ->
 
 loadSampleText = (editor, whenDone) ->
   $.ajax
-    url: "samples/gfm sample.txt"
+    url: "samples/fF and tT tests.txt"
     dataType: "text"
     success: (data) ->
       editor.setValue data

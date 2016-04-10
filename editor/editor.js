@@ -71,7 +71,7 @@
       },
       get: function() {
         var lineCol, textToCursor;
-        textToCursor = this.elem.text().slice(0, this._seqStartIndex);
+        textToCursor = this.text.slice(0, this._seqStartIndex);
         lineCol = this.computeLineCol(textToCursor, this._seqStartIndex);
         return $.extend({
           index: this._seqStartIndex
@@ -85,7 +85,7 @@
       },
       get: function() {
         var lineCol, textToCursor;
-        textToCursor = this.elem.text().slice(0, this._seqEndIndex);
+        textToCursor = this.text.slice(0, this._seqEndIndex);
         lineCol = this.computeLineCol(textToCursor, this._seqEndIndex);
         return $.extend({
           index: this._seqEndIndex
@@ -108,41 +108,45 @@
       }
     });
 
-    KeyListener.property('htmlElem', {
+    KeyListener.property('cursorIndex', {
       get: function() {
-        return this.elem[0];
+        var pos;
+        pos = this.editor.getCursor();
+        return this.editor.indexFromPos(pos);
       }
     });
 
     KeyListener.property('text', {
       get: function() {
-        return this.elem.text();
+        return this.editor.getValue();
       }
     });
 
-    function KeyListener(selector) {
+    function KeyListener(editor1) {
       var code, name, self;
-      this.selector = selector;
-      self = this;
-      this.elem.keydown(function() {
-        return self.registerKeyDown(event.which);
-      }).keyup(function() {
-        return self.registerKeyUp(event.which);
-      }).mousedown(function() {
-        return self.registerMouseDown();
-      }).mouseup(function() {
-        return self.registerMouseUp();
-      });
+      this.editor = editor1;
       this.supportedKeyCodes = [];
       for (name in Keys) {
         code = Keys[name];
         this.supportedKeyCodes.push(code);
       }
       this.currSeq = [];
+      self = this;
+      this.editor.on("keydown", function() {
+        return self.registerKeyDown(event.which);
+      });
+      this.editor.on("keyup", function() {
+        return self.registerKeyUp(event.which);
+      });
+      this.editor.on("mousedown", function() {
+        return self.registerMouseDown();
+      });
+      this.editor.on("mouseup", function() {
+        return self.registerMouseUp();
+      });
     }
 
     KeyListener.prototype.registerKeyDown = function(code) {
-      console.log("registered code " + code);
       if (indexOf.call(this.supportedKeyCodes, code) < 0) {
         return;
       }
@@ -163,12 +167,12 @@
 
     KeyListener.prototype.registerPossibleStart = function() {
       if (this.currSeq.length === 0) {
-        return this.seqStart = this.htmlElem.selectionStart;
+        return this.seqStart = this.cursorIndex;
       }
     };
 
     KeyListener.prototype.registerEnd = function() {
-      return this.seqEnd = this.htmlElem.selectionStart;
+      return this.seqEnd = this.cursorIndex;
     };
 
     KeyListener.prototype.registerMouseDown = function() {
@@ -207,6 +211,7 @@
       last = wentForward ? traversed.slice(-1) : traversed[0];
       next = wentForward ? this.text[this.seqEnd.index] : this.text[this.seqEnd.index - 1];
       if (this.currSeq.containsOnly(Keys.directional) && ((this.currSeq.contains(Keys.mouse) && traversed.length > 0) || (traversed.length >= this.MIN_MOVEMENT_STROKES && this.currSeq.length >= this.MIN_MOVEMENT_STROKES))) {
+        prevRelevant = false;
         prevRelevant = this.suggestVertMovement(wentForward);
         if (!prevRelevant) {
           prevRelevant = this.suggestHomeEndMovement(next);
@@ -383,8 +388,7 @@
     editor = enableEditorFunctionality(textarea);
     return loadSampleText(editor, function() {
       var listener;
-      console.log(editor.getValue());
-      return listener = new KeyListener(textarea);
+      return listener = new KeyListener(editor);
     });
   });
 
@@ -406,7 +410,7 @@
 
   loadSampleText = function(editor, whenDone) {
     return $.ajax({
-      url: "samples/gfm sample.txt",
+      url: "samples/fF and tT tests.txt",
       dataType: "text",
       success: function(data) {
         editor.setValue(data);

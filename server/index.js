@@ -2,13 +2,15 @@
 
 require("dotenv").load();
 
-var express = require('express');
-var logger = require('log4js').getDefaultLogger();
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const cheatSheet = require('./migrations/cheatSheet');
+
+const express = require('express');
+const logger = require('log4js').getDefaultLogger();
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 
-var app = express();
+const app = express();
 
 const port = process.env.PORT;
 const mongoUrl = process.env.MONGO_URL;
@@ -20,6 +22,7 @@ mongoose.connection.on('error', function (err) {
     process.exit(1);
 });
 mongoose.connection.once('open', function (next) {
+    // cheatSheet();
     logger.info('Connected to Mongo database');
 });
 

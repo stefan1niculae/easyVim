@@ -5,6 +5,7 @@ const logger = require('log4js').getDefaultLogger();
 
 const cheatSchema = new mongoose.Schema({
     description: String,
+    section: String,
     shortcut: String
 });
 

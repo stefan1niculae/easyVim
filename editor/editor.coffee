@@ -400,4 +400,3 @@ loadSampleText = () ->
 
 suggestCommand = (count, motion) ->
   console.log "Suggestion:#{if count is 1 then "" else count}#{motion}."
-

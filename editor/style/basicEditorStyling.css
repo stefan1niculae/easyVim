@@ -13,3 +13,8 @@ h1 {
     width: 100%;
     font-size: 15px;
 }
+
+.style-suggestion-tooltip {
+    font-family: Hack, monospace;
+    /*color: #268bd2*/
+}

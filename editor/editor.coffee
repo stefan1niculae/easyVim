@@ -81,13 +81,6 @@ class KeyListener
     line: 1 + str.occurrencesOf '\n'
     col:  index - startOfLine
 
-
-  # FIXME changes made in the text file are not reflected in this...
-  # ... traversing still happens on the original document
-  # is it because of closures? and how the key/mouse events are bound?
-  @property 'elem',
-    get: -> $ @selector
-
   @property 'cursorIndex',
     get: ->
       pos = @editor.getCursor()
@@ -244,7 +237,7 @@ class KeyListener
     if @seqEnd.col is @seqStart.col or (
       (immNext is '\n' or immNext is undefined) and lineEndCol < @seqStart.col)
       motion = if wentForward then "j" else "k"
-      suggestCommand distance, motion
+      suggestCommand @editor, @seqEnd.line, distance, motion
       return true
 
     return false
@@ -265,13 +258,13 @@ class KeyListener
 
     # At the start of the line (column is one)
     if @seqEnd.col is 1
-      suggestCommand 1, '0'
+      suggestCommand @editor, @seqEnd.line, 1, '0'
       return true
 
     # At the end of the line (next character is newline)
     # ... remember, start and end line have to be the same (and the traversed distance nonzero)
     if next is '\n'
-      suggestCommand 1, '$'
+      suggestCommand @editor, @seqEnd.line, 1, '$'
       return true
 
     stoppedAt = @text[@seqEnd.index]
@@ -282,7 +275,7 @@ class KeyListener
       # Could have also been s+ because at least one whitespace char has to be there
       # otherwise it would have been picked by the '0' suggestion
       if fromLineStart.match /^\s*$/
-        suggestCommand 1, '^'
+        suggestCommand @editor, @seqEnd.line, 1, '^'
         return true
 
     return false
@@ -344,7 +337,7 @@ class KeyListener
     if count > @MAX_WORD_MOVEMENT_COUNT
       return false
 
-    suggestCommand count, motion
+    suggestCommand @editor, @seqEnd.line, count, motion
     return true
 
 
@@ -381,7 +374,7 @@ class KeyListener
       count++
     motion = if wentForward then 'f' else 'F'
     if count <= @MAX_ANCHOR_MOVEMENT_COUNT
-      suggestCommand count, motion + next
+      suggestCommand @editor, @seqEnd.line, count, motion + next
       return true
 
     return false
@@ -392,6 +385,14 @@ $ ->
   editor = enableEditorFunctionality textarea
   loadSampleText editor, ->
     listener = new KeyListener editor
+
+  Opentip.styles.Suggestion =
+    extends: "glass"
+    target: true
+    stem: true
+    showOn: "creation"
+
+
 
 
 enableEditorFunctionality = (textarea) ->
@@ -416,11 +417,32 @@ enableEditorFunctionality = (textarea) ->
 
 loadSampleText = (editor, whenDone) ->
   $.ajax
-    url: "samples/fF and tT tests.txt"
+    url: "samples/W and B tests.txt"
     dataType: "text"
     success: (data) ->
       editor.setValue data
       whenDone()
 
-suggestCommand = (count, motion) ->
-  console.log "Suggestion:#{if count is 1 then "" else count}#{motion}."
+
+TOOLTIP_TTL = 5  # in seconds
+
+suggestCommand = (editor, line, count, motion) ->
+  lineNumbers = $ ".CodeMirror-linenumber"  # TODO get these from the editor arg, not globally
+  for lineNumber in lineNumbers
+    if lineNumber.innerHTML is line.toString()
+      lineNo = $ lineNumber
+      break
+
+#  console.log "Suggestion:#{if count is 1 then "" else count}#{motion}. @line #{line}"
+  content = "#{if count is 1 then "" else count}#{motion}"
+  tip = new Opentip lineNo, content,
+    style: "Suggestion"
+    tipJoint: "center right"
+    className: "suggestion-tooltip"
+    group: "suggestions"
+
+  # FIXME use coffeescript syntax here
+  hideIt = ->
+    tip.hide()
+  setTimeout(hideIt, TOOLTIP_TTL*1000)
+

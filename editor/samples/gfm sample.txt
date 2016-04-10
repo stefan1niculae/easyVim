@@ -15,6 +15,10 @@ Alt-H2
 - unordered
 + unordered
 
+
+> quote
+still quote
+
 1. numbered
 2. numbered
 
@@ -35,19 +39,12 @@ www.google.com
 
 
 
-> quote
-still quote
-
-
 ---
 Hyphens
 three or more dashes with a newline before
 
-
 ***
 Asterisks
 
-
 ___
 underscores
-

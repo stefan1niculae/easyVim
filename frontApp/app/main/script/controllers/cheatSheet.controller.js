@@ -10,9 +10,9 @@ angular.module('easyVimWeb')
       $scope.busy = true;
 
       mainService.getCheatSheet()
-        .then(function (res) {
-          console.log("DATA FOR CHEAY SHEET", res);
-          $scope.data = res;
+        .then(function (cheats) {
+          var sections = _.groupBy(cheats, "section");
+          $scope.sections = sections;
         })
         .catch(function (err) {
           console.error(err);

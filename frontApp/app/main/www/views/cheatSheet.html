@@ -1,7 +1,11 @@
 <h1>Cheat Sheet</h1>
 
-<div ng-repeat="cheat in data">
-  <!---->
-  <h2>{{cheat.shortcut}}</h2>
-  <p>{{cheat.description}}</p>
+<div ng-repeat="(sectionName, cheats) in sections">
+  <h2 class="head">{{sectionName}}</h2>
+  <div id="firstDiv" ng-repeat="cheat in cheats">
+    <div id="secondDiv">
+      <h4 id="hS">{{cheat.shortcut}}</h4>
+      <p id="para">{{cheat.description}}</p>
+    </div>
+  </div>
 </div>

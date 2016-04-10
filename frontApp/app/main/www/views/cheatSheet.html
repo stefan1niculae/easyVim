@@ -1,11 +1,24 @@
-<h1>Cheat Sheet</h1>
+<md-content>
 
-<div ng-repeat="(sectionName, cheats) in sections">
-  <h2 class="head">{{sectionName}}</h2>
-  <div id="firstDiv" ng-repeat="cheat in cheats">
-    <div id="secondDiv">
-      <h4 id="hS">{{cheat.shortcut}}</h4>
-      <p id="para">{{cheat.description}}</p>
-    </div>
-  </div>
-</div>
+  <md-list>
+
+    <md-list-item class="md-3-line cheat-section" ng-repeat="(sectionName, cheats) in sections">
+
+      <div class="md-list-item-text">
+        <h2>{{sectionName}}</h2>
+
+        <div ng-repeat="cheat in cheats" layout="row">
+          <strong flex="30">{{cheat.shortcut}}</strong>
+          <p>{{cheat.description}}</p>
+        </div>
+
+      </div>
+
+      <md-divider ng-if="!$last"></md-divider>
+
+    </md-list-item>
+
+
+  </md-list>
+
+</md-content>

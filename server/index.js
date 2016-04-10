@@ -15,18 +15,45 @@ const app = express();
 
 const port = process.env.PORT;
 const mongoUrl = process.env.MONGO_URL;
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
+
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
+
+
 const mongoose = require('mongoose');
 
 mongoose.connect(mongoUrl);
 mongoose.connection.on('error', function (err) {
-    logger.error ("MongoDB connection error. Please make sure that MongoDB is running at the correct adress");
+    logger.error("MongoDB connection error. Please make sure that MongoDB is running at the correct adress");
     process.exit(1);
 });
 mongoose.connection.once('open', function (next) {
-    // cheatSheet();
-    // lessons();
+     //cheatSheet();
+     //lessons();
     logger.info('Connected to Mongo database');
 });
+
+passport.use(new FacebookStrategy({
+        clientID: FACEBOOK_APP_ID,
+        clientSecret: FACEBOOK_APP_SECRET,
+        callbackURL: "http://localhost:8080/auth/facebook/callback",
+        profileFields: ['id', 'displayName', 'name', 'gender', 'photos']
+
+    },
+    function (accessToken, refreshToken, profile, done) {
+        const newUser = {};
+        console.log("USER", profile);
+
+        //User.findOrCreate(..., function(err, user) {
+        //    if (err) { return done(err); }
+        //    done(null, user);
+        //});
+
+        done(null);
+    }
+));
 
 const router = require('./router');
 
@@ -44,6 +71,18 @@ app.use(function (req, res, next) {
     logger.info("Action initiated", loggedObject);
     next();
 });
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect: 'http://localhost:9000/',
+        failureRedirect: 'http://localhost:9000/'
+    }));
 
 app.use('/api', router);
 
@@ -63,9 +102,9 @@ app.use(function (err, req, res, next) {
 
     res.status(err.status || 500);
     res.status(500).send({
-                error: err,
-                message: "Server error"
-            });
+        error: err,
+        message: "Server error"
+    });
 });
 
 app.on('error', function (err) {

@@ -1,10 +1,9 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('loginController', function ($scope, $state, authService) {
+  .controller('loginController', function ($scope) {
 
     $scope.busy = true;
     $scope.error = false;
-
 
     //var verifyAuthentication = function () {
     //  $scope.error = false;

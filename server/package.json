@@ -17,7 +17,9 @@
     "lodash": "^4.6.1",
     "log4js": "^0.6.33",
     "mongoose": "^4.4.10",
-    "nodemon": "^1.9.1"
+    "nodemon": "^1.9.1",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0"
   },
   "devDependencies": {
     "express-generator": "^4.13.1"

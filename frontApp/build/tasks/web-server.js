@@ -10,7 +10,8 @@ gulp.task('webserver', function(){
 			livereload: true,
 			open: 'http://localhost:9000',
       proxies: [
-        { source: '/api', target: 'http://localhost:8080/api'}
+        { source: '/api', target: 'http://localhost:8080/api'},
+        { source: '/auth/facebook', target: 'http://localhost:8080/auth/facebook'}
       ],
 			fallback: 'index.html'
 		}));

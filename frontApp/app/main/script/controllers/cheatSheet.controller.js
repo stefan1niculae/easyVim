@@ -13,6 +13,7 @@ angular.module('easyVimWeb')
         .then(function (cheats) {
           var sections = _.groupBy(cheats, "section");
           $scope.sections = sections;
+          console.log("CHEATS", sections)
         })
         .catch(function (err) {
           console.error(err);

@@ -1,75 +1,27 @@
-*
-  box-sizing: border-box
-  margin: 0
-  padding: 0
+.navbar-item
+  color: white!important
 
-.nav-list
-  &:hover
-    width: 250px
-  position: fixed
-  display: inline-block
-  padding: 10px
-  top: 0
-  left: 0
-  height: 100%
-  width: 50px
-  background: darkslategray
-  transition: width ease 1s
 
-ul
-  li
-    margin-bottom: 25px
-  list-style: none
-  margin: 0
-  padding: 0
+//.myProgress
+//  position: relative
+//  width: 300px
+//  height: 5px
+//  background-color: darkgrey
+//
+//.myBar
+//  position: absolute
+//  width: 50%
+//  height: 100%
+//  background-color: green
 
-.list-item
-  a
-    color: shade(darkslategray, 50%)
-    text-decoration: none
-    transition: color ease .35s
-    &:hover
-      color: white
-      cursor: pointer
 
-.main-view
-  position: relative
-  margin-left: 75px
-  transition: margin-left ease 1s
-
-.nav-list:hover + .main-view
-  margin-left: 275px
-
-.myProgress
-  position: relative
+.cheat-sheet
   width: 300px
-  height: 5px
-  background-color: darkgrey
+  &:after
+    clear: both
 
-.myBar
-  position: absolute
-  width: 50%
-  height: 100%
-  background-color: green
 
-#firstDiv
-  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif
-  width: 33%
-  padding: 2%
+.cheat-section
+  padding: 10px
+  margin: 30px
   float: left
-
-#secondDiv
-  overflow: hidden
-
-.head
-  background-color: #00B7FF
-
-#hS
-  background-color: #00d6b2
-  float: left
-  width: 20%
-
-#para
-  background-color: #99B7FF
-  float: right
-  width: 80%

@@ -3,6 +3,7 @@
 require("dotenv").load();
 
 const cheatSheet = require('./migrations/cheatSheet');
+const lessons = require('./migrations/lesson');
 
 const express = require('express');
 const logger = require('log4js').getDefaultLogger();
@@ -23,6 +24,7 @@ mongoose.connection.on('error', function (err) {
 });
 mongoose.connection.once('open', function (next) {
     // cheatSheet();
+    // lessons();
     logger.info('Connected to Mongo database');
 });
 

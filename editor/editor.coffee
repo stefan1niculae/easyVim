@@ -116,6 +116,7 @@ class KeyListener
 
 
   registerKeyDown: (code) ->
+    console.log "registered code #{code}"
     if code not in @supportedKeyCodes
       return
     # We set the sequence start on the key-down event because we need to know where
@@ -387,10 +388,10 @@ class KeyListener
 
 $ ->
   textarea = $("#editor")[0]
-
   editor = enableEditorFunctionality textarea
-  loadSampleText editor
-  listener = new KeyListener textarea
+  loadSampleText editor, ->
+    console.log editor.getValue()
+    listener = new KeyListener textarea
 
 
 enableEditorFunctionality = (textarea) ->
@@ -400,7 +401,6 @@ enableEditorFunctionality = (textarea) ->
     autofocus: true
 
     theme: "solarized light"
-#    theme: "material"
     keyMap: "vim"
     mode: "gfm"  # Github-Flavored Markdown
 
@@ -414,12 +414,13 @@ enableEditorFunctionality = (textarea) ->
   return editor
 
 
-loadSampleText = (editor) ->
+loadSampleText = (editor, whenDone) ->
   $.ajax
     url: "samples/gfm sample.txt"
     dataType: "text"
     success: (data) ->
       editor.setValue data
+      whenDone()
 
 suggestCommand = (count, motion) ->
   console.log "Suggestion:#{if count is 1 then "" else count}#{motion}."

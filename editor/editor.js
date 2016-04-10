@@ -142,6 +142,7 @@
     }
 
     KeyListener.prototype.registerKeyDown = function(code) {
+      console.log("registered code " + code);
       if (indexOf.call(this.supportedKeyCodes, code) < 0) {
         return;
       }
@@ -377,11 +378,14 @@
   })();
 
   $(function() {
-    var editor, listener, textarea;
+    var editor, textarea;
     textarea = $("#editor")[0];
     editor = enableEditorFunctionality(textarea);
-    loadSampleText(editor);
-    return listener = new KeyListener(textarea);
+    return loadSampleText(editor, function() {
+      var listener;
+      console.log(editor.getValue());
+      return listener = new KeyListener(textarea);
+    });
   });
 
   enableEditorFunctionality = function(textarea) {
@@ -400,12 +404,13 @@
     return editor;
   };
 
-  loadSampleText = function(editor) {
+  loadSampleText = function(editor, whenDone) {
     return $.ajax({
       url: "samples/gfm sample.txt",
       dataType: "text",
       success: function(data) {
-        return editor.setValue(data);
+        editor.setValue(data);
+        return whenDone();
       }
     });
   };

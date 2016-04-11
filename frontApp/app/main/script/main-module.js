@@ -8,13 +8,12 @@
       'ngSanitize',
       'ngTouch',
       "ngCookies",
-      'ngMaterial',
-      'satellizer'
-    ])
+      'ngMaterial'
+  ])
     .config(configure)
     .run(run);
 
-  function configure($urlRouterProvider, $authProvider, $stateProvider, $mdThemingProvider) {
+  function configure($urlRouterProvider, $stateProvider, $httpProvider, $mdThemingProvider) {
 
     $mdThemingProvider.definePalette('appPalette', {
       '50': '#268bd2',
@@ -42,13 +41,8 @@
         'hue-2': '50'
       });
 
-    $authProvider.facebook({
-                             clientId: '1398417147132089',
-                             responseType: 'token',
-                             redirectUri: "http://localhost:8080/auth/facebook/callback"
-                           });
 
-
+    $httpProvider.interceptors.push('httpResponseInterceptor');
 
     $urlRouterProvider.otherwise("/login");
 
@@ -80,17 +74,17 @@
 
   function run($rootScope, $state, authService) {
 
-    //$rootScope.$on('$stateChangeStart', function (e, to, toParams) {
-    //
-    //  var identity = authService.isLoggedIn();
-    //
-    //  if (!identity && to.name !== 'login') {
-    //    e.preventDefault();
-    //    $state.go('login',
-    //              {to: to.name, toParams: toParams}, {location: true});
-    //  }
-    //
-    //});
+    $rootScope.$on('$stateChangeStart', function (e, to, toParams) {
+
+      var identity = authService.isLoggedIn();
+
+      if (!identity && to.name !== 'login') {
+        e.preventDefault();
+        $state.go('login',
+                  {to: to.name, toParams: toParams}, {location: true});
+      }
+
+    });
 
   }
 

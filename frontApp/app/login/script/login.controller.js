@@ -1,36 +1,34 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('loginController', function ($scope, $rootScope, authService, $auth) {
+  .controller('loginController', function ($scope, authService, $state) {
 
     $scope.busy = true;
     $scope.error = false;
 
-    //var verifyAuthentication = function () {
-    //  $scope.error = false;
-    //
-    //    if (authService.isLoggedIn()) {
-    //      successLogin();
-    //    }
-    //    else {
-    //      authService.login()
-    //        .then(successLogin)
-    //        .catch(function (err) {
-    //        })
-    //        .finally(finallyHandler)
-    //    }
-    //
-    //};
-    //
-    //verifyAuthentication();
+var verifyAuthentication = function () {
+      $scope.error = false;
 
-    $scope.authenticate = function(provider) {
-      $auth.authenticate(provider);
+      if ($state.params.retryLogin) {
+
+        if (authService.isLoggedIn()) {
+          successLogin();
+        }
+        else {
+          authService.getAuthenticatedUser()
+            .then(successLogin)
+            .catch(function (err) {
+            })
+            .finally(finallyHandler)
+        }
+      }
+      else {
+        $scope.busy = false;
+      }
     };
 
+    verifyAuthentication();
 
     function successLogin() {
-      $rootScope.user = authService.getUser();
-
       var customRedirectState = 'cheatSheet'; //learn when implemented
 
       $state.go($state.params.to || customRedirectState, $state.params.toParams,

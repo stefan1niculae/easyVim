@@ -6,7 +6,8 @@ angular.module("easyVim.login",['ui.router'])
       url: "/login",
       params: {
         to:false,
-        toParams:false
+        toParams:false,
+        retryLogin: true
       },
       templateUrl: "views/login.html",
       controller: 'loginController',

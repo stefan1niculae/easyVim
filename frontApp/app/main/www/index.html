@@ -27,9 +27,17 @@
 
     <md-toolbar class="md-hue-2">
         <div class="md-toolbar-tools">
-            <md-button class="navbar-item" ng-repeat="view in views" ui-sref="{{view.state}}">
+            <md-button ng-if="app.user!==null" class="navbar-item" ng-repeat="view in views" ui-sref="{{view.state}}">
                 {{view.name}}
             </md-button>
+
+          <span flex></span>
+
+          <div ng-if="app.user!==null">Hello, {{app.user.username.split(" ")[0]}} </div>
+          <img class="user" ng-if="app.user!==null" ng-src="{{app.user.picture}}"/>
+
+          <md-button ng-if="app.user!==null" class="navbar-item" ng-click="logout()">Logout</md-button>
+
         </div>
     </md-toolbar>
 

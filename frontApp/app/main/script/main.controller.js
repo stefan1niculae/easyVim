@@ -53,4 +53,15 @@ angular.module('easyVimWeb')
         })
     };
 
+    $scope.logout = function () {
+      app.user = null;
+      authService.logout()
+        .then(function (res) {
+          console.log(res)
+        })
+        .catch(function (err) {
+          console.error("ERROR", err)
+        })
+    }
+
   });

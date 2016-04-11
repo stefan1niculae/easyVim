@@ -28,9 +28,12 @@ Proposed IAs:
     trigger: home/end keys
     improvm: [^] or [0] or [$] (won't reduce keystrokes but will keep your finger close to the home row)
 
-  Brackets pair movement
+  ?Brackets pair movement
     trigger: AS containing only directional keys starting at one bracket and ending at its pair
     improvm: [%]
+
+  * and # for next and first occurrence of word under cursor
+  G and gg to go to start/end of file
 
 
   DELETION/CHANGE
@@ -65,4 +68,6 @@ Proposed IAs:
   Case change
     trigger: AS containing deletion of a letter and insertion at the same index of the same letter but in different case
     improvm: [~]
+
+   u and ^r
 

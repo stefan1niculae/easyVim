@@ -7,7 +7,7 @@ angular.module('easyVimWeb')
     $scope.views = [
       {
         name: 'Learn',
-        state: 'badges'
+        state: 'lesson'
       },
       {
         name: 'Challenges',

@@ -1,0 +1,19 @@
+# EasyVim
+Easiest way to master the Vim editor
+
+## What is Vim
+Very powerful Unix text editor
+
+## Why learn it?
+
+- Fastest & most effective way to _navigate, edit, insert or delete_ text
+- It works for _code, prose, or class-notes_
+- It's available almost _everywhere_ (any Unix dist, your VM, etc)
+
+## Any downsides?
+Great power comes with great complexity
+... but that's why we're here, to make things **easy**
+
+
+Login or register below and **start learning**!
+Or **practice** it right in this editor, with suggestions as you go

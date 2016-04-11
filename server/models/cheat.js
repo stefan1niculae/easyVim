@@ -6,7 +6,8 @@ const logger = require('log4js').getDefaultLogger();
 const cheatSchema = new mongoose.Schema({
     description: String,
     section: String,
-    shortcut: String
+    shortcut: String,
+    keycodes: String
 });
 
 module.exports = mongoose.model('Cheat', cheatSchema);

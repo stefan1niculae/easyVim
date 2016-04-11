@@ -10,10 +10,12 @@ const lessonSchema = new mongoose.Schema({
     title: String,
     description: String,
     startingContent: String,
-    commands: [{
+    cheats: [{
         section: String,
         shortcut: String,
-        description: String
+        description: String,
+        keycodes: [Number],
+        finished: Boolean
     }],
     completed: Boolean,
     progress: Number,

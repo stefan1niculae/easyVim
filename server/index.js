@@ -30,8 +30,8 @@ mongoose.connection.on('error', function (err) {
     process.exit(1);
 });
 mongoose.connection.once('open', function (next) {
-     //cheatSheet();
-     //lessons();
+    // cheatSheet();
+    // lessons();
     logger.info('Connected to Mongo database');
 });
 

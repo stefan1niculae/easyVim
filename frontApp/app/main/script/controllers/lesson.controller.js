@@ -37,6 +37,9 @@ angular.module('easyVimWeb')
       $scope.keysPressed = [];
     };
 
+    if(!$scope.currentLesson)
+      $scope.setCurrentLesson($scope.lessons.slice(-1)[0]);
+
     var checkCommands = function() {
       $scope.currentLesson.cheats.forEach(function(cheat) {
         if($scope.keysPressed.toString().contains(cheat.keycodes.toString())) {
@@ -59,8 +62,6 @@ angular.module('easyVimWeb')
     };
 
     $scope.myFunct = function (keyEvent) {
-      if(!$scope.currentLesson)
-        $scope.setCurrentLesson($scope.lessons.slice(-1)[0]);
       $scope.keysPressed.push(keyEvent.which);
       checkCommands();
     };

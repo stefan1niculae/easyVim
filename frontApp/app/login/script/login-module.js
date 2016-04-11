@@ -4,7 +4,10 @@ angular.module("easyVim.login",['ui.router'])
 
     $stateProvider.state('login', {
       url: "/login",
-      params: {to:false, toParams:false, retryLogin: true},
+      params: {
+        to:false,
+        toParams:false
+      },
       templateUrl: "views/login.html",
       controller: 'loginController',
       controllerAs: 'loginCtrl',

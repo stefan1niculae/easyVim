@@ -1,6 +1,6 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('loginController', function ($scope) {
+  .controller('loginController', function ($scope, $rootScope, authService, $auth) {
 
     $scope.busy = true;
     $scope.error = false;
@@ -8,58 +8,57 @@ angular.module("easyVim.login")
     //var verifyAuthentication = function () {
     //  $scope.error = false;
     //
-    //  if ($state.params.retryLogin) {
-    //
     //    if (authService.isLoggedIn()) {
     //      successLogin();
     //    }
     //    else {
-    //      authService.getAuthenticatedUser()
+    //      authService.login()
     //        .then(successLogin)
     //        .catch(function (err) {
     //        })
     //        .finally(finallyHandler)
     //    }
-    //  }
-    //  else {
-    //    $scope.busy = false;
-    //  }
+    //
     //};
     //
     //verifyAuthentication();
-    //
-    //function successLogin() {
-    //  //for now
-    //  var user = authService.getUser();
-    //  //change custom redirect page
-    //  var customRedirectState = '';
-    //
-    //  $state.go($state.params.to || customRedirectState, $state.params.toParams,
-    //            {location: 'replace'});
-    //}
-    //
-    //function finallyHandler() {
-    //  $scope.busy = false;
-    //}
-    //
-    //$scope.login = function (user) {
-    //  $scope.busy = true;
-    //  $scope.error = false;
-    //
-    //  authService.login(user.name, user.password)
-    //    .then(function (loggedIn) {
-    //      if (!loggedIn) {
-    //        $scope.error = 'Not logged in, try again';
-    //      }
-    //      else {
-    //        successLogin();
-    //      }
-    //    })
-    //    .catch(function (err) {
-    //      $scope.error = "Please try again";
-    //    })
-    //    .finally(finallyHandler);
-    //};
+
+    $scope.authenticate = function(provider) {
+      $auth.authenticate(provider);
+    };
+
+
+    function successLogin() {
+      $rootScope.user = authService.getUser();
+
+      var customRedirectState = 'cheatSheet'; //learn when implemented
+
+      $state.go($state.params.to || customRedirectState, $state.params.toParams,
+                {location: 'replace'});
+    }
+
+    function finallyHandler() {
+      $scope.busy = false;
+    }
+
+    $scope.login = function () {
+      $scope.busy = true;
+      $scope.error = false;
+
+      authService.login()
+        .then(function (loggedIn) {
+          if (!loggedIn) {
+            $scope.error = 'Not logged in, try again';
+          }
+          else {
+            successLogin();
+          }
+        })
+        .catch(function (err) {
+          $scope.error = "Please try again";
+        })
+        .finally(finallyHandler);
+    };
 
     return this;
   });

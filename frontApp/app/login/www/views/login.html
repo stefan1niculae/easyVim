@@ -1,3 +1,9 @@
-<div>LOGIN PAGE</div>
+<md-content layout-padding layout-margins layout-fill flex layout="column" layout-align="start center">
+<md-title>You are not logged id. Please login with Facebook for the Easy VIM experience !</md-title>
 
-<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+<md-button class="md-primary md-hue-2 md-raised" ng-click="authenticate('facebook')">
+    <md-icon md-svg-src="./../css/icons/fb.svg"></md-icon>
+    Sign in with Facebook
+</md-button>
+
+</md-content>

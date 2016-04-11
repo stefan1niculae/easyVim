@@ -8,12 +8,13 @@
       'ngSanitize',
       'ngTouch',
       "ngCookies",
-      'ngMaterial'
+      'ngMaterial',
+      'satellizer'
     ])
     .config(configure)
     .run(run);
 
-  function configure($urlRouterProvider, $httpProvider, $stateProvider, $mdThemingProvider) {
+  function configure($urlRouterProvider, $authProvider, $stateProvider, $mdThemingProvider) {
 
     $mdThemingProvider.definePalette('appPalette', {
       '50': '#268bd2',
@@ -41,14 +42,15 @@
         'hue-2': '50'
       });
 
-
-
+    $authProvider.facebook({
+                             clientId: '1398417147132089',
+                             responseType: 'token',
+                             redirectUri: "http://localhost:8080/auth/facebook/callback"
+                           });
 
 
 
     $urlRouterProvider.otherwise("/login");
-
-    $httpProvider.interceptors.push('httpResponseInterceptor');
 
     $stateProvider.state('badges', {
       url: "/badges",

@@ -51,7 +51,7 @@ passport.use(new FacebookStrategy({
         //    done(null, user);
         //});
 
-        done(null);
+        done(null, profile);
     }
 ));
 
@@ -78,11 +78,10 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 // authentication process by attempting to obtain an access token.  If
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
-app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect: 'http://localhost:9000/',
-        failureRedirect: 'http://localhost:9000/'
-    }));
+app.get('/auth/facebook/callback', function (req, res) {
+    console.log("CALLBACK", req);
+    res.redirect("http://localhost:9000/#/login")
+});
 
 app.use('/api', router);
 

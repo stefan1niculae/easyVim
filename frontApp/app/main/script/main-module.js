@@ -9,11 +9,11 @@
       'ngTouch',
       "ngCookies",
       'ngMaterial'
-    ])
+  ])
     .config(configure)
     .run(run);
 
-  function configure($urlRouterProvider, $httpProvider, $stateProvider, $mdThemingProvider) {
+  function configure($urlRouterProvider, $stateProvider, $httpProvider, $mdThemingProvider) {
 
     $mdThemingProvider.definePalette('appPalette', {
       '50': '#268bd2',
@@ -42,13 +42,9 @@
       });
 
 
-
-
-
+    $httpProvider.interceptors.push('httpResponseInterceptor');
 
     $urlRouterProvider.otherwise("/login");
-
-    $httpProvider.interceptors.push('httpResponseInterceptor');
 
     $stateProvider.state('badges', {
       url: "/badges",
@@ -78,17 +74,17 @@
 
   function run($rootScope, $state, authService) {
 
-    //$rootScope.$on('$stateChangeStart', function (e, to, toParams) {
-    //
-    //  var identity = authService.isLoggedIn();
-    //
-    //  if (!identity && to.name !== 'login') {
-    //    e.preventDefault();
-    //    $state.go('login',
-    //              {to: to.name, toParams: toParams}, {location: true});
-    //  }
-    //
-    //});
+    $rootScope.$on('$stateChangeStart', function (e, to, toParams) {
+
+      var identity = authService.isLoggedIn();
+
+      if (!identity && to.name !== 'login') {
+        e.preventDefault();
+        $state.go('login',
+                  {to: to.name, toParams: toParams}, {location: true});
+      }
+
+    });
 
   }
 

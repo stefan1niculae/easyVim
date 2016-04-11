@@ -26,8 +26,5 @@ angular.module('easyVimWeb')
     getData();
 
 
-
-
-
     return this;
   });

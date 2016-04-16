@@ -10,12 +10,12 @@ of the line.
 
 The usefulness of *^* becomes apparent when writing code:
 
-def main(argv):
-    name = argv[1]
-    if name is 'null':
-        print 'Trying to be clever, eh..?'
-    else:
-        print 'Hello,', name
+    def main(argv):
+        name = argv[1]
+        if name is 'null':
+            print 'Trying to be clever, eh..?'
+        else:
+            print 'Hello,', name
 
 
 ... or when working with hierarchical lists.

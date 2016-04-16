@@ -1,0 +1,55 @@
+{
+    "lessons": [
+        {
+            "name": "Modes",
+            "commands": ["i", "I", "a", "A", "Esc"],
+            "condition": {
+                "description": "Insert & Append 5 times",
+                "implementationNotes": "pressed i/I or a/A 5 times while in normal mode (after esc press)"
+            }
+        },
+
+        {
+            "name": "Basic Movement",
+            "commands": ["h", "j", "k", "l"],
+            "condition": {
+                "description": "Move around 10 times"
+            }
+        },
+
+        {
+            "name": "Word Movement",
+            "commands": ["w", "W", "b", "B", "e", "E", "ge"],
+            "condition": {
+                "description": "Do 5 forward and 5 backwards word movements",
+                "implementationNotes": "w and e are forewards, b and ge are backwards"
+            }
+        },
+
+        {
+            "name": "Count-ing"
+        },
+
+        {
+            "name": "Line Movement",
+            "commands": ["^", "$", "0"]
+        },
+
+        {
+            "name": "Lines Movement",
+            "commands": ["gg", "G", "{count}G"]
+        },
+
+        {
+            "name": "Anchor Navigation",
+            "commands": ["f", "F", "t", "T"]
+        },
+
+        {
+            "name": "Searching",
+            "commands": ["/", "?", "*", "#"]
+        }
+
+
+    ]
+}

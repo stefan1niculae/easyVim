@@ -61,7 +61,7 @@
 
         {
             "name": "Searching",
-            "commands": ["/", "?", "*", "#"],
+            "commands": ["/", "?", ":noh", "*", "#"],
             "condition": {
                 "description": "Do 3 searches and 5 */# matches"
             }
@@ -98,10 +98,14 @@
         },
 
         {
+            "name": "Misc Manipulation",
+            "commands": [">>", "<<", "~"]
+        },
+
+        {
             "name": "Entering and Exiting",
             "commands": ["vi", "vim", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e", ":vs", ":split"]
         },
-
 
         {
             "name": "Buffers",

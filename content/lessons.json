@@ -53,7 +53,7 @@
 
         {
             "name": "Anchor Navigation",
-            "commands": ["f", "F", "t", "T", "%"],
+            "commands": ["f", "F", "t", "T"],
             "condition": {
                 "description": "Do 5 finds and 5 tills"
             }
@@ -61,7 +61,7 @@
 
         {
             "name": "Searching",
-            "commands": ["/", "?", ":noh", "*", "#", "n", "N"],
+            "commands": ["/", "?", "n", "N", ":noh", "*", "#", "%"],
             "condition": {
                 "description": "Do 3 searches and 5 */# matches"
             }

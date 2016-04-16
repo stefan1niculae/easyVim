@@ -28,7 +28,7 @@
 
         {
             "name": "Count-ing",
-            "commands": ["{count}"],
+            "commands": ["{count}{motion}"],
             "condition": {
                 "description": "Prefix learned commands with a count, 10 times",
                 "implementationNotes": "concatenate string representation of keycodes together and match them with a regex like /^\\d+[iIaAhjkl]$/"
@@ -44,7 +44,7 @@
         },
 
         {
-            "name": "Lines Movement",
+            "name": "Document Navigation",
             "commands": ["gg", "G", "{count}G"],
             "condition": {
                 "description": "Do vertical line movements 5 times"
@@ -53,7 +53,7 @@
 
         {
             "name": "Anchor Navigation",
-            "commands": ["f", "F", "t", "T"],
+            "commands": ["f", "F", "t", "T", "%"],
             "condition": {
                 "description": "Do 5 finds and 5 tills"
             }
@@ -61,7 +61,7 @@
 
         {
             "name": "Searching",
-            "commands": ["/", "?", ":noh", "*", "#"],
+            "commands": ["/", "?", ":noh", "*", "#", "n", "N"],
             "condition": {
                 "description": "Do 3 searches and 5 */# matches"
             }
@@ -99,7 +99,7 @@
 
         {
             "name": "Misc Manipulation",
-            "commands": [">>", "<<", "~"]
+            "commands": [">>", "<<", "~", "."]
         },
 
         {

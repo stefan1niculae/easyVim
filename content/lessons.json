@@ -27,29 +27,91 @@
         },
 
         {
-            "name": "Count-ing"
+            "name": "Count-ing",
+            "commands": ["{count}"],
+            "condition": {
+                "description": "Prefix learned commands with a count, 10 times",
+                "implementationNotes": "concatenate string representation of keycodes together and match them with a regex like /^\\d+[iIaAhjkl]$/"
+            }
         },
 
         {
             "name": "Line Movement",
-            "commands": ["^", "$", "0"]
+            "commands": ["^", "$", "0"],
+            "condition": {
+                "description": "Do line movements 5 times"
+            }
         },
 
         {
             "name": "Lines Movement",
-            "commands": ["gg", "G", "{count}G"]
+            "commands": ["gg", "G", "{count}G"],
+            "condition": {
+                "description": "Do vertical line movements 5 times"
+            }
         },
 
         {
             "name": "Anchor Navigation",
-            "commands": ["f", "F", "t", "T"]
+            "commands": ["f", "F", "t", "T"],
+            "condition": {
+                "description": "Do 5 finds and 5 tills"
+            }
         },
 
         {
             "name": "Searching",
-            "commands": ["/", "?", "*", "#"]
+            "commands": ["/", "?", "*", "#"],
+            "condition": {
+                "description": "Do 3 searches and 5 */# matches"
+            }
+        },
+
+        {
+            "name": "Selecting",
+            "commands": ["v", "V"]
+        },
+
+        {
+            "name": "Deleting and Changing",
+            "commands": ["d", "D", "c", "C", "x", "r"]
+        },
+
+        {
+            "name": "Copy-Pasting",
+            "commands": ["y", "Y", "p", "P"]
+        },
+
+        {
+            "name": "Double action!!",
+            "commands": ["dd", "cc", "yy"]
+        },
+
+        {
+            "name": "Text Objects and Motions",
+            "commands": ["{action}{motion}", "{count}{action}{motion}"]
+        },
+
+        {
+            "name": "History",
+            "commands": ["u", "^r"]
+        },
+
+        {
+            "name": "Entering and Exiting",
+            "commands": ["vi", "vim", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e", ":vs", ":split"]
+        },
+
+
+        {
+            "name": "Buffers",
+            "commands": ["\"{buffer}"]
+        },
+
+        {
+            "name": "Macros",
+            "commands": ["q{buffer}", "@{buffer}", "@@"]
         }
-
-
     ]
 }
+

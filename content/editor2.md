@@ -2,6 +2,7 @@
 Here's where the efficiency of Vim comes from: _not using the mouse_
 That is because you lose a lot of time moving and adjusting your hands from the
 keyboard all the way to the mouse or trackpad.
+
 Even more so, keeping your fingers on the _home row_ of the keyboard (the one
 with _asdfghjkl_)
 
@@ -16,6 +17,11 @@ And you'd be completely correct. That is why Vim users move around these keys:
 *l* moves right (because it's the rightmost one)
 *j* moves down (see how it looks like a little down-arrow)
 *k* moves up (only direction left)
+
+It may seem unnatural at first, but it becomes familiar after a short while.
+After a while, you'll want to scroll using *jk* in other mediums as well.
+And sometimes you can! Facebook allows *jk* timeline scrolling, and also the
+Reddit Enhancement Suite features the same method of navigation.
 
 
 ## Finding the Efficiency

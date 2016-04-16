@@ -419,7 +419,7 @@ enableEditorFunctionality = (textarea) ->
 
 loadSampleText = (editor, whenDone) ->
   $.ajax
-    url: "samples/landing page text.txt"
+    url: "samples/gfm sample.txt"
     dataType: "text"
     success: (data) ->
       editor.setValue data

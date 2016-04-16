@@ -411,7 +411,7 @@
 
   loadSampleText = function(editor, whenDone) {
     return $.ajax({
-      url: "samples/landing page text.txt",
+      url: "samples/gfm sample.txt",
       dataType: "text",
       success: function(data) {
         editor.setValue(data);

@@ -28,8 +28,13 @@ Also, in real Vim, the mode is indicated on the bottom left of the screen
 ## Switching modes
 *i* enters insert mode, to the **left** of the current char
 *I* enters insert mode at the start of the line
+
 *a* appends, entering insert mode to the **right** of the current char
 *A* appends to the end of the line
+
+*o* enter insert mode one line below the current one
+*O* enter insert mode one line above the current one
+
 *Esc* exits into normal mode
 
 

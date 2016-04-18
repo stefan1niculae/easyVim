@@ -2,7 +2,7 @@
     "lessons": [
         {
             "name": "Modes",
-            "commands": ["i", "I", "a", "A", "Esc"],
+            "commands": ["i", "I", "a", "A", "o", "O", "Esc"],
             "condition": {
                 "description": "Insert & Append 5 times",
                 "implementationNotes": "pressed i/I or a/A 5 times while in normal mode (after esc press)"
@@ -45,7 +45,7 @@
 
         {
             "name": "Document Navigation",
-            "commands": ["gg", "G", "{count}G"],
+            "commands": ["gg", "G", "{count}G", "^o"],
             "condition": {
                 "description": "Do vertical line movements 5 times"
             }
@@ -60,14 +60,6 @@
         },
 
         {
-            "name": "Searching",
-            "commands": ["/", "?", "n", "N", ":noh", "*", "#", "%"],
-            "condition": {
-                "description": "Do 3 searches and 5 */# matches"
-            }
-        },
-
-        {
             "name": "Selecting",
             "commands": ["v", "V"]
         },
@@ -78,18 +70,16 @@
         },
 
         {
-            "name": "Copy-Pasting",
+            "name": "Copying and Pasting",
             "commands": ["y", "Y", "p", "P"]
         },
 
         {
-            "name": "Double action!!",
-            "commands": ["dd", "cc", "yy"]
-        },
-
-        {
-            "name": "Text Objects and Motions",
-            "commands": ["{action}{motion}", "{count}{action}{motion}"]
+            "name": "Searching",
+            "commands": ["/", "?", "n", "N", ":noh", "*", "#", "%"],
+            "condition": {
+                "description": "Do 3 searches and 5 */# matches"
+            }
         },
 
         {

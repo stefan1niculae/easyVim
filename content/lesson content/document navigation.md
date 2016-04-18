@@ -8,6 +8,9 @@ order to get the end of the document.
 *G*    jump to last line
 *{n}G* jump to the n-th line
 
+*^o* jump to last postition
+*^O* jump to previous postition
+
 
 You may want to go to the absolute last characer in the file. That can be
 achieved by navigating to the last line (*G*) and appending (*A*). If you wish

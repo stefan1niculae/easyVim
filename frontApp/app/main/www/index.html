@@ -1,48 +1,74 @@
 <!doctype html>
 <html ng-app="easyVimWeb">
 <head>
-    <meta charset="utf-8">
-    <title>Easy VIM</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+  <meta charset="utf-8">
+  <title>Easy VIM</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet"
-          href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
 
-    <style>[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-        display: none !important;
-    }</style>
+  <link rel="stylesheet" type="text/css" href="lib/codemirror/lib/codemirror.css">
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="lib/bootstrap-social/bootstrap-social.css">
+
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+  <style>[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+  }</style>
 
 </head>
 <body class="ng-cloak" ng-controller="AppCtrl as app">
 <!--[if lte IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a
-        href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
+  href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
 
-    <md-toolbar class="md-hue-2">
-        <div class="md-toolbar-tools">
-            <md-button ng-if="app.user!==null" class="navbar-item" ng-repeat="view in views" ui-sref="{{view.state}}">
-                {{view.name}}
-            </md-button>
+      <ul class="nav navbar-nav">
+        <li  ng-repeat="view in views">
+          <a href=""  ui-sref="{{view.state}}" ng-class="view.isAccessible() ? '' : 'greyed-out' ">
+            {{view.name}}
+        </a>
+        </li>
 
-          <span flex></span>
+      </ul>
 
-          <div ng-if="app.user!==null">Hello, {{app.user.username.split(" ")[0]}} </div>
-          <img class="user" ng-if="app.user!==null" ng-src="{{app.user.picture}}"/>
+    <ul class="nav navbar-nav navbar-right">
 
-          <md-button ng-if="app.user!==null" class="navbar-item" ng-click="logout()">Logout</md-button>
+      <li>
+        <a href="" ng-if="app.user!==null" class="navbar-profile">
 
-        </div>
-    </md-toolbar>
+          <img class="user-pic" ng-src="{{app.user.picture}}"/>
+          {{app.user.displayName}}
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
+
+<button ng-if="app.user!==null" ng-click="logout()">Logout</button>
 
 
-<div  class="main-view" ui-view layout="column" layout-align="center center"></div>
+
+
+<div class="container-fluid" ui-view ></div>
+
+
+
+
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
 
 
 <script src="lib/lodash/lodash.js"></script>
@@ -57,7 +83,10 @@
 <script src="lib/angular-touch/angular-touch.js"></script>
 <script src="lib/angular-loader/angular-loader.js"></script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+
+<script type="text/javascript" src="lib/codemirror/lib/codemirror.js"></script>
+<script type="text/javascript" src="lib/angular-ui-codemirror/ui-codemirror.js"></script>
+
 <script src="//cdn.jsdelivr.net/satellizer/0.14.0/satellizer.min.js"></script>
 
 

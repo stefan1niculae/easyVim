@@ -18,8 +18,8 @@ Great power comes with great complexity
 ## Why chose this platform to learn?
 Easy Vim strives for absolute interactivity:
 you don't just read a list of keys and their descriptions, instead you practice them hands-on.
-Easy Vim provides **suggestions** based on what you do and *lessons* are presented in a natural order,
-with *objectives* to complete on each of them - making sure you understood what the chapter has to offer.
+Easy Vim provides **suggestions** based on what you do and **lessons** are presented in a natural order,
+with **objectives** to complete on each of them - making sure you understood what the chapter has to offer.
 
 
 ## Bonuses

@@ -99,6 +99,12 @@
                 "name": "Hello, Python",
                 "description": "A novice in Python prints Hello, World! then a pro shows him a different way",
                 "inspirationUrl": "http://www.vimgolf.com/challenges/4d1b1b97c58eaa2a8a0002fc"
+            },
+
+            {
+                "name": "HTMList",
+                "description": "Turn comma separated into unordered list",
+                "inspirationUrl": "http://www.vimgolf.com/challenges/559e6360b6f8bd0f17010b61"
             }
         ]
     }

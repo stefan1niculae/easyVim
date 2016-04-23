@@ -18,7 +18,7 @@ Great power comes with great complexity
 ## Why chose this platform to learn?
 Easy Vim strives for absolute interactivity:
 you don't just read a list of keys and their descriptions, instead you practice them hands-on.
-Easy Vim provides *suggestions* based on what you do and *lessons* are presented in a natural order,
+Easy Vim provides **suggestions** based on what you do and *lessons* are presented in a natural order,
 with *objectives* to complete on each of them - making sure you understood what the chapter has to offer.
 
 
@@ -27,7 +27,7 @@ We make heavy use of gamification, you can:
  - challenge your friends to complete Vim challenges
  - earn badges to show off your mastery
  - advance in level and unlock harder challenges and more advanced Vim chapters
- - earn gold and customize your experiece as you see fit
+ - earn gold and customize your experience as you see fit
 
 
 Sign in below and start learning now!

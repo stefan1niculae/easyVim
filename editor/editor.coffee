@@ -411,13 +411,15 @@ enableEditorFunctionality = (textarea) ->
     styleActiveLine: true
 
   editor.setSize "100%", "600px"  # TODO move this to the styling part
+  $ ".CodeMirror"
+    .css "font-family", "Hack, monospaced"
 
   return editor
 
 
 loadSampleText = (editor, whenDone) ->
   $.ajax
-    url: "samples/W and B tests.txt"
+    url: "samples/gfm sample.txt"
     dataType: "text"
     success: (data) ->
       editor.setValue data

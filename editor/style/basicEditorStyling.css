@@ -8,11 +8,11 @@ h1 {
     margin: auto;
 }
 
-#editor {
-    font-family: Hack, monospace;
-    width: 100%;
-    font-size: 15px;
-}
+/*.CodeMirror {*/
+    /*font-family: Hack, monospace;*/
+    /*width: 100%;*/
+    /*font-size: 15px;*/
+/*}*/
 
 .style-suggestion-tooltip {
     font-family: Hack, monospace;

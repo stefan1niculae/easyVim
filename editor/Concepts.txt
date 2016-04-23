@@ -1,3 +1,0 @@
-Strive to always have your fingers on the home row.
-Insert mode is like your brush - stay as little as possible in it.
-Commands can be combined with a motion and count.

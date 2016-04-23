@@ -405,12 +405,13 @@
       styleActiveLine: true
     });
     editor.setSize("100%", "600px");
+    $(".CodeMirror").css("font-family", "Hack, monospaced");
     return editor;
   };
 
   loadSampleText = function(editor, whenDone) {
     return $.ajax({
-      url: "samples/W and B tests.txt",
+      url: "samples/gfm sample.txt",
       dataType: "text",
       success: function(data) {
         editor.setValue(data);

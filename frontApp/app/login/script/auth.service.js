@@ -18,18 +18,7 @@ angular.module("easyVim.login")
         })
     };
 
-    //service.login = function () {
-    //  currentUser = null;
-    //
-    //  return makeCall("GET", '/auth/facebook')
-    //    .then(function (profile) {
-    //      currentUser = profile;
-    //      return service.isLoggedIn();
-    //    });
-    //};
-
     service.getUser = function () {
-      console.log("USER FRONT", currentUser)
       return currentUser;
     };
 

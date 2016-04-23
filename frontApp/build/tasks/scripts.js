@@ -1,5 +1,5 @@
-var paths = require('./../paths')
-gulp = require('gulp'),
+var paths = require('./../paths'),
+  gulp = require('gulp'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   rename = require('gulp-rename'),

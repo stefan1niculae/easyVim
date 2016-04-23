@@ -36,6 +36,22 @@
         "css/font-awesome.css",
         "fonts/*"
       ]
+    },
+    "codemirror": {
+      "main": [
+        "addon/selection/active-line.js",
+        "addon/edit/closebrackets.js",
+        "addon/edit/matchbrackets.js",
+        "addon/edit/continuelist.js",
+        "addon/edit/continuelist.js",
+        "mode/markdown/markdown.js",
+        "mode/gfm/gfm.js",
+        "addon/mode/overlay.js",
+        "keymap/vim.js",
+        "lib/codemirror.js",
+        "lib/codemirror.css",
+        "theme/solarized.css"
+      ]
     }
   },
   "resolutions": {

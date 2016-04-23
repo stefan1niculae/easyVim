@@ -1,12 +1,13 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('loginController', function ($scope, authService, $state) {
+  .controller('landingController', function ($scope, authService, $state, contentLoader, $$KeyListener) {
 
     $scope.busy = true;
     $scope.error = false;
 
-var verifyAuthentication = function () {
+    var verifyAuthentication = function () {
       $scope.error = false;
+
 
       if ($state.params.retryLogin) {
 
@@ -32,7 +33,7 @@ var verifyAuthentication = function () {
       var customRedirectState = 'cheatSheet'; //learn when implemented
 
       $state.go($state.params.to || customRedirectState, $state.params.toParams,
-                {location: 'replace'});
+        {location: 'replace'});
     }
 
     function finallyHandler() {

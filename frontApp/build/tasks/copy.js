@@ -9,6 +9,9 @@ gulp.task('copy', function () {
   gulp.src(['lib/**/*'])
     .pipe(gulp.dest('www/lib'));
 
+  gulp.src(['app/landing.md'])
+    .pipe(gulp.dest('www/content'));
+
   gulp.src(['app/main/sass/icons/*'])
     .pipe(gulp.dest('www/css/icons'));
 

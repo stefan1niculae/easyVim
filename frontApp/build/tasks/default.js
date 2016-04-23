@@ -1,2 +1,2 @@
 var gulp = require('gulp');
-gulp.task('default', ['watch', 'compile', 'webserver']);
+gulp.task('default', ['copy', 'watch', 'compile', 'webserver']);

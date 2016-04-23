@@ -2,6 +2,7 @@
   'use strict';
 
   angular.module('easyVimWeb', [
+      'easyVim.editor',
       'easyVim.login',
       'ngAnimate',
       'ngResource',
@@ -17,7 +18,7 @@
 
     $httpProvider.interceptors.push('httpResponseInterceptor');
 
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/");
 
     $stateProvider.state('badges', {
       url: "/badges",

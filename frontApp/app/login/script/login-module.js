@@ -9,7 +9,7 @@ angular.module("easyVim.login",['ui.router'])
         toParams:false,
         retryLogin: true
       },
-      templateUrl: "views/login.html",
+      templateUrl: "views/landing.html",
       controller: 'loginController',
       controllerAs: 'loginCtrl',
       hideNavbar: true

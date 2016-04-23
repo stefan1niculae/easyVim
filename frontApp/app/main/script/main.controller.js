@@ -7,20 +7,26 @@ angular.module('easyVimWeb')
     $scope.views = [
       {
         name: 'Learn',
-        state: 'lesson'
+        state: 'lesson',
+        isAccessible: function () {
+          return app.user !== null
+        }
       },
       {
         name: 'Challenges',
-        state: 'badges'
+        state: 'badges',
+        isAccessible: function () {
+          return app.user !== null
+        }
       },
       {
         name: 'Cheat Sheet',
-        state: 'cheatSheet'
-      },
-      {
-        name: 'Badges',
-        state: 'badges'
+        state: 'cheatSheet',
+        isAccessible: function () {
+          return true;
+        }
       }
+
     ];
 
     var user = app.user = authService.getUser();

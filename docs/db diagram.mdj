@@ -280,7 +280,7 @@
 							"containerExtending": false,
 							"left": 560,
 							"top": 440,
-							"width": 83,
+							"width": 88.92919921875,
 							"height": 64,
 							"autoResize": false,
 							"text": "Level is computed from experience",
@@ -424,7 +424,7 @@
 									"height": 13,
 									"autoResize": false,
 									"underline": false,
-									"text": "Badge",
+									"text": "Achievement",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1908,10 +1908,10 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": false,
-							"left": 176,
-							"top": 496,
+							"left": 240,
+							"top": 488,
 							"width": 121,
-							"height": 65,
+							"height": 77,
 							"autoResize": false,
 							"text": "Command Sections and Lesson Chapters do not map 1:1",
 							"wordWrap": true
@@ -2588,7 +2588,7 @@
 									"containerExtending": false,
 									"left": 904,
 									"top": 109,
-									"width": 125,
+									"width": 131.43896484375,
 									"height": 13,
 									"autoResize": false,
 									"underline": false,
@@ -2626,7 +2626,7 @@
 											"containerExtending": false,
 											"left": 909,
 											"top": 132,
-											"width": 115,
+											"width": 121.43896484375,
 											"height": 13,
 											"autoResize": false
 										},
@@ -2650,7 +2650,7 @@
 											"containerExtending": false,
 											"left": 909,
 											"top": 147,
-											"width": 115,
+											"width": 121.43896484375,
 											"height": 13,
 											"autoResize": false
 										},
@@ -2674,7 +2674,7 @@
 											"containerExtending": false,
 											"left": 909,
 											"top": 162,
-											"width": 115,
+											"width": 121.43896484375,
 											"height": 13,
 											"autoResize": false
 										},
@@ -2698,7 +2698,7 @@
 											"containerExtending": false,
 											"left": 909,
 											"top": 177,
-											"width": 115,
+											"width": 121.43896484375,
 											"height": 13,
 											"autoResize": false
 										}
@@ -2714,7 +2714,7 @@
 									"containerExtending": false,
 									"left": 904,
 									"top": 127,
-									"width": 125,
+									"width": 131.43896484375,
 									"height": 68,
 									"autoResize": false
 								}
@@ -2730,7 +2730,7 @@
 							"containerExtending": false,
 							"left": 904,
 							"top": 104,
-							"width": 125,
+							"width": 131.43896484375,
 							"height": 91,
 							"autoResize": false,
 							"nameLabel": {
@@ -2795,7 +2795,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 1053,
+									"left": 1059,
 									"top": 107,
 									"width": 0,
 									"height": 13,
@@ -2857,7 +2857,7 @@
 								"$ref": "AAAAAAFUMtEX6EpgZvo="
 							},
 							"lineStyle": 2,
-							"points": "1028:128;1088:128;1088:208",
+							"points": "1034:128;1088:128;1088:208",
 							"nameLabel": {
 								"$ref": "AAAAAAFUMtH6B0qSKRU="
 							},
@@ -3012,10 +3012,10 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": false,
-							"left": 1144,
-							"top": 384,
+							"left": 1136,
+							"top": 304,
 							"width": 105,
-							"height": 65,
+							"height": 77,
 							"autoResize": false,
 							"text": "The number of keystrokes is the length of the sequence",
 							"wordWrap": true
@@ -3991,7 +3991,7 @@
 							"containerExtending": false,
 							"left": 1184,
 							"top": 72,
-							"width": 74,
+							"width": 79.04345703125,
 							"height": 25,
 							"autoResize": false,
 							"text": "Challenges",
@@ -4037,7 +4037,7 @@
 							"containerExtending": false,
 							"left": 136,
 							"top": 464,
-							"width": 69,
+							"width": 72.0166015625,
 							"height": 25,
 							"autoResize": false,
 							"text": "Reference",
@@ -4511,7 +4511,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFLzntJC6EktCk="
 					},
-					"name": "Badge",
+					"name": "Achievement",
 					"columns": [
 						{
 							"_type": "ERDColumn",

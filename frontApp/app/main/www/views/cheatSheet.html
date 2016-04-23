@@ -1,8 +1,23 @@
-<div>
+<div class="row">
 
-  <ul>
+  <div class="col-lg-2">
+    <ul class="list-group borderless">
+      <h4>Sections</h4>
+      <li class="list-group-item">1 basic movement</li>
+      <li class="list-group-item">2 word movement</li>
+      <li class="list-group-item">3 basic movement</li>
+      <li class="list-group-item">4 basic movement</li>
+      <li class="list-group-item">5 basic movement</li>
+      <li class="list-group-item">6 basic movement</li>
+      <li class="list-group-item">7 basic movement</li>
+      <li class="list-group-item">8 basic movement</li>
+    </ul>
+  </div>
 
-    <li class="" ng-repeat="(sectionName, cheats) in sections">
+  <div class="col-lg-10">
+    <ul>
+
+      <li class="" ng-repeat="(sectionName, cheats) in sections">
 
         <h2>{{sectionName}}</h2>
 
@@ -11,11 +26,8 @@
           <p>{{cheat.description}}</p>
         </div>
 
+      </li>
 
-
-    </li>
-
-
-  </ul>
-
+    </ul>
+  </div>
 </div>

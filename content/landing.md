@@ -31,4 +31,4 @@ We make heavy use of gamification, you can:
 
 
 Sign in below and start learning now!
-Or **practice** it right in this editor, with suggestions as you go
+Or _practice_ it right in this editor, with suggestions as you go

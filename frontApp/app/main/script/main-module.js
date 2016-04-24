@@ -22,7 +22,7 @@
 
     $stateProvider.state('badges', {
       url: "/badges",
-      templateUrl: "views/badges.html",
+      templateUrl: "views/challenges.html",
       controller: 'badgesController',
       controllerAs: 'badgesCtrl',
       hideNavbar: false

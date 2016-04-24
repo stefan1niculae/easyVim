@@ -15,7 +15,7 @@ node_modules
 .npm
 
 # JetBrains files
-.idea
+#.idea
 
 # Optional REPL history
 .node_repl_history

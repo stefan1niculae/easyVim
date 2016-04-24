@@ -5,13 +5,16 @@
 
 
 angular.module('easyVimWeb')
-  .controller('lessonController', function ($scope, mainService) {
+  .controller('lessonController', function ($scope, mainService, $rootScope) {
 
     $scope.busy = false;
     $scope.lessons = [];
-    $scope.currentLesson;
-    $scope.levelTask = [];
-    $scope.keysPressed = [];
+    $scope.currentLesson = {
+      name: "Basic Movement",
+      commands: ["h", "j", "k", "l"],
+      condition:  "Move around 10 times"
+    };
+    $scope.lessonProgress = 0;
 
     var getData = function () {
       $scope.busy = true;
@@ -20,6 +23,7 @@ angular.module('easyVimWeb')
         .then(function (res) {
           console.log("DATA FOR LESSONS", res);
           $scope.lessons = res;
+          // $scope.currentLesson = $scope.lessons[0];
         })
         .catch(function (err) {
           console.error(err);
@@ -31,40 +35,17 @@ angular.module('easyVimWeb')
 
     getData();
 
-    $scope.setCurrentLesson = function (lesson) {
-      $scope.currentLesson = lesson;
-      $scope.levelTask = [];
-      $scope.keysPressed = [];
-    };
+    var unWatchProgress = $rootScope.$on('progressChanged', function(event, increment) {
 
-    if(!$scope.currentLesson)
-      $scope.setCurrentLesson($scope.lessons.slice(-1)[0]);
-
-    var checkCommands = function() {
-      $scope.currentLesson.cheats.forEach(function(cheat) {
-        if($scope.keysPressed.toString().contains(cheat.keycodes.toString())) {
-          cheat.finished = true;
-        }
+      $scope.$apply(function(){
+        $scope.lessonProgress += increment;
       });
+      console.log("RECEIVED INCREMENT", increment, $scope.lessonProgress)
+    });
 
-      var finishedTasks = 0;
-      $scope.currentLesson.cheats.forEach(function(cheat) {
-        if(cheat.finished) {
-          finishedTasks++;
-        }
-      });
-
-      if(finishedTasks == $scope.currentLesson.cheats.length) {
-        $scope.currentLesson.completed = true;
-      }
-
-      $scope.currentLesson.progress = 1 / $scope.currentLesson.cheats.length * finishedTasks;
-    };
-
-    $scope.myFunct = function (keyEvent) {
-      $scope.keysPressed.push(keyEvent.which);
-      checkCommands();
-    };
+    $rootScope.$on("$destroy", function(){
+      unWatchProgress();
+    });
 
     return this;
   });

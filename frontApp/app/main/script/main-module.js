@@ -9,8 +9,9 @@
       'ngSanitize',
       'ngTouch',
       "ngCookies",
-      'ui.codemirror'
-  ])
+      'ui.codemirror',
+      'ui.bootstrap'
+    ])
     .config(configure)
     .run(run);
 
@@ -55,7 +56,7 @@
       if (!identity && to.name !== 'login') {
         e.preventDefault();
         $state.go('login',
-                  {to: to.name, toParams: toParams}, {location: true});
+          {to: to.name, toParams: toParams}, {location: true});
       }
 
     });

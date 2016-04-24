@@ -14,4 +14,13 @@ angular.module("easyVim.login",['ui.router'])
       controllerAs: 'loginCtrl',
       hideNavbar: true
     });
+
+
+    $stateProvider.state('profile', {
+      url: "/profile",
+      templateUrl: "views/profile.html",
+      controller: 'profileController',
+      controllerAs: '$ctrl',
+      hideNavbar: false
+    });
   });

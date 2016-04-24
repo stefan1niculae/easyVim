@@ -21,8 +21,8 @@
 
     $urlRouterProvider.otherwise("/");
 
-    $stateProvider.state('badges', {
-      url: "/badges",
+    $stateProvider.state('challenges', {
+      url: "/challenges",
       templateUrl: "views/challenges.html",
       controller: 'badgesController',
       controllerAs: 'badgesCtrl',

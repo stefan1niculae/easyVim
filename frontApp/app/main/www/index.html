@@ -39,7 +39,7 @@
 
       <ul class="nav navbar-nav">
         <li  ng-repeat="view in views">
-          <a href=""  ui-sref="{{view.state}}" ng-class="view.isAccessible() ? '' : 'greyed-out' ">
+          <a href=""  ui-sref="{{view.state}}" class="bold-font" ng-class="view.isAccessible() ? '' : 'greyed-out' ">
             {{view.name}}
         </a>
         </li>
@@ -49,7 +49,7 @@
     <ul class="nav navbar-nav navbar-right">
 
       <li>
-        <a href="" ng-if="app.user!==null" class="navbar-profile">
+        <a href="" ng-if="app.user!==null" class="navbar-profile" ui-sref="profile">
 
           <img class="user-pic" ng-src="{{app.user.picture}}"/>
           {{app.user.displayName}}
@@ -60,9 +60,6 @@
 
   </div>
 </nav>
-
-<button ng-if="app.user!==null" ng-click="logout()">Logout</button>
-
 
 
 <div class="container-fluid" ui-view ></div>

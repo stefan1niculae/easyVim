@@ -30,8 +30,10 @@ angular.module("easyVim.login")
     verifyAuthentication();
 
     function successLogin() {
-      var customRedirectState = 'lesson';
-      $state.go(customRedirectState, {location: 'replace'});
+      var customRedirectState = 'lesson'; //learn when implemented
+
+      $state.go($state.params.to || customRedirectState, $state.params.toParams,
+        {location: 'replace'});
     }
 
     function finallyHandler() {

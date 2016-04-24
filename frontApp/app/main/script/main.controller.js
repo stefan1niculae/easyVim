@@ -14,7 +14,7 @@ angular.module('easyVimWeb')
       },
       {
         name: 'Challenges',
-        state: 'badges',
+        state: 'challenges',
         isAccessible: function () {
           return app.user !== null
         }
@@ -35,39 +35,11 @@ angular.module('easyVimWeb')
 
     $scope.$on('$stateChangeSuccess', function (ev, toState) {
       app.hideNavbar = toState.hideNavbar;
-      app.title = toState.title || null;
       var usr = authService.getUser();
       if(app.user !== usr){
         app.user = usr;
       }
 
     });
-
-    app.logout = function () {
-      $scope.busy = true;
-      authService.logout()
-        .then(function () {
-          $state.go("login", {retryLogin: false}, {reload: true});
-        })
-        .catch(function (err) {
-          $scope.error = "Something went wrong during server call ..";
-          console.error(new Error(err.status || err.statusCode || err.message
-                                  || 'Connection Error', err.data));
-        })
-        .finally(function () {
-          $scope.busy = false;
-        })
-    };
-
-    $scope.logout = function () {
-      app.user = null;
-      authService.logout()
-        .then(function (res) {
-          console.log(res)
-        })
-        .catch(function (err) {
-          console.error("ERROR", err)
-        })
-    }
 
   });

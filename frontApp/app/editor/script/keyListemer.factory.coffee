@@ -379,36 +379,12 @@ angular.module 'easyVim.editor'
 
         return false
 
-    #    Opentip.styles.Suggestion =
-    #      extends: "glass"
-    #      target: true
-    #      stem: true
-    #      showOn: "creation"
-    #
-    #  TOOLTIP_TTL = 5  # in seconds
-
     suggestCommand = (editor, line, count, motion) ->
-  #    lineNumbers = $ ".CodeMirror-linenumber"  # TODO get these from the editor arg, not globally
-  #    for lineNumber in lineNumbers
-  #      if lineNumber.innerHTML is line.toString()
-  #        lineNo = $ lineNumber
-  #        break
-  #
       content = "#{if count is 1 then "" else count}#{motion}"
 
       console.log "SUGGESTING"
-      $rootScope.$emit 'suggestion', content
-
-
-    #    tip = new Opentip lineNo, content,
-    #      style: "Suggestion"
-    #      tipJoint: "center right"
-    #      className: "suggestion-tooltip"
-    #      group: "suggestions"
-    #
-    #    # FIXME use coffeescript syntax here
-    #    hideIt = ->
-    #      tip.hide()
-    #    setTimeout(hideIt, TOOLTIP_TTL*1000)
+      $rootScope.$emit 'suggestion',
+        suggestion: content
+        line: line
 
     return KeyListener

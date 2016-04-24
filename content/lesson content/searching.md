@@ -26,3 +26,8 @@ The term can be a simple words, or a regex pattern.
 This tutorial does not teach regular expressions, but that is a skill we highly
 advise you to master
 
+
+## Command Mode
+Besides the modes you've encountered so far there is also command mode.
+You enter it by pressing _:_ from normal mode.
+You can exit it by pressing _Enter_

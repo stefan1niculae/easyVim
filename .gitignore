@@ -43,3 +43,7 @@ target
 **/.bin/**
 
 # TO BE ADDED another dot files and dependencies
+# TODO solve this properly
+/frontApp/app/editor/script/editor.directive.js
+/frontApp/app/editor/script/editor-module.js
+/frontApp/app/editor/script/keyListemer.factory.js

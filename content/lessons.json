@@ -4,35 +4,28 @@
             {
                 "name": "Vim and EasyVim",
                 "commands": [],
-                "condition": {
-                    "description": "Get used to the editor",
-                    "implementationNotes": "pressed any key a few times"
-                }
+                "condition": "Get used to the editor",
+                "implementationNotes": "pressed any key a few times"
+
             },
 
             {
                 "name": "EasyVim Lessons",
                 "commands": [],
-                "condition": {
-                    "description": "Get your experience"
-                }
+                "condition": "Get your experience"
             },
 
             {
                 "name": "EasyVim Challenges",
                 "commands": [],
-                "condition": {
-                    "description": "Get excited about challenges"
-                }
+                "condition": "Get excited about challenges"
             },
 
             {
                 "name": "Modes",
                 "commands": ["i", "I", "a", "A", "o", "O", "Esc"],
-                "condition": {
-                    "description": "Insert & Append 5 times",
-                    "implementationNotes": "pressed i/I or a/A 5 times while in normal mode (after esc press)"
-                }
+                "condition": "Insert & Append 5 times",
+                "implementationNotes": "pressed i/I or a/A 5 times while in normal mode (after esc press)"
             }
         ],
 
@@ -40,35 +33,27 @@
             {
                 "name": "Basic Movement",
                 "commands": ["h", "j", "k", "l"],
-                "condition": {
-                    "description": "Move around 10 times"
-                }
+                "condition":  "Move around 10 times"
             },
 
             {
                 "name": "Word Movement",
                 "commands": ["w", "W", "b", "B", "e", "E", "ge"],
-                "condition": {
-                    "description": "Do 5 forward and 5 backwards word movements",
-                    "implementationNotes": "w and e are forewards, b and ge are backwards"
-                }
+                "condition": "Do 5 forward and 5 backwards word movements",
+                "implementationNotes": "w and e are forewards, b and ge are backwards"
             },
 
             {
                 "name": "Count-ing",
                 "commands": ["{count}{motion}"],
-                "condition": {
-                    "description": "Prefix learned commands with a count, 10 times",
-                    "implementationNotes": "concatenate string representation of keycodes together and match them with a regex like /^\\d+[iIaAhjkl]$/"
-                }
+                "condition": "Prefix learned commands with a count, 10 times",
+                "implementationNotes": "concatenate string representation of keycodes together and match them with a regex like /^\\d+[iIaAhjkl]$/"
             },
 
             {
                 "name": "Line Movement",
                 "commands": ["^", "$", "0"],
-                "condition": {
-                    "description": "Do line movements 5 times"
-                }
+                "condition": "Do line movements 5 times"
             }
         ],
 
@@ -76,17 +61,13 @@
             {
                 "name": "Document Navigation",
                 "commands": ["gg", "G", "{count}G", "^o"],
-                "condition": {
-                    "description": "Do vertical line movements 5 times"
-                }
+                "condition": "Do vertical line movements 5 times"
             },
 
             {
                 "name": "Anchor Navigation",
                 "commands": ["f", "F", "t", "T"],
-                "condition": {
-                    "description": "Do 5 finds and 5 tills"
-                }
+                "condition":  "Do 5 finds and 5 tills"
             },
 
             {
@@ -101,43 +82,53 @@
 
             {
                 "name": "Copying and Pasting",
-                "commands": ["y", "Y", "p", "P"]
+                "commands": ["y", "Y", "p", "P"],
+                "condition": ""
             },
 
             {
                 "name": "Searching",
                 "commands": ["/", "?", "n", "N", ":noh", "*", "#", "%"],
-                "condition": {
-                    "description": "Do 3 searches and 5 */# matches"
-                }
+                "condition":  "Do 3 searches and 5 */# matches"
+            },
+
+            {
+                "name": "History",
+                "commands": ["u", "^r"],
+                "condition": "Do 5 undo's and 2 redo's"
             }
         ],
 
         "expert": [
             {
-                "name": "Misc Manipulation",
-                "commands": [">>", "<<", "~", "."]
+                "name": "Replacing",
+                "commands": [":s", ":%s"],
+                "condition": "Do 5 substitutions",
+                "implementationNotes": "something starting with :s"
             },
 
             {
-                "name": "Macros",
-                "commands": ["q{buffer}", "@{buffer}", "@@"]
+                "name": "Misc Manipulation",
+                "commands": [">>", "<<", "~", "."],
+                "condition": "Do 3 indents, 3 case changes and 3 repeats"
             }
         ],
 
         "files": [
             {
-                "name": "History",
-                "commands": ["u", "^r"]
+                "name": "Macros",
+                "commands": ["q{reg}", "@{reg}", "@@"],
+                "condition": "Record 2 macros and use them 5 times",
+                "implementationNotes": "q followed by something assigns and @ followed by something uses"
             },
 
             {
-                "name": "Buffers",
-                "commands": ["\"{buffer}"]
+                "name": "Registers",
+                "commands": ["\"{reg}"]
             },
 
             {
-                "name": "Entering and Exiting",
+                "name": "Files",
                 "commands": ["vi", "vim", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e", ":vs", ":split"]
             }
         ]

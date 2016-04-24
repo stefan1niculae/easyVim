@@ -5,3 +5,4 @@ large space for error.
 *u* undo
 *^r* redo
 
+They can also take a count.

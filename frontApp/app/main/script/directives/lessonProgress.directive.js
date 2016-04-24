@@ -15,7 +15,7 @@ angular.module('easyVimWeb')
         var pressCount = 0;
         element.bind("keydown keypress", function (event) {
           const pressedCharacter = keyCodeMapper(event.which);
-          if (expectedKeys.contains(pressedCharacter) && pressCount < 5) {
+          if (expectedKeys.indexOf(pressedCharacter) > -1 && pressCount < 5) {
             pressCount += 1;
             console.log("apasat ", pressedCharacter);
             $rootScope.$emit('progressChanged', increment);

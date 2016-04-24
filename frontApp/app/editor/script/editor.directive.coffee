@@ -52,6 +52,7 @@ angular.module 'easyVim.editor'
           matchBrackets: true
           closeBrackets: true
           styleActiveLine: true
+          lineWrapping: true
 
         $scope.codeMirrorOptions =
           onLoad: (editor) -> listener = new $$KeyListener editor

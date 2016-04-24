@@ -30,7 +30,7 @@ angular.module("easyVim.login")
       return makeCall("GET", "/auth/profile")
         .then(function (user) {
           currentUser = user;
-          currentUser.displayName = currentUser.username.split(" ")[0];
+          currentUser.displayName = currentUser.name.split(" ")[0];
           return service.isLoggedIn();
         })
     };

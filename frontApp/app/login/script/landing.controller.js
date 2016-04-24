@@ -6,7 +6,7 @@ angular.module("easyVim.login")
     $scope.error = false;
 
     var verifyAuthentication = function () {
-      $scope.error = false;
+      $scope.busy = true;
 
 
       if ($state.params.retryLogin) {
@@ -30,14 +30,12 @@ angular.module("easyVim.login")
     verifyAuthentication();
 
     function successLogin() {
-      var customRedirectState = 'cheatSheet'; //learn when implemented
-
-      $state.go($state.params.to || customRedirectState, $state.params.toParams,
-        {location: 'replace'});
+      var customRedirectState = 'lesson';
+      $state.go(customRedirectState, {location: 'replace'});
     }
 
     function finallyHandler() {
-      $scope.busy = false;
+      //$scope.busy = false;
     }
 
     $scope.login = function () {

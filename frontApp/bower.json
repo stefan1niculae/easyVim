@@ -14,7 +14,6 @@
     "angular-touch": "~1.4.8",
     "lodash": "~4.0.1",
     "angular-ui-codemirror": "^0.3.0",
-    "codemirror": "^5.14.2",
     "bootstrap": "^3.3.6",
     "bootstrap-social": "^4.12.0"
   },
@@ -35,22 +34,6 @@
       "main": [
         "css/font-awesome.css",
         "fonts/*"
-      ]
-    },
-    "codemirror": {
-      "main": [
-        "addon/selection/active-line.js",
-        "addon/edit/closebrackets.js",
-        "addon/edit/matchbrackets.js",
-        "addon/edit/continuelist.js",
-        "addon/edit/continuelist.js",
-        "mode/markdown/markdown.js",
-        "mode/gfm/gfm.js",
-        "addon/mode/overlay.js",
-        "keymap/vim.js",
-        "lib/codemirror.js",
-        "lib/codemirror.css",
-        "theme/solarized.css"
       ]
     }
   },

@@ -130,8 +130,9 @@ app.get('/auth/logout',
         });
     });
 
-app.use('/api', connectEnsureLogin.ensureLoggedIn(
-    {sendHTTPCode: true}), router);
+// app.use('/api', connectEnsureLogin.ensureLoggedIn(
+//     {sendHTTPCode: true}), router);
+app.use('/api', router);
 
 // catch 404 and forward to error handler
 //app.use(function (err, req, res, next) {

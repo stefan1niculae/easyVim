@@ -2,53 +2,57 @@
 
 const express = require('express');
 const router = express.Router();
-const Badge = require('./models/badge');
-const Cheat = require('./models/cheat');
-const Lesson = require('./models/lesson');
+// const Lesson = require('./models/lesson').model;
+// const Chapter = require('./models/chapter');
+
+// const User = require('./models/user');  // TODO remove
+
+
+const logger = require("log4js").getDefaultLogger();
 
 router.route('/badges')
     .get(function (req, res) {
-        Badge.find({}, function (err, badges) {
-            if (!err) {
-                res.json(badges);
-            }
-        })
+        // Badge.find({}, function (err, badges) {
+        //     if (!err) {
+        //         res.json(badges);
+        //     }
+        // })
     })
     .post(function (req, res) {
-        var badge = new Badge();
-
-        badge.experience = req.body.experience;
-
-        badge.save(function (err, elem) {
-            if (!err) {
-                res.json({_id: elem._id, message: 'Badge created'});
-            }
-            else {
-                res.send(err)
-            }
-        });
+        // var badge = new Badge();
+        //
+        // badge.experience = req.body.experience;
+        //
+        // badge.save(function (err, elem) {
+        //     if (!err) {
+        //         res.json({_id: elem._id, message: 'Badge created'});
+        //     }
+        //     else {
+        //         res.send(err)
+        //     }
+        // });
 
     });
 
 router.route('/cheat-sheet')
     .get(function (req, res) {
-        Cheat.find({}, function (err, cheatSheet) {
-            if (!err) {
-                res.json(cheatSheet);
-            }
-        })
+        // Cheat.find({}, function (err, cheatSheet) {
+        //     if (!err) {
+        //         res.json(cheatSheet);
+        //     }
+        // })
     })
     .post(function (req, res) {
-        var cheat = new Cheat(req.body);
-
-        cheat.save(function (err, elem) {
-            if (!err) {
-                res.json({_id: elem._id, message: 'Cheat created'});
-            }
-            else {
-                res.send(err)
-            }
-        });
+        // var cheat = new Cheat(req.body);
+        //
+        // cheat.save(function (err, elem) {
+        //     if (!err) {
+        //         res.json({_id: elem._id, message: 'Cheat created'});
+        //     }
+        //     else {
+        //         res.send(err)
+        //     }
+        // });
 
     });
 
@@ -72,6 +76,11 @@ router.route('/lesson')
             }
         });
 
+    });
+
+router.route('/test')
+    .get(function (req, res) {
+        res.json('');
     });
 
 //router.get('/cheetsheet', function (req, res) {

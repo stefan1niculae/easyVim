@@ -15,17 +15,15 @@
   </div>
 
   <div class="col-lg-10">
-    <ul>
+    <ul class="list-group">
 
-      <li class="" ng-repeat="(sectionName, cheats) in sections">
-
+      <li class="cheatSheetItem list-group-item" ng-repeat="(sectionName, cheats) in sections">
         <h2>{{sectionName}}</h2>
 
         <div ng-repeat="cheat in cheats" >
           <strong >{{cheat.shortcut}}</strong>
           <p>{{cheat.description}}</p>
         </div>
-
       </li>
 
     </ul>

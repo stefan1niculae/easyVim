@@ -4,15 +4,39 @@ angular.module 'easyVim.editor'
     scope: false
     templateUrl: 'views/editor.html'
     link: (scope, element, attrs) ->
-      $rootScope.$on 'suggestion', (event, suggestion) ->
+      Opentip.styles.Suggestion =
+        extends: "glass"
+        target: true
+        stem: true
+        showOn: "creation"
+
+
+      TOOLTIP_TTL = 5  # in seconds
+
+
+      $rootScope.$on 'suggestion', (event, data) ->
         scope.$apply () ->
-#          event.stopPropagation()
+          event.stopPropagation()
 
-          scope.suggestion = suggestion
 
-          element.triggerHandler 'mouseover'
+          lineNumbers = angular.element ".CodeMirror-linenumber"  # TODO get these from the editor arg, not globally
+          for lineNumber in lineNumbers
+            if lineNumber.innerHTML is data.line.toString()
+              lineNo = angular.element lineNumber
+              break
 
-          console.log suggestion
+          tip = new Opentip lineNo, data.suggestion,
+            style: "Suggestion"
+            tipJoint: "center right"
+            className: "suggestion-tooltip"
+            group: "suggestions"
+
+          # FIXME use coffeescript syntax here
+#          hideIt = ->
+#            tip.hide()
+#          setTimeout(hideIt, TOOLTIP_TTL*1000)
+
+        console.log data.suggestion
 
 
     controller: ($rootScope, $scope, contentLoader, $$KeyListener) ->
@@ -32,7 +56,10 @@ angular.module 'easyVim.editor'
         $scope.codeMirrorOptions =
           onLoad: (editor) -> listener = new $$KeyListener editor
 
-        contentLoader.getLandingContent()
+
+        $scope.getEditorContent = $scope.getEditorContent or contentLoader.getLandingContent
+
+        $scope.getEditorContent()
           .then (data) -> $scope.initialContent = data
 
       intitalize()

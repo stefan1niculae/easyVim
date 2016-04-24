@@ -9,7 +9,7 @@ const lessonSchema = new mongoose.Schema({
         type: String,
         required: 'lesson name required'
     },
-    description: {
+    condition: {
         type: String,
         required: ''
     },
@@ -26,6 +26,10 @@ const lessonSchema = new mongoose.Schema({
         type: [command.schema],
         default: [],
         ref: 'lessonTaughtIn'
+    },
+    order: {
+        type: Number,
+        required: ''
     }
 });
 

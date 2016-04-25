@@ -1,0 +1,80 @@
+{
+    "achievements": [
+        {
+            "name": "Mr Holmes",
+            "description": "Do 50 searches",
+            "picture": "Search",
+            "trigger": "editor"
+        },
+
+        {
+            "name": "Fast Traveler",
+            "description": "Traverse 1000 characters",
+            "picture": "Rocket",
+            "trigger": "editor"
+        },
+
+        {
+            "name": "Winner",
+            "description": "Get 1st place in a challenge",
+            "picture": "Crown",
+            "trigger": "after challenge"
+        },
+
+        {
+            "name": "Time Saver",
+            "description": "Save time using 100 Vim commands",
+            "picture": "Timer",
+            "trigger": "editor"
+        },
+
+        {
+            "name": "Graduate",
+            "description": "Finish all lessons",
+            "picture": "Ribbon",
+            "trigger": "after lesson"
+        },
+
+        {
+            "name": "Social Challenger",
+            "description": "Send 5 challenges",
+            "picture": "Discussion",
+            "trigger": "challenge menu"
+        },
+
+        {
+            "name": "Unlocker",
+            "description": "Unlock 3 thremes",
+            "picture": "Locked",
+            "trigger": "profile shop"
+        },
+
+        {
+            "name": "Bull's eye!",
+            "description": "Complete a challege in the 1st try",
+            "picture": "Bullseye",
+            "trigger": "after challenge"
+        },
+
+        {
+            "name": "Cogspinner",
+            "description": "Finish the introductory lessons",
+            "picture": "Settings",
+            "trigger": "after lesson"
+        },
+
+        {
+            "name": "Overachiever",
+            "description": "Earn 10 other achievements",
+            "picture": "Star Ribbon",
+            "trigger": "profile update"
+        },
+
+        {
+            "name": "Well-oriented",
+            "description": "Consult the Cheatsheet 10 times",
+            "picture": "Map",
+            "trigger": "cheatsheet"
+        }
+    ]
+}

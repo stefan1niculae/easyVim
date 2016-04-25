@@ -1,0 +1,157 @@
+{
+    "chapters": [
+        {
+            "name": "introductory",
+            "xpAwarded": 10,
+            "lessons": [
+                {
+                    "name": "Vim and EasyVim",
+                    "commands": [],
+                    "condition": "Get used to the editor",
+                    "implementationNotes": "pressed any key a few times"
+
+                },
+
+                {
+                    "name": "EasyVim Lessons",
+                    "commands": [],
+                    "condition": "Get your experience"
+                },
+
+                {
+                    "name": "EasyVim Challenges",
+                    "commands": [],
+                    "condition": "Get excited about challenges"
+                },
+
+                {
+                    "name": "Modes",
+                    "commands": ["i", "I", "a", "A", "o", "O", "Esc"],
+                    "condition": "Insert & Append 5 times",
+                    "implementationNotes": "pressed i/I or a/A 5 times while in normal mode (after esc press)"
+                }
+            ]
+        },
+
+        {
+            "name": "beginner",
+            "xpAwarded": 20,
+            "lessons": [
+                {
+                    "name": "Basic Movement",
+                    "commands": ["h", "j", "k", "l"],
+                    "condition":  "Move around 10 times"
+                },
+
+                {
+                    "name": "Word Movement",
+                    "commands": ["w", "W", "b", "B", "e", "E", "ge"],
+                    "condition": "Do 5 forward and 5 backwards word movements",
+                    "implementationNotes": "w and e are forewards, b and ge are backwards"
+                },
+
+                {
+                    "name": "Count-ing",
+                    "commands": ["{count}{motion}"],
+                    "condition": "Prefix learned commands with a count, 10 times",
+                    "implementationNotes": "concatenate string representation of keycodes together and match them with a regex like /^\\d+[iIaAhjkl]$/"
+                },
+
+                {
+                    "name": "Line Movement",
+                    "commands": ["^", "$", "0"],
+                    "condition": "Do line movements 5 times"
+                }
+            ]
+        },
+
+        {
+            "name": "intermediate",
+            "xpAwarded": 30,
+            "lessons": [
+                {
+                    "name": "Document Navigation",
+                    "commands": ["gg", "G", "{count}G", "^o"],
+                    "condition": "Do vertical line movements 5 times"
+                },
+
+                {
+                    "name": "Anchor Navigation",
+                    "commands": ["f", "F", "t", "T"],
+                    "condition":  "Do 5 finds and 5 tills"
+                },
+
+                {
+                    "name": "Selecting",
+                    "commands": ["v", "V"]
+                },
+
+                {
+                    "name": "Deleting and Changing",
+                    "commands": ["d", "D", "c", "C", "x", "r"]
+                },
+
+                {
+                    "name": "Copying and Pasting",
+                    "commands": ["y", "Y", "p", "P"],
+                    "condition": ""
+                },
+
+                {
+                    "name": "Searching",
+                    "commands": ["/", "?", "n", "N", ":noh", "*", "#", "%"],
+                    "condition":  "Do 3 searches and 5 */# matches"
+                },
+
+                {
+                    "name": "History",
+                    "commands": ["u", "^r"],
+                    "condition": "Do 5 undo's and 2 redo's"
+                }
+            ]
+        },
+
+        {
+            "name": "expert",
+            "xpAwarded": 50,
+            "lessons": [
+                {
+                    "name": "Replacing",
+                    "commands": [":s", ":%s"],
+                    "condition": "Do 5 substitutions",
+                    "implementationNotes": "something starting with :s"
+                },
+
+                {
+                    "name": "Misc Manipulation",
+                    "commands": [">>", "<<", "~", "."],
+                    "condition": "Do 3 indents, 3 case changes and 3 repeats"
+                }
+            ]
+        },
+
+        {
+            "name": "files",
+            "xpAwarded": 25,
+            "lessons": [
+                {
+                    "name": "Macros",
+                    "commands": ["q{reg}", "@{reg}", "@@"],
+                    "condition": "Record 2 macros and use them 5 times",
+                    "implementationNotes": "q followed by something assigns and @ followed by something uses"
+                },
+
+                {
+                    "name": "Registers",
+                    "commands": ["\"{reg}"]
+                },
+
+                {
+                    "name": "Files",
+                    "commands": ["vi", "vim", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e", ":vs", ":split"]
+                }
+            ]
+        }
+    ]
+}
+

@@ -48,15 +48,16 @@ passport.use(new FacebookStrategy({
     function (accessToken, refreshToken, profile, done) {
         User.find({facebookId: profile.id}, function (err, docs) {
             let newUser = {};
+
             if(docs.length) {
                 newUser = docs[0];
-                newUser.username = profile.displayName;
+                newUser.name = profile.displayName;
                 newUser.picture = profile.photos[0].value
             }
             else {
                  newUser = new User({
                     facebookId: profile.id,
-                    username: profile.displayName,
+                    name: profile.displayName,
                     picture: profile.photos[0].value
                 });
             }

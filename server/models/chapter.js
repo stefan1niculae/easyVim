@@ -8,7 +8,7 @@ const chapterSchema  = new mongoose.Schema({
         type: String,
         required: ''
     },
-    number: {
+    order: {
         type: Number,
         required: ''
     },

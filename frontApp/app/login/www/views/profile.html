@@ -1,0 +1,47 @@
+<div class="row">
+
+  <div class="col-lg-2 col-md-2 col-sm-4">
+
+
+    <ul class="list-group borderless">
+      <li class="list-group-item" ng-repeat="elem in $ctrl.sidebarElements"
+          ng-click="$ctrl.selectOption(elem)" ng-class="elem.clicked ? 'clicked' : ''">
+        {{elem.name}}
+      </li>
+
+    </ul>
+
+
+  </div>
+
+  <div class="col-lg-10 col-md-10 col-sm-8 container-fluid">
+
+      <span data-toggle="tooltip" title="Logout"
+            class="pull-right glyphicon glyphicon-log-out logout-button"
+            ng-click="$ctrl.logout()">
+
+      </span>
+
+    <h4 ng-class="$ctrl.sidebarElements[1].clicked ? 'clicked' : ''">
+      {{$ctrl.sidebarElements[1].name}}
+    </h4>
+
+
+
+
+    <h4 ng-class="$ctrl.sidebarElements[2].clicked ? 'clicked' : ''">
+      {{$ctrl.sidebarElements[2].name}}
+    </h4>
+
+
+
+
+    <h4 ng-class="$ctrl.sidebarElements[3].clicked ? 'clicked' : ''">
+      {{$ctrl.sidebarElements[3].name}}
+    </h4>
+
+
+  </div>
+
+
+</div>

@@ -1,0 +1,12 @@
+{
+    "categories": [
+        {
+            "name": "Mode Switching",
+            "commands": [
+                {
+                    "key": ""
+                }
+            ]
+        }
+    ]
+}

@@ -1,111 +1,116 @@
 {
-    "difficulties": {
-        "easy": [
-            {
-                "name": "Simple insertion",
-                "description": "Simple things we do all the time should be able to be done with very few keystrokes, but sometimes I find something I need to do makes me go, 'There MUST be a better way.' This challenge is just a simple movement and entering text at a certain place.",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/55b18bbea9c2c30d04000001"
-            },
-
-            {
-                "name": "Swap values",
-                "description": "Switch them up",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/56d70389bbbe462aff01d42a"
-            },
-
-            {
-                "name": "Vice versa",
-                "description": "Little role switching.",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/55bcdc3ef4219f456102374f"
-            },
-
-            {
-                "name": "Switch vars",
-                "description": "Mix them up",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/4f0720c8f037090001000007"
-            },
-
-            {
-                "name": "Just the middle",
-                "description": "Delete the instructions at the top and bottom",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/54862fbb3f90ac0002904cf5"
-            },
-
-            {
-                "name": "I forgot quotes",
-                "description": "Oops.",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/5462e3f41198b80002512673"
-            },
-
-            {
-                "name": "Words in parens",
-                "description": "Ace it!",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/5192f96ad8df110002000002"
-            },
-
-            {
-                "name": "Comments galore",
-                "description": "Basic comment reformatting",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/5666943bac55c907fd02066f"
-            },
-
-            {
-                "name": "D to the j",
-                "description": "10 D's to 11 j's",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/53d93fc3768e280002124f23"
-            },
-
-            {
-                "name": "Semicolons",
-                "description": "Get appending",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/4fc9d767d3a0d4000100000e"
-            }
-        ],
-
-        "medium": [
-            {
-                "name": "One number per line",
-                "description": "Just give me the numbers.",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/56fb2e75ccffcc0009026473"
-            },
-
-            {
-                "name": "Scrambled numbers",
-                "description": "There can be only ONE one",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/56ef78d9f604b51ec4007b8d"
-            },
-
-            {
-                "name": "Extract function",
-                "description": "Ref",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/536cfa23fcccd100025678bd"
-            },
-
-            {
-                "name": "Fancy headers",
-                "description": "Make the header text stand out with surrounding asterisks",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/4d1cdb0635b40650b8000527"
-            }
-        ],
-
-        "hard": [
-            {
-                "name": "Code review",
-                "description": "remove unneeded code and fix broken indentation",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/4d1a1c36567bac34a9000002"
-            },
-
-            {
-                "name": "Hello, Python",
-                "description": "A novice in Python prints Hello, World! then a pro shows him a different way",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/4d1b1b97c58eaa2a8a0002fc"
-            },
-
-            {
-                "name": "HTMList",
-                "description": "Turn comma separated into unordered list",
-                "inspirationUrl": "http://www.vimgolf.com/challenges/559e6360b6f8bd0f17010b61"
-            }
-        ]
+  "difficulties": [
+    {
+      "invitePrice": 10,
+      "attemptPrice": 3,
+      "completionGold": 20,
+      "completionExperience": 50,
+      "name": "easy",
+      "challenges": [
+        {
+          "name": "Simple insertion",
+          "description": "Simple things we do all the time should be able to be done with very few keystrokes, but sometimes I find something I need to do makes me go, 'There MUST be a better way.' This challenge is just a simple movement and entering text at a certain place.",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/55b18bbea9c2c30d04000001"
+        },
+        {
+          "name": "Swap values",
+          "description": "Switch them up",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/56d70389bbbe462aff01d42a"
+        },
+        {
+          "name": "Vice versa",
+          "description": "Little role switching.",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/55bcdc3ef4219f456102374f"
+        },
+        {
+          "name": "Switch vars",
+          "description": "Mix them up",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/4f0720c8f037090001000007"
+        },
+        {
+          "name": "Just the middle",
+          "description": "Delete the instructions at the top and bottom",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/54862fbb3f90ac0002904cf5"
+        },
+        {
+          "name": "I forgot quotes",
+          "description": "Oops.",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/5462e3f41198b80002512673"
+        },
+        {
+          "name": "Words in parens",
+          "description": "Ace it!",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/5192f96ad8df110002000002"
+        },
+        {
+          "name": "Comments galore",
+          "description": "Basic comment reformatting",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/5666943bac55c907fd02066f"
+        },
+        {
+          "name": "D to the j",
+          "description": "10 D's to 11 j's",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/53d93fc3768e280002124f23"
+        },
+        {
+          "name": "Semicolons",
+          "description": "Get appending",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/4fc9d767d3a0d4000100000e"
+        }
+      ]
+    },
+    {
+      "invitePrice": 15,
+      "attemptPrice": 5,
+      "completionGold": 50,
+      "completionExperience": 75,
+      "name": "medium",
+      "challenges": [
+        {
+          "name": "One number per line",
+          "description": "Just give me the numbers.",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/56fb2e75ccffcc0009026473"
+        },
+        {
+          "name": "Scrambled numbers",
+          "description": "There can be only ONE one",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/56ef78d9f604b51ec4007b8d"
+        },
+        {
+          "name": "Extract function",
+          "description": "Ref",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/536cfa23fcccd100025678bd"
+        },
+        {
+          "name": "Fancy headers",
+          "description": "Make the header text stand out with surrounding asterisks",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/4d1cdb0635b40650b8000527"
+        }
+      ]
+    },
+    {
+      "invitePrice": 20,
+      "attemptPrice": 8,
+      "completionGold": 75,
+      "completionExperience": 100,
+      "name": "hard",
+      "challenges": [
+        {
+          "name": "Code review",
+          "description": "remove unneeded code and fix broken indentation",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/4d1a1c36567bac34a9000002"
+        },
+        {
+          "name": "Hello, Python",
+          "description": "A novice in Python prints Hello, World! then a pro shows him a different way",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/4d1b1b97c58eaa2a8a0002fc"
+        },
+        {
+          "name": "HTMList",
+          "description": "Turn comma separated into unordered list",
+          "inspirationUrl": "http://www.vimgolf.com/challenges/559e6360b6f8bd0f17010b61"
+        }
+      ]
     }
+  ]
 }

@@ -1,0 +1,42 @@
+{
+  "levels": [
+    {
+     "xpNeeded": 0,
+      "unlockedChapter": "introductory"
+    },
+    {
+     "xpNeeded": 100,
+      "unlockedChapter": "beginner"
+    },
+    {
+     "xpNeeded": 125,
+      "unlockedChallengeDifficulty": "easy"
+    },
+    {
+     "xpNeeded": 150,
+      "unlockedChapter": "intermediate"
+    },
+    {
+     "xpNeeded": 175,
+      "unlockedChallengeDifficulty": "medium"
+    },
+    {
+     "xpNeeded": 200,
+      "unlockedChapter": "expert"
+    },
+    {
+     "xpNeeded": 250,
+      "unlockedChallengeDifficulty": "hard"
+    },
+    {
+     "xpNeeded": 500,
+      "unlockedChapter": "files"
+    },
+    {
+     "xpNeeded": 750
+    },
+    {
+     "xpNeeded": 1250
+    }
+  ]
+}

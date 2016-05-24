@@ -1,0 +1,99 @@
+<div class="row">
+
+  <div class="col-lg-2 col-md-2 col-sm-4">
+
+
+    <ul class="list-group borderless">
+      <li class="list-group-item" ng-repeat="elem in $ctrl.sidebarElements"
+          ng-click="$ctrl.selectOption(elem)" ng-class="elem.clicked ? 'clicked' : ''">
+        {{elem.name}}
+      </li>
+
+    </ul>
+
+
+  </div>
+
+  <div class="col-lg-10 col-md-10 col-sm-8 container-fluid">
+
+    <div class="row">
+
+      <h4 ng-class="$ctrl.sidebarElements[1].clicked ? 'clicked' : ''">
+        {{$ctrl.sidebarElements[1].name}}
+      </h4>
+
+      <div class="col-lg-11">
+
+        <div ng-repeat="i in [1, 2, 3, 4]" class="badges-profile">
+          <img class="col-lg-4" style="width: 24%" src="/css/icons/Dice.png"/>
+          <div class="col-lg-8">
+            <h4 style="margin-bottom: 0">Dice rolled</h4>
+            <p>Solved something fucking nice </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-1">
+        <a data-toggle="tooltip" title="Logout"
+           ng-click="$ctrl.logout()">
+          Sign out
+        </a>
+      </div>
+
+    </div>
+
+    <div class="row" style="width: 99%">
+
+      <h4 ng-class="$ctrl.sidebarElements[2].clicked ? 'clicked' : ''">
+        {{$ctrl.sidebarElements[2].name}}
+      </h4>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
+      </div>
+
+      <!--<div>-->
+        <!--<div ng-repeat="i in [1, 2, 3, 4]" style="display: inline-block">movement lessons</div>-->
+      <!--</div>-->
+
+    </div>
+
+
+    <div class="row" style="width: 99%">
+      <h4 ng-class="$ctrl.sidebarElements[3].clicked ? 'clicked' : ''">
+        {{$ctrl.sidebarElements[3].name}}
+      </h4>
+      <div class="row centralized">
+        <span class="col-lg-3" ng-click="$ctrl.changeTheme('bespin')">
+          <img class="imageTheme" src="/css/icons/bespin.png" />
+          <div>Bespin</div>
+          <div ng-show="$ctrl.theme == 'bespin'" style="color: #3C763D;">Selected</div>
+          <div ng-show="$ctrl.theme != 'bespin'">Unlocked</div>
+        </span>
+        <span class="col-lg-3" ng-click="$ctrl.changeTheme('material')">
+          <img class="imageTheme" src="/css/icons/material.png" />
+          <div>Material</div>
+          <div ng-show="$ctrl.theme == 'material'" style="color: #3C763D;">Selected</div>
+          <div ng-show="$ctrl.theme != 'material'">Unlocked</div>
+        </span>
+        <span class="col-lg-3" ng-click="$ctrl.changeTheme('mdn-like')">
+          <img class="imageTheme" src="/css/icons/mdn.png" />
+          <div>Mdn-like</div>
+          <div ng-show="$ctrl.theme == 'mdn-like'" style="color: #3C763D;">Selected</div>
+          <div ng-show="$ctrl.theme != 'mdn-like'">Unlocked</div>
+        </span>
+        <span class="col-lg-3" ng-click="$ctrl.changeTheme('solarized')">
+          <img class="imageTheme" src="/css/icons/solarized.png" />
+          <div>Solarized</div>
+          <div ng-show="$ctrl.theme == 'solarized'" style="color: #3C763D;">Selected</div>
+          <div ng-show="$ctrl.theme != 'solarized'">Unlocked</div>
+        </span>
+      </div>
+
+      </divclass>
+
+
+    </div>
+
+
+  </div>

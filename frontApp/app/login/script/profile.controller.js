@@ -1,9 +1,10 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('profileController', function ($scope, authService, $state) {
+  .controller('profileController', function ($scope, authService, $state, $rootScope) {
 
     var $ctrl = this;
 
+    $ctrl.theme = $rootScope.localTheme;
     $ctrl.busy = true;
     $ctrl.user = authService.getUser();
 
@@ -37,16 +38,12 @@ angular.module("easyVim.login")
 
     };
 
+    $ctrl.changeTheme = function (theme) {
 
+      $ctrl.theme = theme;
+      $rootScope.localTheme = theme;
 
-
-
-
-
-
-
-
-
+    };
 
     $ctrl.logout = function () {
       $ctrl.busy = true;

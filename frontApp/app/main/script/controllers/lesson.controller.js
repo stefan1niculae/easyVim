@@ -7,6 +7,9 @@
 angular.module('easyVimWeb')
   .controller('lessonController', function ($scope, mainService, $rootScope) {
 
+    $scope.localTheme = $rootScope.localTheme;
+    console.log("LOCAL THEME", $scope.localTheme)
+
     $scope.busy = false;
     $scope.lessons = [];
     $scope.currentLesson = {

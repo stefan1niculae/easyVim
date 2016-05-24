@@ -6,7 +6,7 @@ const _ = require('lodash');
 const fs = require("fs");
 const Promise = require('bluebird');
 
-let promisses = [];
+let promises = [];
 
 const generator = function () {
     const contents = fs.readFileSync("./content/commands by section.json");
@@ -20,7 +20,7 @@ const generator = function () {
             extraInfo: "TODO"
         });
 
-        promisses.push(dbSection.save());
+        promises.push(dbSection.save());
 
         _.forEach(section.commands, function (command, index) {
 
@@ -39,11 +39,11 @@ const generator = function () {
                 section: dbSection
             });
 
-            promisses.push(dbCommand.save());
+            promises.push(dbCommand.save());
         })
     });
 
-    return Promise.all(promisses);
+    return Promise.all(promises);
 };
 
 module.exports = generator;

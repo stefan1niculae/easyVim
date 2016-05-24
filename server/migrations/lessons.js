@@ -22,7 +22,7 @@ function generateLessons(commandModels) {
     const contents = fs.readFileSync("./content/lessons by chapter.json");
     const chapters = JSON.parse(contents).chapters;
 
-    let promisses = [];
+    let promises = [];
 
     _.forEach(chapters, function (chapter, index) {
         const dbChapter = new Chapter({
@@ -31,7 +31,7 @@ function generateLessons(commandModels) {
             xpAwarded: chapter.xpAwarded
         });
 
-        promisses.push(dbChapter.save());
+        promises.push(dbChapter.save());
 
         _.forEach(chapter.lessons, function (lesson, index) {
             const content = fs.readFileSync("./content/lesson content/" + lesson.name.toLowerCase() + ".md", "utf-8");
@@ -50,11 +50,11 @@ function generateLessons(commandModels) {
                 content: content
             });
 
-            promisses.push(dbLesson.save());
+            promises.push(dbLesson.save());
         });
     });
 
-    return Promise.all(promisses);
+    return Promise.all(promises);
 };
 
 module.exports = generator;

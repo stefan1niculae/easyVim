@@ -1,6 +1,8 @@
 "use strict";
 
 const mongoose = require('mongoose');
+const section = require('./commandSection');
+const lesson = require('./lesson');
 
 const commandSchema = new mongoose.Schema({
     key: {
@@ -9,6 +11,15 @@ const commandSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        required: ''
+    },
+    section: {
+        type: section.schema,
+        required: '',
+        ref: 'commands'
+    },
+    order: {
+        type: Number,
         required: ''
     }
 });

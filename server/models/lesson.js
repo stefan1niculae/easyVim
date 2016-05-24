@@ -11,7 +11,6 @@ const lessonSchema = new mongoose.Schema({
     },
     condition: {
         type: String,
-        required: ''
     },
     chapter: {
         type: chapter.schema,

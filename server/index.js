@@ -2,9 +2,6 @@
 
 require("dotenv").load();
 
-const cheatSheet = require('./migrations/cheatSheet');
-const lessons = require('./migrations/lesson');
-
 const User = require('./models/user');
 
 const express = require('express');
@@ -26,6 +23,8 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 
 
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
+Promise.promisifyAll(mongoose);
 
 mongoose.connect(mongoUrl);
 mongoose.connection.on('error', function (err) {
@@ -33,8 +32,21 @@ mongoose.connection.on('error', function (err) {
     process.exit(1);
 });
 mongoose.connection.once('open', function (next) {
-    //cheatSheet();
-    //lessons();
+
+    require("./migrations/commands")()
+        .then(() => {
+            return require("./migrations/lessons")();
+        })
+        .then(() => {
+            return require("./migrations/editorThemes")()
+        })
+        .catch(function (err) {
+            console.log("ERROR AT MIGRATIONS", err);
+        })
+        .finally(function () {
+            console.log("MIGRATION COMPLETE");
+        });
+
     logger.info('Connected to Mongo database');
 });
 
@@ -49,13 +61,13 @@ passport.use(new FacebookStrategy({
         User.find({facebookId: profile.id}, function (err, docs) {
             let newUser = {};
 
-            if(docs.length) {
+            if (docs.length) {
                 newUser = docs[0];
                 newUser.name = profile.displayName;
                 newUser.picture = profile.photos[0].value
             }
             else {
-                 newUser = new User({
+                newUser = new User({
                     facebookId: profile.id,
                     name: profile.displayName,
                     picture: profile.photos[0].value

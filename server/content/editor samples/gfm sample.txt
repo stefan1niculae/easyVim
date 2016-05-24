@@ -1,0 +1,50 @@
+# H1
+###### H6
+
+Alt-H1
+======
+
+Alt-H2
+------
+
+*emphasis* or _emphasis_
+**strong** or **strong**
+~~striketrhough~~ with double tildas
+
+* unordered
+- unordered
++ unordered
+
+
+> quote
+still quote
+
+1. numbered
+2. numbered
+
+[inline link](google.com)
+[with title](google.com "Google")
+to be referenced
+[text reference][to be referenced]
+
+www.google.com
+[look at the site][1]
+[1]: http://site.com
+[link text itself]: http://www.reddit.com
+
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text][logo]
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+
+
+
+---
+Hyphens
+three or more dashes with a newline before
+
+***
+Asterisks
+
+___
+underscores

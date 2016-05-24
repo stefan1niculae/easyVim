@@ -77,7 +77,7 @@
 
                 {
                     "name": "Anchor Navigation",
-                    "commands": ["f", "F", "t", "T"],
+                    "commands": ["f{c}", "F{c}", "t{c}", "T{c}"],
                     "condition":  "Do 5 finds and 5 tills"
                 },
 
@@ -148,7 +148,7 @@
 
                 {
                     "name": "Files",
-                    "commands": ["vi", "vim", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e", ":vs", ":split"]
+                    "commands": ["vi {f}", "vim {f}", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e {f}", ":vs {f}", ":split {f}"]
                 }
             ]
         }

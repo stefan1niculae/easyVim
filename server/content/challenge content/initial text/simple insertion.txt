@@ -1,0 +1,10 @@
+*temp var1 0
+*temp var2 "hi"
+*temp var3 -1
+*temp var4 42
+*temp var5 "asdf"
+*temp var6 0
+
+abc
+
+def

@@ -18,6 +18,10 @@ const editorThemeSchema = new mongoose.Schema({
     price: {
         type: Number,
         default: 0
+    },
+    order: {
+        type: Number,
+        required: ''
     }
 });
 

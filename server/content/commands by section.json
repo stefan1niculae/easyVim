@@ -1,0 +1,837 @@
+{
+  "sections": [
+    {
+      "name": "meta",
+      "commands": [
+        {
+          "command structure": "[<count>] [<command>] <motion | text object>"
+        },
+        {
+          "^{char}": "Ctrl + {char}"
+        },
+        {
+          "S-{char}": "Shift + {char}"
+        },
+        {
+          "A-{char}": "Alt + {char}"
+        },
+        {
+          "{uppercase}": "S-{lowercase}"
+        },
+        {
+          "{argument}": "replace with appropriate value"
+        },
+        {
+          "[count]": "these commands can be repeated by preceding them with count"
+        },
+        {
+          "buffer": "file"
+        },
+        {
+          "smart-case": "case-insensitive unless it contains an uppercase, then case-sensitive"
+        }
+      ]
+    },
+    {
+      "name": "commands",
+      "commands": [
+        {
+          "_extraInfo": [
+            "[count]"
+          ]
+        },
+        {
+          "c": "change (takes motion)"
+        },
+        {
+          "d": "delete (cut) (takes motion)"
+        },
+        {
+          "D": "delete (cut) from cursor to end of line"
+        },
+        {
+          "y": "yank (copy) (takes motion)"
+        },
+        {
+          "Y": "yank (copy) from cursor to end of line"
+        },
+        {
+          "_extraInfo": "uppercase C D Y act from cursor to end of line (by default Y the whole line)"
+        },
+        {
+          "p": "put (paste) after cursor"
+        },
+        {
+          "P": "put (paste) before cursor"
+        },
+        {
+          "x": "delete (cut) character after cursor (mapped to <Del>)"
+        },
+        {
+          "X": "delete (cut) character before cursor (mapped to <BS>)"
+        },
+        {
+          ".": "repeat last command"
+        }
+      ]
+    },
+    {
+      "name": "text objects",
+      "commands": [
+        {
+          "_extraInfo": [
+            "[count]"
+          ]
+        },
+        {
+          "w": "word"
+        },
+        {
+          "s": "sentence"
+        },
+        {
+          "p": "paragraph"
+        },
+        {
+          "\"": "double-quote"
+        },
+        {
+          "'": "single-quote"
+        },
+        {
+          "(": "parenthesis (also ), also b)"
+        },
+        {
+          "{": "curly brace (also }, also B)"
+        },
+        {
+          "[": "square bracket (also ])"
+        },
+        {
+          "<": "angled bracket (also >)"
+        },
+        {
+          "t": "XML/HTML tag"
+        },
+        {
+          ",w": "camelCase/snake_case word"
+        },
+        {
+          "a": "argument"
+        },
+        {
+          "i": "indentation level"
+        },
+        {
+          "{cmd}{cmd}": "double-command acts on entire line"
+        }
+      ]
+    },
+    {
+      "name": "object modifiers",
+      "commands": [
+        {
+          "_extraInfo": [
+            "example: a bb    c (cursor on second b)",
+            "delimiters = whitespace for w s p , quotes for \" ’, brackets for ( { [, tag for t"
+          ]
+        },
+        {
+          "a": "include surrounding delimiter (daw => a c)"
+        },
+        {
+          "i": "doesn’t include delimiter (diw => a    c). from current cursor position to end of text object (dw => a bc)"
+        }
+      ]
+    },
+    {
+      "name": "editing",
+      "commands": [
+        {
+          "i": "insert before cursor"
+        },
+        {
+          "I": "insert at start of line"
+        },
+        {
+          "a": "append after cursor"
+        },
+        {
+          "A": "append at end of line"
+        },
+        {
+          "o": "open new line below (takes count)"
+        },
+        {
+          "O": "open new line above (takes count)"
+        },
+        {
+          "R": "replace mode"
+        },
+        {
+          "r": "replace single character"
+        },
+        {
+          "s": "substitute"
+        },
+        {
+          "S": "substitute line"
+        },
+        {
+          "C": "change to end of line"
+        },
+        {
+          "Esc": "enter normal mode"
+        }
+      ]
+    },
+    {
+      "name": "movement: motions",
+      "commands": [
+        {
+          "_extraInfo": [
+            "[count]",
+            "Toggling wrapping off will allow moving left/right in a line whether there is a character under the cursor or not.",
+            "word = sequence of letters, digits and underscores",
+            "WORD = sequence of non-blank character separated by whitespace (can contain punctuation)",
+            "j k 0 $ move on displayed (wrapped) lines."
+          ]
+        },
+        {
+          "{count}{motion}": "does the {motion} repeatd {count} times"
+        },
+        {
+          "h": "left one character"
+        },
+        {
+          "l": "right one character"
+        },
+        {
+          "j": "down one row"
+        },
+        {
+          "k": "up one row"
+        },
+        {
+          "w": "start of next word"
+        },
+        {
+          "W": "start of next WORD"
+        },
+        {
+          "b": "start of previous word"
+        },
+        {
+          "B": "start of previous WORD"
+        },
+        {
+          "e": "end of word"
+        },
+        {
+          "E": "end of WORD"
+        },
+        {
+          "ge": "end of previous wod"
+        },
+        {
+          ")": "sentence backwards"
+        },
+        {
+          ")": "sentence forwards"
+        },
+        {
+          "{": "beginning of paragraph/paragraph backwards"
+        },
+        {
+          "}": "end of paragraph/paragraph forwards"
+        },
+        {
+          "0": "beginning of line"
+        },
+        {
+          "$": "end of line"
+        },
+        {
+          "^": "first non-blank character of the line"
+        },
+        {
+          "_": "same as ^, but can take a count to go to a different line"
+        },
+        {
+          "g_": "last non-blank char of the line (can also take a count)"
+        },
+        {
+          "gg": "first line"
+        },
+        {
+          "G": "last line (mapped to move to the end of last line)"
+        },
+        {
+          "{count}G": "{count}th line"
+        },
+        {
+          "{n}%": "{n}th percentage of file"
+        }
+      ]
+    },
+    {
+      "name": "movement: positioning",
+      "commands": [
+        {
+          "H": "top of screen"
+        },
+        {
+          "M": "middle of screen"
+        },
+        {
+          "L": "bottom of screen"
+        },
+        {
+          "zt": "put the line with the cursor at the top"
+        },
+        {
+          "zz": "put the line with the cursor at the center (z. also moves cursor at beginning of line)"
+        },
+        {
+          "zb": "put the line with the cursor at the bottom of the screen"
+        }
+      ]
+    },
+    {
+      "name": "movement: jumping",
+      "commands": [
+        {
+          "_extraInfo": [
+            "[count]",
+            "these move among current line"
+          ]
+        },
+        {
+          "^u": "up half-page"
+        },
+        {
+          "^d": "down half-page"
+        },
+        {
+          "^b": "backward one page (page up)"
+        },
+        {
+          "^f": "forward one page (page down)"
+        },
+        {
+          "^o": "jump to last cursor position"
+        },
+        {
+          "^i": "jump to next cursor position"
+        },
+        {
+          "%": " matching bracket {  } [  ] (  )"
+        },
+        {
+          "^o": "jump back"
+        },
+        {
+          "^i": "jump forward"
+        },
+        {
+          "gi": "last place of insertion"
+        },
+        {
+          "f{c}": "first occurrence of character {c} to the right"
+        },
+        {
+          "F{c}": "first occurrence of character {c} to the left"
+        },
+        {
+          "t{c}": "till before character {c} to the right (doesn’t include {c})"
+        },
+        {
+          "T{c}": "till before character {c} to the left (doesn’t include {c})"
+        },
+        {
+          ";": "repeat last f F t or T"
+        },
+        {
+          ",": "repeat last f F t or T in the opposite direction"
+        }
+      ]
+    },
+    {
+      "name": "selection",
+      "commands": [
+        {
+          "v": "enter visual selection mode"
+        },
+        {
+          "V": "enter visual line selection mode"
+        },
+        {
+          "^v": "enter visual block mode"
+        },
+        {
+          "gv": "reselect last selection"
+        }
+      ]
+    },
+    {
+      "name": "indentation & casing",
+      "commands": [
+        {
+          "_extraInfo": [
+            "[count]"
+          ]
+        },
+        {
+          ">>": "indent (map Tab)"
+        },
+        {
+          "<<": "unindent line (map S-Tab)"
+        },
+        {
+          "^t": "insert mode indent"
+        },
+        {
+          "^d": "insert mode unindent"
+        },
+        {
+          "==": "indent according to current guide"
+        },
+        {
+          "~": "switch case"
+        },
+        {
+          "gU": "make uppercase"
+        },
+        {
+          "gu": "make lowercase"
+        }
+      ]
+    },
+    {
+      "name": "search & replace",
+      "commands": [
+        {
+          "_extraInfo": [
+            "[count]",
+            "\\c or \\C  specifies case sensitivity (default smart-case)"
+          ]
+        },
+        {
+          "/": "first occurrence of pattern"
+        },
+        {
+          "?": "backward search for first occurrence of pattern"
+        },
+        {
+          "/<CR>": "search for last used pattern (?<CR> for backwards)"
+        },
+        {
+          ":noh": "clear highlight"
+        },
+        {
+          "n": "next matching search pattern"
+        },
+        {
+          "N": "previous matching search pattern"
+        },
+        {
+          "*": "next occurrence of word under cursor"
+        },
+        {
+          "#": "previous occurrence of word under cursor"
+        },
+        {
+          "g*": "next matching search pattern under cursor"
+        },
+        {
+          "g#": "previous matching search pattern under cursor"
+        },
+        {
+          ":[range]s/{old}/{new}/[args]": "substitute all occurrences {old} with {new} on each line in range. when {old} is empty, last searched pattern is used (from/ ? * # etc)"
+        },
+        {
+          ":s": ":[range]s/{old}/{new}/[args] -> substitute all occurrences {old} with {new} on each line in range. when {old} is empty, last searched pattern is used (from/ ? * # etc)"
+        },
+        {
+          ":%s": "substitute on current line"
+        },
+        {
+          "range: .": "current line (this is default)"
+        },
+        {
+          "range: n": "absolute line number"
+        },
+        {
+          "range: $": "last line"
+        },
+        {
+          "range: %": "entire file (also 1,$)"
+        },
+        {
+          "range: *": "visual area (also '<,'>)"
+        },
+        {
+          "range: '{m}": "mark m"
+        },
+        {
+          "range: /{p}": "next line where pattern p matches"
+        },
+        {
+          "range: ?{p}": "previous line where pattern p matches"
+        },
+        {
+          "range: +|-{n}": "n is added/subtracted from the preceding line number (1 if omitted)"
+        },
+        {
+          "range: .,.5 (same as .,.+5) means current line and 5 more below (inclusive, six total)": "args"
+        },
+        {
+          "args: c": "confirm each. (yes/no/all remaining/quit & keep changes/last/^e, ^y scroll up, down)"
+        },
+        {
+          "args: g": "global, only first occurrence in the line (by default, this behaviour is inverted)"
+        },
+        {
+          "args: i": "ignore case"
+        },
+        {
+          "args: I": "don’t ignore case"
+        },
+        {
+          "&": "repeat last substitution on current line"
+        },
+        {
+          ":[range]d": "delete range"
+        },
+        {
+          ":[range]{mode}/{pattern}/{cmd}": "applies command to matched pattern in range"
+        },
+        {
+          "mode: g": "global"
+        },
+        {
+          "mode: v": "inverse (doesn’t match) (also g!)"
+        },
+        {
+          "cmd: p": "print lines"
+        },
+        {
+          "cmd: d": "delete lines"
+        }
+      ]
+    },
+    {
+      "name": "regexes",
+      "commands": [
+        {
+          "\\|": "alternation (a | b matches a or b)"
+        },
+        {
+          "metachar: .": "any character (except end-of-line)"
+        },
+        {
+          "metachar: ^ ": "start of line"
+        },
+        {
+          "metachar: $": "end of line"
+        },
+        {
+          "metachar: \\<{w}\\>": "whole word w"
+        },
+        {
+          "metachar: %^": "start of file"
+        },
+        {
+          "metachar: %$": "end of file"
+        },
+        {
+          "metachar: \\s": "whitespace (space and tab)"
+        },
+        {
+          "metachar: \\d": "digit (0-9) (\\x for hex, \\o for octal)"
+        },
+        {
+          "metachar: \\h": "head of word (a-z, A-Z and _)"
+        },
+        {
+          "metachar: \\w": "word (a-z, A-Z, 0-9 and _)"
+        },
+        {
+          "metachar: \\a": "alphabetic"
+        },
+        {
+          "metachar: \\l": "lowercase"
+        },
+        {
+          "metachar: \\u": "uppercase"
+        },
+        {
+          "metachar: \\p": "printable"
+        },
+        {
+          "metachar: \\i": "identifier"
+        },
+        {
+          "metachar: \\k": "keyword"
+        },
+        {
+          "metachar: \\f": "file name"
+        },
+        {
+          "metachar: \\{uppercase}": "non-{lowercase} (\\S matches non-whitespace)"
+        },
+        {
+          "quantifiers": "apply to preceding character/range/metachar}"
+        },
+        {
+          "quantifier: *": "zero or more"
+        },
+        {
+          "quantifier: \\+": "one or more"
+        },
+        {
+          "quantifier: \\?": "zero or one (also =)"
+        },
+        {
+          "quantifier: \\{n, m\\}": "from n to m"
+        },
+        {
+          "quantifier: \\{n\\}": "exactly n times"
+        },
+        {
+          "quantifier: \\{,m\\}": "at most m (from zero to m)"
+        },
+        {
+          "quantifier: \\{n,\\}": "at least n"
+        },
+        {
+          "_extraInfo": [
+            "these quantifiers are greedy (match as much text as possible). eg in 'abc' 123 'xyz': '.*' will match 'abc' 123 'xyz': '.{-}' will match 'abc'"
+          ]
+        },
+        {
+          "{-}": "zero or more, match as short as possible. if - appears immediately after {, then the match is non-greedy ({-n, m}, {-, m} etc)"
+        },
+        {
+          "range: [chrs]": "any character in chrs ([ab8] matches any of a, b or 8)"
+        },
+        {
+          "range: [a-b]": "any character in the range [a, b], ASCII order ([a-z0-9] matches digits and lowercases)"
+        },
+        {
+          "range: [^chrs]": "any character not in chrs ([^ab] matches anything but a and b)"
+        },
+        {
+          "backref: \\(\\ )": "create group"
+        },
+        {
+          "backref: &": "whole matched pattern (also \\0)"
+        },
+        {
+          "backref: \\1": "matched pattern in the first pair of ( ) (\\2 second pair … \\9 ninth pair)"
+        },
+        {
+          "escaping": "in order to match the literal character"
+        },
+        {
+          "( ) { } < > + - = / * , | ! @ # % & _ : ; \" ' ? `": "don’t need escaping"
+        },
+        {
+          "[ ] . \\ ~": "need escaping"
+        },
+        {
+          "^ $ ": "need escaping only if they are the first/last char respectively"
+        }
+      ]
+    },
+    {
+      "name": "history",
+      "commands": [
+        {
+          "u": "undo"
+        },
+        {
+          "^r": "redo"
+        }
+      ]
+    },
+    {
+      "name": "marks",
+      "commands": [
+        {
+          "m{l}": "set mark l (lowercase letter) at cursor position"
+        },
+        {
+          "m'": "set previous context mark (also m` )"
+        },
+        {
+          ":[range]ma {l}": "set mark l as last line number in range, column zero (also :[range]k{l})"
+        },
+        {
+          "`{l}": "to the mark l"
+        },
+        {
+          "'{l}": "to first non-blank character on line with mark l"
+        }
+      ]
+    },
+    {
+      "name": "registers",
+      "commands": [
+        {
+          "\"{reg}": "register TODO"
+        },
+        {
+          "\"{l}<cmd>": "put text in register l"
+        },
+        {
+          "{l}": "digit or lowercase (appends when uppercase)"
+        },
+        {
+          "<cmd>": "yank/change/delete and motion"
+        },
+        {
+          "\"{l}p": "paste contents of register l (in insert/command mode, <^R>{l})"
+        },
+        {
+          "_extraInfo": [
+            "yanking and omitting a register puts the text in the zero register",
+            "deleting/changing puts the text in the 1 register, pushing downwards previous contents (to 2, 3, etc)",
+            "yanking/deleting/changing also puts the text in the unnamed register",
+            ":reg - show named registers and contents"
+          ]
+        },
+        {
+          "reg: \"\"": "unnamed"
+        },
+        {
+          "reg: \"+": "system clipboard (or \"*)"
+        },
+        {
+          "reg: \".": "last inserted text"
+        },
+        {
+          "reg: \"/": "last search (with / ? * or #)"
+        },
+        {
+          "reg: \":": "last command"
+        },
+        {
+          "reg: \"%": "current file path (\"# is the alternate file path)"
+        },
+        {
+          "reg: \"-": "small delete (less than one line)"
+        },
+        {
+          "reg: \"_": "black hole (like /dev/null)"
+        },
+        {
+          "reg: \"=": "result of expression (insert <^R>=2+2<CR> prints 4)"
+        }
+      ]
+    },
+    {
+      "name": "macros",
+      "commands": [
+        {
+          "q{reg}": "start recording into register l"
+        },
+        {
+          "q": "stop recording"
+        },
+        {
+          "@{reg}": "play macro in register l, takes count"
+        },
+        {
+          "@@": "repeat last playback"
+        },
+        {
+          ":[range] normal @{l}": "execute macro on each line in range"
+        },
+        {
+          "function": "function! f(); normal <command pasted from register it was recorded into>; endfunction"
+        },
+        {
+          "save macro as a function": "nnoremap <Leader>f :call f()<CR>"
+        }
+      ]
+    },
+    {
+      "name": "spelling",
+      "commands": [
+        {
+          ":set spell!": "toggle spell checking (mapped to F5)"
+        },
+        {
+          "]s": "next spelling error"
+        },
+        {
+          "[s": "previous spelling error"
+        },
+        {
+          "=z": "list of suggestions when cursor on misspelled word (1=z corrects with first suggestion)"
+        },
+        {
+          "zg": "add word to spell file (zug reverses)"
+        },
+        {
+          "zw": "remove word from spell file (zuw reverses)"
+        },
+        {
+          "_extraInfo": "default spell file is ~/.vim/spell/en.utf-8.add"
+        }
+      ]
+    },
+    {
+      "name": "files",
+      "commands": [
+        {
+          "gf": "find file under cursor and jump to it"
+        }
+      ]
+    },
+    {
+      "name": "exiting",
+      "commands": [
+        {
+          ":w": "write (save), don’t exit"
+        },
+        {
+          ":q": "quit (prompts on unsaved changes)"
+        },
+        {
+          ":q!": "quit and discard changes (also ZQ)"
+        },
+        {
+          ":wq": "write and quit (also :x, also ZZ)"
+        },
+        {
+          ":x": "write and quit (also :wq, also ZZ)"
+        },
+        {
+          "ZZ": "write and quit (also :x, also :wq)"
+        }
+      ]
+    },
+    {
+      "name": "opening",
+      "commands": [
+        {
+          ":e {f}": "open/create file f in the current buffer"
+        },
+        {
+          "vi {f}": "(in terminal) open/create file f (vi in aliased to vim usually)"
+        },
+        {
+          "vim {f}": "(in terminal) open/create file f"
+        },
+        {
+          ":split {f}": "horizontally split the screen and open/create the file f"
+        },
+        {
+          ":vs {f}": "vertically split the screen and open/create the file f"
+        }
+      ]
+    }
+  ]
+}

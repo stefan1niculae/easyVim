@@ -1,0 +1,28 @@
+{
+  "themes": [
+    {
+      "displayName": "Solarized",
+      "previewPicPath": "solarized.png",
+      "codename": "solarized light",
+      "price": 0
+    },
+    {
+      "displayName": "Material",
+      "previewPicPath": "material.png",
+      "codename": "material",
+      "price": 150
+    },
+    {
+      "displayName": "MDN",
+      "previewPicPath": "mdn.png",
+      "codename": "mdl-like",
+      "price": 100
+    },
+    {
+      "displayName": "Bespin",
+      "previewPicPath": "bespin.png",
+      "codename": "bespin",
+      "price": 100
+    }
+  ]
+}

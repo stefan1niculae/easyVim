@@ -1,7 +1,6 @@
 "use strict";
 
 const mongoose = require('mongoose');
-const command = require('./command');
 
 const commandSectionSchema = new mongoose.Schema({
     name: {
@@ -9,10 +8,9 @@ const commandSectionSchema = new mongoose.Schema({
         required: ''
     },
     extraInfo: String,
-    commands: {
-        type: [command.schema],
-        default: '',
-        ref: 'section'
+    order: {
+        type: Number,
+        required: ''
     }
 });
 

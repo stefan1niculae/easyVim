@@ -28,7 +28,8 @@ function generateLessons(commandModels) {
         const dbChapter = new Chapter({
             name: chapter.name,
             order: index + 1,
-            xpAwarded: chapter.xpAwarded
+            xpAwarded: chapter.xpAwarded,
+            goldAwarded: chapter.goldAwarded
         });
 
         promises.push(dbChapter.save());
@@ -40,7 +41,7 @@ function generateLessons(commandModels) {
                 name: lesson.name,
                 commands: _.map(lesson.commands, function (command) {
                     if (commandModels[command] === void 0)
-                        console.log(command)
+                        console.log(command);
 
                     return commandModels[command];
                 }),

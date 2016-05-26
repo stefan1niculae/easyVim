@@ -20,7 +20,11 @@ const challengeDifficultySchema = new mongoose.Schema({
         type: Number,
         required: ''
     },
-    completionReward: {
+    completionGold: {
+        type: Number,
+        required: ''
+    },
+    completionExperience: {
         type: Number,
         required: ''
     }

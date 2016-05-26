@@ -2,7 +2,8 @@
     "chapters": [
         {
             "name": "introductory",
-            "xpAwarded": 10,
+            "xpAwarded": 50,
+            "goldAwarded": 5,
             "lessons": [
                 {
                     "name": "Vim and EasyVim",
@@ -35,7 +36,8 @@
 
         {
             "name": "beginner",
-            "xpAwarded": 20,
+            "xpAwarded": 100,
+            "goldAwarded": 10,
             "lessons": [
                 {
                     "name": "Basic Movement",
@@ -67,7 +69,8 @@
 
         {
             "name": "intermediate",
-            "xpAwarded": 30,
+            "xpAwarded": 200,
+            "goldAwarded": 15,
             "lessons": [
                 {
                     "name": "Document Navigation",
@@ -113,7 +116,8 @@
 
         {
             "name": "expert",
-            "xpAwarded": 50,
+            "xpAwarded": 500,
+            "goldAwarded": 25,
             "lessons": [
                 {
                     "name": "Replacing",
@@ -132,7 +136,8 @@
 
         {
             "name": "files",
-            "xpAwarded": 25,
+            "xpAwarded": 150,
+            "goldAwarded": 15,
             "lessons": [
                 {
                     "name": "Macros",

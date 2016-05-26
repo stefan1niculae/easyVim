@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const challengeDifficulty = require('./challengeDifficulty');
 
 const challengeSchema = new mongoose.Schema({
-    number: {
-        type: Number,
+    name: {
+        type: String,
         required: ''
     },
     description: {
@@ -30,5 +30,5 @@ const challengeSchema = new mongoose.Schema({
 
 module.exports = {
     model: mongoose.model('Challenge', challengeSchema),
-    schema: levelSchema
+    schema: challengeSchema
 };

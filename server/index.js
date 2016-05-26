@@ -33,6 +33,7 @@ mongoose.connection.on('error', function (err) {
 });
 mongoose.connection.once('open', function (next) {
 
+    //noinspection JSUnresolvedFunction
     require("./migrations/commands")()
         .then(() => {
             return require("./migrations/lessons")();

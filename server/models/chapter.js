@@ -15,6 +15,10 @@ const chapterSchema  = new mongoose.Schema({
     xpAwarded: {
         type: Number,
         required: ''
+    },
+    goldAwarded: {
+        type: Number,
+        required: ''
     }
 });
 

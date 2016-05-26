@@ -13,7 +13,7 @@ const generator = function () {
 
     _.forEach(themes, function (theme, index) {
         theme.order = index + 1;
-        const dbTheme = new EditorTheme(theme) ;
+        const dbTheme = new EditorTheme(theme);
         promises.push(dbTheme.save());
     });
     return Promise.all(promises);

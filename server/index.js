@@ -47,6 +47,9 @@ mongoose.connection.once('open', function (next) {
         .then(() => {
             return require("./migrations/challenges")();
         })
+        .then(() => {
+            return require("./migrations/achievements")();
+        })
         .catch(function (err) {
             console.log("ERROR AT MIGRATIONS", err);
         })

@@ -14,6 +14,10 @@ const achievementSchema = new mongoose.Schema({
     picturePath: {
         type: String,
         required: ''
+    },
+    order: {
+        type: Number,
+        required: ''
     }
 });
 

@@ -86,18 +86,21 @@
 
                 {
                     "name": "Selecting",
-                    "commands": ["v", "V"]
+                    "commands": ["v", "V"],
+                    "condition":  "Make 5 selections"
+
                 },
 
                 {
                     "name": "Deleting and Changing",
-                    "commands": ["d", "D", "c", "C", "x", "r"]
+                    "commands": ["d", "D", "c", "C", "x", "r"],
+                    "condition":  "Make 5 deletions and 5 changes"
                 },
 
                 {
                     "name": "Copying and Pasting",
                     "commands": ["y", "Y", "p", "P"],
-                    "condition": ""
+                    "condition": "Copy and paste 5 times"
                 },
 
                 {
@@ -148,15 +151,16 @@
 
                 {
                     "name": "Registers",
-                    "commands": ["\"{reg}"]
+                    "commands": ["\"{reg}"],
+                    "condition":  "TODO"
                 },
 
                 {
                     "name": "Files",
-                    "commands": ["vi {f}", "vim {f}", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e {f}", ":vs {f}", ":split {f}"]
+                    "commands": ["vi {f}", "vim {f}", ":w", ":q", ":wq", ":x", "ZZ", ":q!", ":e {f}", ":vs {f}", ":split {f}"],
+                    "condition":  "N/A"
                 }
             ]
         }
     ]
 }
-

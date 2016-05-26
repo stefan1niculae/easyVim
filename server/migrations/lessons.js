@@ -56,6 +56,6 @@ function generateLessons(commandModels) {
     });
 
     return Promise.all(promises);
-};
+}
 
 module.exports = generator;

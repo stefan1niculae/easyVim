@@ -41,6 +41,9 @@ mongoose.connection.once('open', function (next) {
         .then(() => {
             return require("./migrations/editorThemes")()
         })
+        .then(() => {
+            return require("./migrations/levels")()
+        })
         .catch(function (err) {
             console.log("ERROR AT MIGRATIONS", err);
         })

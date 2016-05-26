@@ -25,9 +25,9 @@ const generator = function () {
 
 
         _.forEach(difficulty.challenges, function(challenge){
-            const basePath = "./challenge content";
-            const startingText = fs.readFileSync(`${basePath}/initial text/${challenge.name.toLowerCase()}.txt`);
-            const targetText = fs.readFileSync(`${basePath}/target text/${challenge.name.toLowerCase()}.txt`);
+            const basePath = "./content/challenge content";
+            const startingText = fs.readFileSync(`${basePath}/initial text/${challenge.name.toLowerCase()}.txt`, "utf-8");
+            const targetText = fs.readFileSync(`${basePath}/target text/${challenge.name.toLowerCase()}.txt`, "utf-8");
 
             const dbChallenge = new Challenge({
                 name: challenge.name,

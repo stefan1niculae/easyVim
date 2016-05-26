@@ -39,10 +39,13 @@ mongoose.connection.once('open', function (next) {
             return require("./migrations/lessons")();
         })
         .then(() => {
-            return require("./migrations/editorThemes")()
+            return require("./migrations/editorThemes")();
         })
         .then(() => {
-            return require("./migrations/levels")()
+            return require("./migrations/levels")();
+        })
+        .then(() => {
+            return require("./migrations/challenges")();
         })
         .catch(function (err) {
             console.log("ERROR AT MIGRATIONS", err);

@@ -10,7 +10,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const connectEnsureLogin = require('connect-ensure-login');
 
-
 const app = express();
 
 const port = process.env.PORT;
@@ -21,10 +20,12 @@ const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 Promise.promisifyAll(mongoose);
+
+
+const userService = require('./services/userService');
 
 mongoose.connect(mongoUrl);
 mongoose.connection.on('error', function (err) {
@@ -34,28 +35,28 @@ mongoose.connection.on('error', function (err) {
 mongoose.connection.once('open', function (next) {
 
     //noinspection JSUnresolvedFunction
-    require("./migrations/commands")()
-        .then(() => {
-            return require("./migrations/lessons")();
-        })
-        .then(() => {
-            return require("./migrations/editorThemes")();
-        })
-        .then(() => {
-            return require("./migrations/levels")();
-        })
-        .then(() => {
-            return require("./migrations/challenges")();
-        })
-        .then(() => {
-            return require("./migrations/achievements")();
-        })
-        .catch(function (err) {
-            console.log("ERROR AT MIGRATIONS", err);
-        })
-        .finally(function () {
-            console.log("MIGRATION COMPLETE");
-        });
+    //require("./migrations/commands")()
+    //    .then(() => {
+    //        return require("./migrations/lessons")();
+    //    })
+    //    .then(() => {
+    //        return require("./migrations/editorThemes")();
+    //    })
+    //    .then(() => {
+    //        return require("./migrations/levels")();
+    //    })
+    //    .then(() => {
+    //        return require("./migrations/challenges")();
+    //    })
+    //    .then(() => {
+    //        return require("./migrations/achievements")();
+    //    })
+    //    .catch(function (err) {
+    //        console.log("ERROR AT MIGRATIONS", err);
+    //    })
+    //    .finally(function () {
+    //        console.log("MIGRATION COMPLETE");
+    //    });
 
     logger.info('Connected to Mongo database');
 });
@@ -68,27 +69,10 @@ passport.use(new FacebookStrategy({
 
     },
     function (accessToken, refreshToken, profile, done) {
-        User.find({facebookId: profile.id}, function (err, docs) {
-            let newUser = {};
-
-            if (docs.length) {
-                newUser = docs[0];
-                newUser.name = profile.displayName;
-                newUser.picture = profile.photos[0].value
-            }
-            else {
-                newUser = new User({
-                    facebookId: profile.id,
-                    name: profile.displayName,
-                    picture: profile.photos[0].value
-                });
-            }
-
-            newUser.save(function (err, elem) {
-                return done(err, elem);
+        return userService.createOrUpdateUser(profile)
+            .then(function (elem) {
+                done(null, elem);
             });
-        })
-
     }
 ));
 
@@ -153,9 +137,9 @@ app.get('/auth/logout',
         });
     });
 
-// app.use('/api', connectEnsureLogin.ensureLoggedIn(
-//     {sendHTTPCode: true}), router);
-app.use('/api', router);
+app.use('/api', connectEnsureLogin.ensureLoggedIn(
+    {sendHTTPCode: true}), router);
+//app.use('/api', router);
 
 // catch 404 and forward to error handler
 //app.use(function (err, req, res, next) {

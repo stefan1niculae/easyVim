@@ -1,12 +1,24 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('profileController', function ($scope, authService, $state, $rootScope) {
+  .controller('profileController', function ($scope, authService, $state, $rootScope, mainService) {
 
     var $ctrl = this;
 
     $ctrl.theme = $rootScope.localTheme;
     $ctrl.busy = true;
     $ctrl.user = authService.getUser();
+
+    $ctrl.changeTheme = function (theme) {
+      mainService.changeTheme(theme)
+        .then(function (res) {
+          $rootScope.localTheme = theme;
+          $ctrl.theme = theme;
+          console.log("THEME CHANGED", res)
+        })
+      .catch(function (err) {
+        console.error("error changing the theme", err);
+      })
+    };
 
     $ctrl.sidebarElements = [
       {
@@ -35,13 +47,6 @@ angular.module("easyVim.login")
       elem.clicked = true;
 
 
-
-    };
-
-    $ctrl.changeTheme = function (theme) {
-
-      $ctrl.theme = theme;
-      $rootScope.localTheme = theme;
 
     };
 

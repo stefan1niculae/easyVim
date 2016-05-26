@@ -33,5 +33,9 @@ angular.module("easyVimWeb")
       return makeCall('GET', '/lesson');
     };
 
+    service.changeTheme = function (theme) {
+      return makeCall("PUT", '/user/currentTheme', theme)
+    };
+
     return service;
   });

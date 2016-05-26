@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
         default: [],  // TODO the default should be solarized
         ref: 'availableToUsers'
     },
-    selectedEditorTheme: {
+    currentTheme: {
         type: editorTheme.schema,
         ref: 'selectedByUsers'
         // TODO default solarized

@@ -2,10 +2,13 @@
 
 const express = require('express');
 const router = express.Router();
-// const Lesson = require('./models/lesson').model;
-// const Chapter = require('./models/chapter');
 
-// const User = require('./models/user');  // TODO remove
+var Chapter = require("./models/chapter").model;
+var Lesson = require("./models/lesson").model;
+
+const EditorTheme = require('./models/editorTheme').model;
+
+const User = require('./models/user');  // TODO remove
 
 
 const logger = require("log4js").getDefaultLogger();
@@ -80,6 +83,7 @@ router.route('/lesson')
 
 router.route('/test')
     .get(function (req, res) {
+
         res.json('');
     });
 
@@ -102,5 +106,61 @@ router.route('/test')
 //            });
 //        });
 //});
+
+
+router.route('/user/currentTheme')
+    .put(function (req, res) {
+        console.log("REQUEST", req.user, req.body);
+        let currentUser = {};
+
+        User.findOne(req.user)
+            .then(function (user) {
+                currentUser = user;
+                return EditorTheme.findOne(req.body)
+
+            })
+            .then(function (theme) {
+                console.log("USER", currentUser, currentUser.currentTheme, theme)
+                currentUser.currentTheme = theme;
+                return currentUser.save();
+            })
+            .then(function () {
+                res.status(200).send({});
+            })
+            .catch(function (err) {
+                console.log("ERROR", err);
+                res.status(500).json(err)
+            })
+
+    });
+
+
+router.route('/chapter')
+    .get(function (req, res) {
+        Chapter.find({}, function (err, chapters) {
+            if (!err) {
+                var promises = [];
+                chapters = chapters.map(function (elem) {
+                    return elem.toObject();
+                });
+
+                chapters.forEach(function (chapter) {
+                    chapter.lessoons = [];
+                    const promise = Lesson.$where(`this.chapter.name === ${chapter.name}`)
+                        .then(function (lessons) {
+                            chapter.lessons = lessons;
+                            console.log("INTRA AII DAR SUUGE PULA", chapter)
+                            return lessons;
+                        });
+                    promises.push(promise);
+                });
+                Promise.all(promises).then(function () {
+                    console.log("CHAPTER", chapters[0])
+                    res.json(chapters);
+                });
+            }
+        })
+    });
+
 
 module.exports = router;

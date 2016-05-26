@@ -20,6 +20,7 @@ const chapterSchema  = new mongoose.Schema({
         type: Number,
         required: ''
     }
+
 });
 
 module.exports = {

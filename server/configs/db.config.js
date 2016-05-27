@@ -19,29 +19,29 @@ function config(){
     process.exit(1);
   });
   mongoose.connection.once('open', function (next) {
-      //noinspection JSUnresolvedFunction
-      // require("../migrations/commands")()
-      //    .then(() => {
-      //        return require("../migrations/lessons")();
-      //    })
-      //    .then(() => {
-      //        return require("../migrations/editorThemes")();
-      //    })
-      //    .then(() => {
-      //        return require("../migrations/levels")();
-      //    })
-      //    .then(() => {
-      //        return require("../migrations/challenges")();
-      //    })
-      //    .then(() => {
-      //        return require("../migrations/achievements")();
-      //    })
-      //   .then(() => {
-      //     logger.info("Migration complete")
-      //   })
-      //    .catch(function (err) {
-      //      logger.error("ERROR AT MIGRATIONS", err);
-      //    });
+   //   noinspection JSUnresolvedFunction
+   //    require("../migrations/commands")()
+   //       .then(() => {
+   //           return require("../migrations/lessons")();
+   //       })
+   //       .then(() => {
+   //           return require("../migrations/editorThemes")();
+   //       })
+   //       .then(() => {
+   //           return require("../migrations/levels")();
+   //       })
+   //       .then(() => {
+   //           return require("../migrations/challenges")();
+   //       })
+   //       .then(() => {
+   //           return require("../migrations/achievements")();
+   //       })
+   //      .then(() => {
+   //        logger.info("Migration complete")
+   //      })
+   //       .catch(function (err) {
+   //         logger.error("ERROR AT MIGRATIONS", err);
+   //       });
 
     logger.info('Connected to Mongo database');
   });

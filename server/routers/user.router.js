@@ -13,6 +13,7 @@ router.route('/currentTheme')
     let currentUser = {};
     User.findOne(req.user)
       .then(function (user) {
+          console.log("check.server");
         currentUser = user;
         return EditorTheme.findOne(req.body)
       })

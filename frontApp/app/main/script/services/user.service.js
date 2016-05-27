@@ -15,6 +15,10 @@ angular.module("easyVimWeb")
           return reply.data
         })
     };
+    
+    service.getAchievement = function () {
+      return makeCall("GET", '/achievement')
+    };
 
     service.putAchievements = function (achievements) {
       return makeCall("PUT", '/user/achievements', achievements)

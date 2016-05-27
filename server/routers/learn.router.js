@@ -5,6 +5,7 @@ const router = express.Router();
 
 var Chapter = require("./../models/chapter").model;
 var Lesson = require("./../models/lesson").model;
+var Theme = require("./../models/editorTheme").model;
 
 
 router.route('/lesson')
@@ -49,6 +50,14 @@ router.route('/lesson')
                 res.json(chapters);
             }
         })
+  });
+
+router.route('/theme')
+  .get(function (req, res) {
+    Theme.find({})
+      .then(function (themes) {
+        res.json(themes)
+      })
   });
 
 

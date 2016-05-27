@@ -12,25 +12,21 @@ router.route('/currentTheme')
     console.log("REQUEST", req.user, req.body);
     let currentUser = {};
 
+    console.log("INTRAAA");
+    
+    
     User.findOne(req.user)
       .then(function (user) {
         currentUser = user;
         return EditorTheme.findOne(req.body)
       })
       .then(function (theme) {
-        console.log("USER", currentUser, currentUser.currentTheme, theme)
+        console.log("USER", currentUser, currentUser.currentTheme, theme);
         currentUser.currentTheme = theme;
         return currentUser.save();
       })
       .then(function () {
         res.status(200).send({});
-
-
-        res.json()
-      })
-      .catch(function (err) {
-        console.log("ERROR", err);
-        res.status(500).json(err)
       })
 
   });

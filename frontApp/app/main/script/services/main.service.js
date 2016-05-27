@@ -40,6 +40,10 @@ angular.module("easyVimWeb")
     service.changeTheme = function (theme) {
       return makeCall("PUT", '/user/currentTheme', theme)
     };
+    
+    service.getAllThemes = function () {
+      return makeCall("GET", '/theme');
+    };
 
     return service;
   });

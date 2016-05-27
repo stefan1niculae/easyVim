@@ -35,7 +35,7 @@ function config(app) {
   });
   
   
-  app.use(require('express-session')({secret: 'keyboard cat', resave: true, saveUninitialized: true}));
+  app.use(require('express-session')({secret: 'keyboard cat', resave: true, saveUninitialized: true,cookie: { maxAge: 6000000 }}));
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.

@@ -80,9 +80,9 @@ angular.module('easyVimWeb')
       }
     };
 
-    $scope.isSelected = function(lesson) {
-      return lesson.id === $scope.currentLesson.id;
-    };
+    // $scope.isSelected = function(lesson) {
+    //   return lesson._id === $scope.currentLesson.id;
+    // };
 
     $scope.addHistory = function(xp, command) {
       $scope.history.push({

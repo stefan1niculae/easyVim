@@ -8,7 +8,7 @@ let service = {};
 
 let defaultTheme;
 
-service.createOrUpdateUser = function (profile, token) {
+service.createOrUpdateUser = function (profile, accessToken) {
 
     const defer = Promise.defer();
 
@@ -25,7 +25,7 @@ service.createOrUpdateUser = function (profile, token) {
             if (docs.length) {
                 newUser = docs[0];
                 newUser.name = profile.displayName;
-                newUser.picture = profile.photos[0].value
+                newUser.picture = profile.photos[0].value;
             }
             else {
                 newUser = new User({

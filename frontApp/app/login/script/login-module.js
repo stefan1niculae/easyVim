@@ -21,6 +21,11 @@ angular.module("easyVim.login",['ui.router'])
       templateUrl: "views/profile.html",
       controller: 'profileController',
       controllerAs: '$ctrl',
-      hideNavbar: false
+      hideNavbar: false,
+      resolve: {
+        themes: function (mainService) {
+          return mainService.getAllThemes()
+        }
+      }
     });
   });

@@ -1,5 +1,5 @@
 angular.module('easyVimWeb')
-  .controller('AppCtrl', function ($state, $scope, authService) {
+  .controller('AppCtrl', function ($state, $scope, authService, $rootScope) {
     var app = this;
 
     $scope.busy = false;
@@ -29,7 +29,7 @@ angular.module('easyVimWeb')
 
     ];
 
-    var user = app.user = authService.getUser();
+    $rootScope.user = app.user = authService.getUser();
     app.hideNavbar = false;
     app.title = null;
 

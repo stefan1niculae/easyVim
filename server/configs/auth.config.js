@@ -19,7 +19,7 @@ function config(app) {
 
     },
     function (accessToken, refreshToken, profile, done) {
-      return userService.createOrUpdateUser(profile)
+      return userService.createOrUpdateUser(profile, accessToken)
         .then(function (elem) {
           done(null, elem);
         });

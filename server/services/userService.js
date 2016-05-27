@@ -8,7 +8,7 @@ let service = {};
 
 let defaultTheme;
 
-service.createOrUpdateUser = function (profile) {
+service.createOrUpdateUser = function (profile, token) {
 
     const defer = Promise.defer();
 
@@ -18,6 +18,8 @@ service.createOrUpdateUser = function (profile) {
             return User.find({facebookId: profile.id})
         })
         .then(function (docs) {
+            console.log('USER', docs);
+            
             let newUser = {};
 
             if (docs.length) {

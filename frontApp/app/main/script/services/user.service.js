@@ -1,6 +1,3 @@
-/**
- * Created by ionut on 27.05.2016.
- */
 angular.module("easyVimWeb")
   .service('userService', function ($http) {
     var service = {};

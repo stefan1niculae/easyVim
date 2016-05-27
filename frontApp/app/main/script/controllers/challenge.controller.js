@@ -1,8 +1,4 @@
-/**
- * Created by ionut on 27.05.2016.
- */
-
-"use strict"
+"use strict";
 
 angular.module('easyVimWeb')
   .controller('challengeController', function ($scope, userService) {

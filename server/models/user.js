@@ -34,7 +34,6 @@ const userSchema = new mongoose.Schema({
         type: [mongoose.Schema.ObjectId],
         default: []
     },
-
     lessonsCompleted: {
         type: [lesson.schema],
         default: [],

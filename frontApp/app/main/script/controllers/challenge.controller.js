@@ -1,7 +1,9 @@
 "use strict";
 
 angular.module('easyVimWeb')
-  .controller('challengeController', function ($scope, userService, mainService, $rootScope) {
+  .controller('challengeController', function ($scope, userService, mainService, friends, $rootScope) {
+    
+    console.log("FRIENDS", friends);
 
     var $ctrl = this;
 
@@ -26,5 +28,5 @@ angular.module('easyVimWeb')
     };
 
     return $ctrl;
-
+    
   });

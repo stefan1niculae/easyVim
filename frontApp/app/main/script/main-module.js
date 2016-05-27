@@ -24,9 +24,14 @@
     $stateProvider.state('challenges', {
       url: "/challenges",
       templateUrl: "views/challenges.html",
-      controller: 'badgesController',
-      controllerAs: 'badgesCtrl',
-      hideNavbar: false
+      controller: 'challengeController',
+      controllerAs: 'challengeCtrl',
+      hideNavbar: false,
+      resolve: {
+        friends: function (authService) {
+          return authService.getFriends();
+        }
+      }
     });
 
     $stateProvider.state('cheatSheet', {

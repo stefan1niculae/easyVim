@@ -15,13 +15,15 @@ function config(app) {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
       callbackURL: FACEBOOK_CALLBACK_URL,
-      profileFields: ['id', 'displayName', 'name', 'gender', 'photos']
-
+      profileFields: ['id', 'displayName', 'name', 'gender', 'photos', 'friends']
     },
     function (accessToken, refreshToken, profile, done) {
       return userService.createOrUpdateUser(profile, accessToken)
         .then(function (elem) {
-          done(null, elem);
+          done(null, {
+            user: elem,
+            accessToken: accessToken
+          });
         });
     }
   ));

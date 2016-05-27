@@ -11,7 +11,7 @@ const User = require('./../models/user');
 router.route('/currentTheme')
   .put(function (req, res) {
     let currentUser = {};
-    User.findOne(req.user)
+    User.findOne(req.user.user)
       .then(function (user) {
         currentUser = user;
         return EditorTheme.findOne(req.body)
@@ -29,7 +29,7 @@ router.route('/currentTheme')
 router.route('/achievements')
   .put(function (req, res) {
     let currentUser = {};
-    User.findOne(req.user)
+    User.findOne(req.user.user)
       .then(function (user) {
         currentUser = user;
         return Achievement.findOne(req.body)

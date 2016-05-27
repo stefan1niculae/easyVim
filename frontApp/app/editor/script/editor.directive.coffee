@@ -46,7 +46,7 @@ angular.module 'easyVim.editor'
         $scope.editorOptions =
           lineNumbers: true
           autofocus: true
-          theme: $scope.editorTheme || "solarized light"  # TODO: customize solarized theme
+          theme: $scope.editorTheme || "solarized light"
           keyMap: "vim"
           mode: "gfm"
           matchBrackets: true

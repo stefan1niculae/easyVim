@@ -18,3 +18,6 @@ To add new dependences:
     npm install --save [dependency-name]
   --for libraries-- 
     bower install --save [dependency-name] (they also need to be incuded in index.html)
+
+!IMPORTANT:
+    for coffeescript files you will need a watcher or something to compile them due to the fact that gulp accepts only js at the moment

@@ -1,6 +1,8 @@
 "use strict";
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const chapter = require('./chapter');
 const command = require('./command');
 
@@ -13,11 +15,6 @@ const lessonSchema = new mongoose.Schema({
         type: String,
         required: ''
     },
-    chapter: {
-        type: chapter.schema,
-        required: '',
-        ref: 'lessons'
-    },
     content: {
         type: String,
         default: 'TODO lesson content'
@@ -29,6 +26,11 @@ const lessonSchema = new mongoose.Schema({
     },
     order: {
         type: Number,
+        required: ''
+    },
+    chapter: {
+        type: Schema.Types.ObjectId,
+        ref: 'Chapter',
         required: ''
     }
 });

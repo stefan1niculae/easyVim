@@ -26,9 +26,9 @@ function config(app) {
   });
 
   app.use('/auth', authRouter);
-  app.use('/api', connectEnsureLogin.ensureLoggedIn({sendHTTPCode: true}), learnRouter, userRouter);
+  // app.use('/api', connectEnsureLogin.ensureLoggedIn({sendHTTPCode: true}), learnRouter, userRouter);
 
-//app.use('/api', learnRouter, userRouter);
+app.use('/api', learnRouter, userRouter);
 
 
 // error handler

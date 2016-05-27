@@ -25,14 +25,15 @@ function generateLessons(commandModels) {
     let promises = [];
 
     _.forEach(chapters, function (chapter, index) {
+        let chapterLessons = [];
+        let promiseLessons = [];
+
         const dbChapter = new Chapter({
             name: chapter.name,
             order: index + 1,
             xpAwarded: chapter.xpAwarded,
             goldAwarded: chapter.goldAwarded
         });
-
-        promises.push(dbChapter.save());
 
         _.forEach(chapter.lessons, function (lesson, index) {
             const content = fs.readFileSync("./content/lesson content/" + lesson.name.toLowerCase() + ".md", "utf-8");
@@ -46,13 +47,22 @@ function generateLessons(commandModels) {
                     return commandModels[command];
                 }),
                 condition: lesson.condition,
-                chapter: dbChapter,
                 order: index + 1,
-                content: content
+                content: content,
+                chapter: dbChapter._id
             });
 
-            promises.push(dbLesson.save());
+            dbChapter.lessons.push(dbLesson._id);
+            promiseLessons.push(dbLesson.save());
         });
+
+        const dbChapterPromise = Promise.all(promiseLessons)
+          .then(function () {
+              return dbChapter.save();
+          });
+
+        promises.push(dbChapterPromise);
+
     });
 
     return Promise.all(promises);

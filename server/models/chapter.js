@@ -1,8 +1,8 @@
 "use strict";
 
 const mongoose = require('mongoose');
-const Lesson = require('./lesson').model;
-const Promise = require('bluebird');
+const Schema = mongoose.Schema;
+const Lesson = require('./lesson');
 
 const chapterSchema  = new mongoose.Schema({
     name: {
@@ -20,11 +20,12 @@ const chapterSchema  = new mongoose.Schema({
     goldAwarded: {
         type: Number,
         required: ''
-    }
-});
-
-chapterSchema.virtual('lessons').get(function () {
-    return Promise.resolve(Lesson.find({chapter: this}))
+    },
+    lessons : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Lesson',
+        required: ''
+    }]
 });
 
 module.exports = {

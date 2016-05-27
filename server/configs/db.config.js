@@ -4,6 +4,7 @@ const MONGO_URL = process.env.MONGO_URL;
 const SHOULD_MIGRATE = process.env.SHOULD_MIGRATE;
 
 const logger = require('log4js').getDefaultLogger();
+const _ = require ('lodash');
 
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
@@ -18,32 +19,29 @@ function config(){
     process.exit(1);
   });
   mongoose.connection.once('open', function (next) {
-
-    if (SHOULD_MIGRATE) {
       //noinspection JSUnresolvedFunction
-      require("../migrations/commands")()
-         .then(() => {
-             return require("../migrations/lessons")();
-         })
-         .then(() => {
-             return require("../migrations/editorThemes")();
-         })
-         .then(() => {
-             return require("../migrations/levels")();
-         })
-         .then(() => {
-             return require("../migrations/challenges")();
-         })
-         .then(() => {
-             return require("../migrations/achievements")();
-         })
-         .catch(function (err) {
-             console.log("ERROR AT MIGRATIONS", err);
-         })
-         .finally(function () {
-             console.log("MIGRATION COMPLETE");
-         });
-    }
+      // require("../migrations/commands")()
+      //    .then(() => {
+      //        return require("../migrations/lessons")();
+      //    })
+      //    .then(() => {
+      //        return require("../migrations/editorThemes")();
+      //    })
+      //    .then(() => {
+      //        return require("../migrations/levels")();
+      //    })
+      //    .then(() => {
+      //        return require("../migrations/challenges")();
+      //    })
+      //    .then(() => {
+      //        return require("../migrations/achievements")();
+      //    })
+      //   .then(() => {
+      //     logger.info("Migration complete")
+      //   })
+      //    .catch(function (err) {
+      //      logger.error("ERROR AT MIGRATIONS", err);
+      //    });
 
     logger.info('Connected to Mongo database');
   });

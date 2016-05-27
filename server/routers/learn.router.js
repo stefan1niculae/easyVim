@@ -31,28 +31,25 @@ router.route('/lesson')
 
 router.route('/chapter')
     .get(function (req, res) {
-        Chapter.find({}, function (err, chapters) {
-            if (!err) {
-                var promises = [];
-                chapters = chapters.map(function (elem) {
-                    return elem.toObject();
-                });
+        Chapter.find({})
+          .populate('lessons')
+          .exec(function (err, chapters){
+              if (!err){
+                  res.json(chapters);
+              }
+          })
+    });
 
-                chapters.forEach(function (chapter) {
-                    chapter.lessoons = [];
-                    const promise = Lesson.$where(`this.chapter.name === ${chapter.name}`)
-                        .then(function (lessons) {
-                            chapter.lessons = lessons;
-                            return lessons;
-                        });
-                    promises.push(promise);
-                });
-                Promise.all(promises).then(function () {
-                    res.json(chapters);
-                });
+router.route('/lesson')
+  .get(function (req, res) {
+      Chapter.find({})
+        .populate('chapter')
+        .exec(function (err, chapters){
+            if (!err){
+                res.json(chapters);
             }
         })
-    });
+  });
 
 
 

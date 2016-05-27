@@ -10,5 +10,7 @@ module.exports = {
 	binJs: [root + "**/.bin/*.js"],
 	destJs: dest + 'js/',
 	binCss: [root+"**/.bin/*.css"],
-	destCss: dest + 'css/'
+	destCss: dest + 'css/',
+	icons: root + '/sass/icons/*',
+	destIcons: dest + 'css/icons/'
 };

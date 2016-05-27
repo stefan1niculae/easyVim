@@ -1,6 +1,7 @@
 'use strict';
 angular.module("easyVim.login")
-  .controller('landingController', function ($scope, authService, $state, contentLoader, $$KeyListener) {
+  .controller('landingController', function ($scope, authService, $state, contentLoader,
+                                             $$KeyListener, $rootScope) {
 
     $scope.busy = true;
     $scope.error = false;
@@ -30,10 +31,15 @@ angular.module("easyVim.login")
     verifyAuthentication();
 
     function successLogin() {
-      var customRedirectState = 'lesson'; //learn when implemented
 
-      $state.go($state.params.to || customRedirectState, $state.params.toParams,
-        {location: 'replace'});
+      authService.getAuthenticatedUser()
+        .then(function () {
+          var customRedirectState = 'lesson'; //learn when implemented
+          $rootScope.user = authService.getUser();
+          console.log("USEEEER", $rootScope.user);
+          $state.go($state.params.to || customRedirectState, $state.params.toParams,
+                    {location: 'replace'});
+        })
     }
 
     function finallyHandler() {

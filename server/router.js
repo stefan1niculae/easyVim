@@ -7,7 +7,7 @@ var Chapter = require("./models/chapter").model;
 var Lesson = require("./models/lesson").model;
 
 const EditorTheme = require('./models/editorTheme').model;
-
+const Promise = require('bluebird');
 const User = require('./models/user');  // TODO remove
 
 
@@ -79,6 +79,33 @@ router.route('/lesson')
             }
         });
 
+    });
+
+router.route('/chapter')
+    .get(function (req, res) {
+        Chapter.find({}, function (err, chapters) {
+            if (!err) {
+                res.json(chapters);
+                // var promises = [];
+                // chapters = chapters.map(function (elem) {
+                //     return elem.toObject();
+                // });
+                
+                // chapters.forEach(function (chapter) {
+                //     chapter.lessons = [];
+                //     const promise = Lesson.find({chapter: this})
+                //         .then(function (lessons) {
+                //             console.log("LESSONS FOR CHAPTER: ", lessons);
+                //             chapter.lessons = lessons;
+                //             return lessons;
+                //         });
+                //     promises.push(promise);
+                // });
+                // Promise.all(promises).then(function () {
+                //     res.json(chapters);
+                // });
+            }
+        })
     });
 
 router.route('/test')

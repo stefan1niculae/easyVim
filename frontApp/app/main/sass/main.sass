@@ -1,3 +1,8 @@
+//  Colors
+$lockedLessonColor: gray
+$unlockedLessonColor: black
+
+
 *
   box-sizing: border-box
   margin: 0
@@ -103,9 +108,33 @@
 .borderless li
   border: 0
 
-.sublesson
+.chapter-locked
+  color: $lockedLessonColor
+
+.chapter-inactive
+  color: $unlockedLessonColor
+  &:hover
+    background-color: grey
+
+.chapter-active
+  color: $unlockedLessonColor
+  font-weight: bold
+  &:hover
+    background-color: grey
+
+.chapter-list-item
   margin-top: 0.5em
   margin-left: 1em
+
+.lesson-list-item
+  margin-top: 0.5em
+  margin-left: 1em
+
+.lesson-selected
+  font-weight: bold
+
+.lesson-unselected
+  font-weight: normal
 
 .historyList
   text-align: right

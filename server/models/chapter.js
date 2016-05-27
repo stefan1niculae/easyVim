@@ -1,7 +1,8 @@
 "use strict";
 
 const mongoose = require('mongoose');
-const lesson = require('./lesson');
+const Lesson = require('./lesson').model;
+const Promise = require('bluebird');
 
 const chapterSchema  = new mongoose.Schema({
     name: {
@@ -20,7 +21,10 @@ const chapterSchema  = new mongoose.Schema({
         type: Number,
         required: ''
     }
+});
 
+chapterSchema.virtual('lessons').get(function () {
+    return Promise.resolve(Lesson.find({chapter: this}))
 });
 
 module.exports = {

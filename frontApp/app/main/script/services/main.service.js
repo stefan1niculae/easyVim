@@ -33,6 +33,10 @@ angular.module("easyVimWeb")
       return makeCall('GET', '/lesson');
     };
 
+    service.getChapters = function () {
+      return makeCall('GET', '/chapter');
+    };
+
     service.changeTheme = function (theme) {
       return makeCall("PUT", '/user/currentTheme', theme)
     };

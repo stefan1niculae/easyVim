@@ -24,11 +24,11 @@
 
       <div class="col-lg-11">
 
-        <div ng-repeat="i in [1, 2, 3, 4]" class="badges-profile">
-          <img class="col-lg-4" style="width: 24%" src="/css/icons/Dice.png"/>
+        <div ng-repeat="achievement in $ctrl.user.achievementsUnlocked" class="badges-profile">
+          <img class="col-lg-4" style="width: 24%" ng-src={{achievement.picturePath}}/>
           <div class="col-lg-8">
-            <h4 style="margin-bottom: 0">Dice rolled</h4>
-            <p>Solved something fucking nice </p>
+            <h4 style="margin-bottom: 0">{{achievement.name}}</h4>
+            <p>{{achievement.description}} </p>
           </div>
         </div>
 

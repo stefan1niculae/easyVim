@@ -1,11 +1,13 @@
 "use strict";
 
 angular.module('easyVimWeb')
-  .controller('challengeController', function ($scope, userService) {
+  .controller('challengeController', function ($scope, userService, friends, $rootScope) {
+    
+    console.log("FRIENDS", friends);
 
     var $ctrl = this;
 
-    $ctrl.user = authService.getUser();
+    $ctrl.user = $rootScope.user;
 
     $ctrl.putAchievements = function (achievements) {
       userService.putAchievements(achievements)

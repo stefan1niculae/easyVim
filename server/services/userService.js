@@ -9,7 +9,6 @@ let service = {};
 let defaultTheme;
 
 service.createOrUpdateUser = function (profile, accessToken) {
-
     const defer = Promise.defer();
 
     EditorTheme.findOne({codename: 'solarized light'})
@@ -18,8 +17,6 @@ service.createOrUpdateUser = function (profile, accessToken) {
             return User.find({facebookId: profile.id})
         })
         .then(function (docs) {
-            console.log('USER', docs);
-            
             let newUser = {};
 
             if (docs.length) {

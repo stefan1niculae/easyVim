@@ -113,14 +113,9 @@ $unlockedLessonColor: black
 
 .chapter-inactive
   color: $unlockedLessonColor
-  &:hover
-    background-color: grey
 
 .chapter-active
   color: $unlockedLessonColor
-  font-weight: bold
-  &:hover
-    background-color: grey
 
 .chapter-list-item
   margin-top: 0.5em
@@ -128,13 +123,26 @@ $unlockedLessonColor: black
 
 .lesson-list-item
   margin-top: 0.5em
-  margin-left: 1em
+  margin-left: 2em
+
+.chapter-locked
+  .lesson-unselected
+    cursor: not-allowed
+
+.chapter-active
+  .lesson-unselected
+    font-weight: normal
+    &:hover
+      background-color: lightgray
+
+.chapter-inactive
+  .lesson-unselected
+    font-weight: normal
+    &:hover
+      background-color: lightgray
 
 .lesson-selected
   font-weight: bold
-
-.lesson-unselected
-  font-weight: normal
 
 .historyList
   text-align: right

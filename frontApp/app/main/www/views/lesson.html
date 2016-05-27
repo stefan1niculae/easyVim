@@ -2,9 +2,9 @@
 
   <div class="col-lg-2">
     <h3>Lessons</h3>
-    <div class="chapter-list-item" ng-repeat="chapter in chapters" ng-class="getChapterClass()">
-      {{chapter.name}}
-      <div class="lesson-list-item" ng-repeat="lesson in chapter.lessons" ng-class="isSelected() ? 'lesson-selected' : 'lesson-unselected'">
+    <div class="chapter-list-item" ng-repeat="chapter in chapters" ng-class="getChapterClass(chapter)">
+      {{chapter.order}}) {{chapter.name}}
+      <div class="lesson-list-item" ng-repeat="lesson in chapter.lessons" ng-class="isSelected(lesson) ? 'lesson-selected' : 'lesson-unselected'" ng-click="selectLesson(lesson, chapter)">
         {{lesson.name}}
       </div>
     </div>
@@ -12,9 +12,9 @@
 
   <div class="col-lg-8">
     <!--progress bar-->
-      <uib-progressbar class="progress active" value="lessonProgress" type="success">Progress</uib-progressbar>
+      <uib-progressbar class="progress active" value="lessonProgress" type="success">{{currentLesson.condition}}</uib-progressbar>
     <!--editor-->
-    <easy-vim-directive  progress-listener current-lesson=currentLesson history=history
+    <easy-vim-directive  progress-listener current-lesson=currentLesson add-history="addHistory(xp, command)"
     theme="localTheme"></easy-vim-directive>
 
     <div class="row keySection">

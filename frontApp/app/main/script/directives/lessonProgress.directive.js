@@ -5,7 +5,8 @@ angular.module('easyVimWeb')
     return {
       restrict: 'A',
       scope: {
-        currentLesson: "="
+        currentLesson: "=",
+        addHistory: "&"
       },
       link: function (scope, element, attrs) {
         var pressedKeys = [];
@@ -17,7 +18,17 @@ angular.module('easyVimWeb')
         };
 
         var checkEditorMode = function (keyCode) {
-          return isNormalMode = isNormalMode ? !insertModeKeys.contains(keyCodeMapper(keyCode)) : keyCode == 27 /*ESCAPE KEY*/;
+          if (isNormalMode) {
+            isNormalMode = !insertModeKeys.contains(keyCodeMapper(keyCode));
+          } else {
+            isNormalMode = keyCode == 27;
+            if (isValidCommand("Esc")) {
+              const increment = 100 / (_.map(scope.currentLesson.commands, 'key').length*2); // Each command should be used twice
+              pressedKeys.push("Esc");
+              scope.addHistory({xp: 3, command: "Esc"});
+              $rootScope.$emit('progressChanged', increment);
+            }
+          }
         };
 
         var isUsedOnce = function (key) {
@@ -33,16 +44,25 @@ angular.module('easyVimWeb')
           return _.map(scope.currentLesson.commands, 'key').contains(key) && isUsedOnce(key);
         };
 
-        const increment = 100 / (_.map(scope.currentLesson.commands, 'key').length*2); // Each command should be used twice
-
-        element.bind("keydown keypress", function (event) {
+        element.bind("keypress", function (event) {
           const pressedCharacter = keyCodeMapper(event.which);
+          const increment = 100 / (_.map(scope.currentLesson.commands, 'key').length*2); // Each command should be used twice
 
-          if (checkEditorMode(event.which) && isValidCommand(pressedCharacter)) {
+          if (isNormalMode && isValidCommand(pressedCharacter)) {
             pressedKeys.push(pressedCharacter);
-            // scope.addHistory(3, pressedCharacter);
+            scope.addHistory({xp: 3, command: pressedCharacter});
             $rootScope.$emit('progressChanged', increment);
           }
+          checkEditorMode(event.which);
+        });
+
+        element.bind("keydown", function(event) {
+          checkEditorMode(event.which);
+        });
+
+        element.bind('click', function() {
+          scope.addHistory({xp: -2, command: "click"});
+          $rootScope.$emit('progressChanged', 0);
         });
       }
     }

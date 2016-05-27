@@ -19,7 +19,7 @@ function config(){
     process.exit(1);
   });
   mongoose.connection.once('open', function (next) {
-      //noinspection JSUnresolvedFunction
+      // noinspection JSUnresolvedFunction
       // require("../migrations/commands")()
       //    .then(() => {
       //        return require("../migrations/lessons")();

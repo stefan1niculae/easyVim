@@ -16,10 +16,10 @@ router.route('/currentTheme')
             .then(function (theme) {
 
                 logger.info(theme);
-                return User.findOneAndUpdate({_id: req.user._id}, {currentTheme: theme})
+                req.user.user.currentTheme = theme;
+                return User.findOneAndUpdate({_id: req.user.user._id}, {currentTheme: theme})
             })
             .then(function (err, doc) {
-                console.log(err, doc)
                 res.status(200).send({});
             })
             .catch(function (err) {
@@ -30,7 +30,7 @@ router.route('/currentTheme')
 router.route('/achievements')
     .put(function (req, res) {
         let currentUser = {};
-        User.findOne(req.user)
+        User.findOne(req.user.user)
             .then(function (user) {
                 currentUser = user;
                 return Achievement.findOne(req.body)

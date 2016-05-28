@@ -1,7 +1,6 @@
 "use strict";
 
 const MONGO_URL = process.env.MONGO_URL;
-const SHOULD_MIGRATE = process.env.SHOULD_MIGRATE;
 
 const logger = require('log4js').getDefaultLogger();
 const _ = require ('lodash');

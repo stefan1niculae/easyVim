@@ -66,29 +66,11 @@
         {{$ctrl.sidebarElements[3].name}}
       </h4>
       <div class="row centralized">
-        <span class="col-lg-3" ng-click="$ctrl.changeTheme('bespin')">
-          <img class="imageTheme" src="/css/icons/bespin.png" />
-          <div>Bespin</div>
-          <div ng-show="$ctrl.theme == 'bespin'" style="color: #3C763D;">Selected</div>
-          <div ng-show="$ctrl.theme != 'bespin'">Unlocked</div>
-        </span>
-        <span class="col-lg-3" ng-click="$ctrl.changeTheme('material')">
-          <img class="imageTheme" src="/css/icons/material.png" />
-          <div>Material</div>
-          <div ng-show="$ctrl.theme == 'material'" style="color: #3C763D;">Selected</div>
-          <div ng-show="$ctrl.theme != 'material'">Unlocked</div>
-        </span>
-        <span class="col-lg-3" ng-click="$ctrl.changeTheme('mdn-like')">
-          <img class="imageTheme" src="/css/icons/mdn.png" />
-          <div>Mdn-like</div>
-          <div ng-show="$ctrl.theme == 'mdn-like'" style="color: #3C763D;">Selected</div>
-          <div ng-show="$ctrl.theme != 'mdn-like'">Unlocked</div>
-        </span>
-        <span class="col-lg-3" ng-click="$ctrl.changeTheme('solarized')">
-          <img class="imageTheme" src="/css/icons/solarized.png" />
-          <div>Solarized</div>
-          <div ng-show="$ctrl.theme == 'solarized'" style="color: #3C763D;">Selected</div>
-          <div ng-show="$ctrl.theme != 'solarized'">Unlocked</div>
+        <span class="col-lg-3" ng-repeat="th in $ctrl.themes" ng-click="$ctrl.changeTheme(th)">
+          <img class="imageTheme" src="/css/icons/{{th.previewPicPath}}" />
+          <div>{{th.displayName}}</div>
+          <div ng-show="$ctrl.theme.codename === th.codename" style="color: #3C763D;">Selected</div>
+          <div ng-show="$ctrl.theme.codename != th.codename">Unlocked</div>
         </span>
       </div>
 

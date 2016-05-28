@@ -8,16 +8,17 @@ angular.module("easyVim.login")
 
     $ctrl.themes = themes;
 
-    $ctrl.theme = $rootScope.localTheme;
+    $ctrl.theme = $rootScope.user.currentTheme;
     $ctrl.busy = true;
     $ctrl.user = authService.getUser();
 
 
 
     $ctrl.changeTheme = function (theme) {
+      console.log("check");
       mainService.changeTheme(theme)
         .then(function (res) {
-          $rootScope.localTheme = theme;
+          $rootScope.user.currentTheme = theme;
           $ctrl.theme = theme;
           console.log("THEME CHANGED", res)
         })

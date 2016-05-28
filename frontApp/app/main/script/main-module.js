@@ -56,7 +56,7 @@
 
     $rootScope.$on('$stateChangeStart', function (e, to, toParams) {
 
-      const identity = authService.isLoggedIn();
+      var identity = authService.isLoggedIn();
 
       if (!identity && to.name !== 'login') {
         e.preventDefault();

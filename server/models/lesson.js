@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const chapter = require('./chapter');
+// const chapter = require('./chapter');
 const command = require('./command');
 
 const lessonSchema = new mongoose.Schema({

@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Lesson = require('./lesson');
+// const Lesson = require('./lesson');
 
 const chapterSchema  = new mongoose.Schema({
     name: {

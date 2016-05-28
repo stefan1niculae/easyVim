@@ -1,13 +1,9 @@
-/**
- * Created by Razvan on 4/10/2016.
- */
 "use strict";
 
 angular.module('easyVimWeb')
   .controller('lessonController', function ($scope, mainService, $rootScope) {
 
     $scope.localTheme = $rootScope.user.currentTheme;
-    console.log("LOCAL THEME", $scope.localTheme)
 
     $scope.busy = false;
     $scope.chapters = [];

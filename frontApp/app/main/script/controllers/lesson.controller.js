@@ -100,6 +100,7 @@ angular.module('easyVimWeb')
     };
 
     $scope.addHistory = function(xp, command) {
+      $rootScope.user.xp += xp;
       $scope.history.push({
         xp: xp,
         command: command
@@ -108,6 +109,15 @@ angular.module('easyVimWeb')
 
     $scope.isActionPositive = function(action) {
       return action.xp > 0
+    };
+
+    var isCompleted = function(chapter) {
+      chapter.lessons.forEach(function(lesson) {
+        if (!$rootScope.user.lessonsCompleted.contains(lesson)) {
+          return false;
+        }
+      });
+      return true;
     };
 
     getData();
@@ -119,6 +129,9 @@ angular.module('easyVimWeb')
         if ($scope.lessonProgress > 99 && !$rootScope.user.lessonsCompleted.contains($scope.currentLesson)) {
           $rootScope.user.lessonsCompleted.push($scope.currentLesson);
           $scope.previousKeys = $scope.previousKeys.concat($scope.currentLesson.commands);
+          if (isCompleted($scope.currentChapter)) {
+            $scope.addHistory($scope.currentChapter.xpAwarded, "Chapter " + $scope.currentChapter.order + " completed");
+          }
           updateUserProgress();
           if ($rootScope.user.lessonsCompleted.contains($scope.currentLesson)) {
             $scope.lessonProgress = 100;

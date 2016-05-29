@@ -10,6 +10,8 @@ const logger = require('log4js').getDefaultLogger();
 
 const Achievement = require('./../models/achievement').model;
 const Lesson = require('./../models/lesson').model;
+const Chapter = require('./../models/chapter').model;
+
 const User = require('./../models/user');
 
 
@@ -63,22 +65,29 @@ router.route('/achievements')
 
 router.route('/lessonsCompleted')
   .put(function (req, res) {
-    let currentUser = {};
-    User.findOne(req.user.user)
-      .then(function (user) {
-        currentUser = user;
-        return Lesson.findOne(req.body.lesson);
-      })
-      .then(function (lesson) {
+    Lesson.find(req.body.lesson)
+      .then(function(lesson) {
         req.user.user.lessonsCompleted.push(lesson);
         req.user.user.xp += req.body.xp;
         req.user.user.gold += req.body.gold;
-        currentUser.lessonsCompleted.push(lesson);
-        currentUser.xp += req.body.xp;
-        currentUser.gold += req.body.gold;
-        return currentUser.save();
+        return User.finOneAndUpdate({_id: req.user.user._id}, {lessonsCompleted: req.user.user.lessonsCompleted}, {xp: req.body.xp}, {gold: req.body.gold});
       })
       .then(function () {
+        res.status(200).send({});
+      })
+      .catch(function(err) {
+        logger.error(err);
+      })
+  });
+
+router.route('/unLockedChapters')
+  .put(function(req, res) {
+    Chapter.find(req.body.chapter)
+      .then(function(chapter) {
+        req.user.user.unLockedChapters.push(chapter);
+        return User.findOneAndUpdate({_id: req.user.user._id}, {unLockedChapters: req.user.user.unLockedChapters});
+      })
+      .then(function() {
         res.status(200).send({});
       })
   });

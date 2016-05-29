@@ -33,14 +33,20 @@ angular.module('easyVimWeb')
     var lessonXP = 0;
 
     var getNextChapter = function () {
-      var currentChapterIndex = $scope.currentChapter ? $scope.chapters.indexOf($scope.currentChapter) : -1;
-      return $scope.chapters[currentChapterIndex + 1];
+      var currentChapterIndex = $rootScope.user.unLockedChapters.length;
+      return $scope.chapters[currentChapterIndex];
     };
 
     var getNextLesson = function () {
       lessonXP = 0;
       if (!$scope.currentLesson._id) {
-        return $scope.currentChapter.lessons[0];
+        _.forEach($scope.currentChapter.lessons, function(lesson) {
+          if($rootScope.user.lessonsCompleted.indexOf(lesson) === -1) {
+            $scope.currentLesson = lesson;
+            return false;
+          }
+        });
+        return $scope.currentLesson;
       }
 
       $scope.pressedKeys = [];
@@ -55,7 +61,7 @@ angular.module('easyVimWeb')
               newLesson = lesson;
             }
           });
-          console.log(newLesson);
+
           if (!newLesson._id) {
             $scope.currentChapter = getNextChapter();
             return $scope.currentChapter.lessons[0];
@@ -112,7 +118,7 @@ angular.module('easyVimWeb')
     };
 
     var updateLessonProgress = function () {
-      if ($rootScope.user.lessonsCompleted.contains($scope.currentLesson)) {
+      if ($rootScope.user.lessonsCompleted.indexOf($scope.currentLesson) > -1) {
         $scope.lessonProgress = 100;
       } else {
         $scope.lessonProgress = 0;
@@ -155,7 +161,7 @@ angular.module('easyVimWeb')
     };
 
     $scope.isCompleted = function (lesson) {
-      return $rootScope.user.lessonsCompleted.contains(lesson);
+      return $rootScope.user.lessonsCompleted.indexOf(lesson) > -1;
     };
 
     $scope.addHistory = function (xp, command) {
@@ -176,11 +182,20 @@ angular.module('easyVimWeb')
     var isChapterCompleted = function () {
       var completed = true;
       _.forEach($scope.currentChapter.lessons, function (lesson) {
-        if (!$rootScope.user.lessonsCompleted.contains(lesson)) {
+        if ($rootScope.user.lessonsCompleted.indexOf(lesson) === -1) {
           completed = false;
         }
       });
-      return completed;
+      if (completed) {
+        mainService.updateUnLockedChapters($scope.currentChapter)
+          .then(function() {
+            $rootScope.user.unLockedChapters.push($scope.currentChapter);
+            console.log("Updated unLockedChapters");
+          })
+          .catch(function(err) {
+            console.log("Could not update unLockedChapters: ", err);
+          });
+      }
     };
 
     var checkLevel = function () {
@@ -196,7 +211,7 @@ angular.module('easyVimWeb')
     var unWatchProgress = $rootScope.$on('progressChanged', function (event, increment) {
 
       $scope.$apply(function () {
-        if (!$rootScope.user.lessonsCompleted.contains($scope.currentLesson)) {
+        if ($rootScope.user.lessonsCompleted.indexOf($scope.currentLesson) === -1) {
           $scope.lessonProgress += increment;
           if ($scope.lessonProgress > 99) {
             $rootScope.user.lessonsCompleted.push($scope.currentLesson);
@@ -208,7 +223,13 @@ angular.module('easyVimWeb')
               lessonXP += $scope.currentChapter.xpAwarded;
               levelXP += $scope.currentChapter.xpAwarded;
             }
-            mainService.updateLessonsCompleted($scope.currentLesson, lessonXP, goldAwarded);
+            mainService.updateLessonsCompleted($scope.currentLesson, lessonXP, goldAwarded)
+              .then(function () {
+                console.log("Cica a mers");
+              })
+              .catch(function (err) {
+                console.error("error saving the progress", err);
+              });
             checkLevel();
             openModalLessonComplete($scope.currentLesson);
           }

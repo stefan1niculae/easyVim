@@ -10,7 +10,6 @@ angular.module('easyVimWeb')
         pressedKeys: "="
       },
       link: function (scope, element, attrs) {
-        var pressedKeys = [];
         var insertModeKeys = ['i', 'a', 'c'];
         var isNormalMode = true;
 
@@ -23,15 +22,15 @@ angular.module('easyVimWeb')
           if (scope.currentLesson.commands.length == 0) {
             return increment/5; //  Any 5 keys
           } else {
-            return increment/(_.map(scope.currentLesson.commands, 'key').length*2); // Each command should be used twice
+            return increment/(_.map(scope.currentLesson.commands, 'key').length);
           }
         };
 
         var checkEditorMode = function (keyCode) {
           if (isNormalMode) {
-            isNormalMode = !insertModeKeys.contains(keyCodeMapper(keyCode));
+            isNormalMode = insertModeKeys.indexOf(keyCodeMapper(keyCode)) === -1;
           } else {
-            isNormalMode = (keyCode == 27);
+            isNormalMode = (keyCode === 27);
             if (isNormalMode && isValidCommand("Esc")) {
               scope.pressedKeys.push("Esc");
               scope.addHistory({xp: 3, command: "Esc"});
@@ -44,21 +43,16 @@ angular.module('easyVimWeb')
           if (scope.currentLesson.commands.length == 0) {
             return true;
           } else {
-            return _.map(scope.currentLesson.commands, 'key').contains(key)
+            return _.map(scope.currentLesson.commands, 'key').indexOf(key) > -1
           }
         };
 
         var isUsedOnce = function(key) {
-          var count = 0;
-          scope.pressedKeys.forEach(function(elem) {
-            if (elem == key)
-              count += 1
-          });
-          return count <= 1
+          return scope.pressedKeys.indexOf(key) === -1
         };
 
         var isValidCommand = function(key) {
-          return isCorrect(key) && isUsedOnce(key) && !$rootScope.user.lessonsCompleted.contains(scope.currentLesson);
+          return isCorrect(key) && isUsedOnce(key) && $rootScope.user.lessonsCompleted.indexOf(scope.currentLesson) === -1;
         };
 
         element.bind("keypress", function(event) {

@@ -28,9 +28,8 @@
       controllerAs: 'challengeCtrl',
       hideNavbar: false,
       resolve: {
-        friends: function (userService) {
-          console.log("friends");
-          return userService.getFriends();
+        challenges: function (mainService) {
+          return mainService.getChallengeDifficulties();
         }
       }
     });

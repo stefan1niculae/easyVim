@@ -45,8 +45,8 @@ angular.module("easyVimWeb")
       return makeCall("GET", '/theme');
     };
 
-    service.getChallenges = function () {
-      return makeCall("GET", "/challenges")
+    service.getChallengeDifficulties = function () {
+      return makeCall("GET", "/challengeDifficulty")
     };
 
     service.getAchievement = function () {

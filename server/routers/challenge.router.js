@@ -14,7 +14,7 @@ const Promise = require('bluebird');
 router.route('/challengeDifficulty')
     .get(function (req, res) {
         ChallengeDifficulty.find({})
-            .populate('challenges') // TODO populate
+            .populate('challenges')
             .exec(function (err, difficulties) {
                 if (!err)
                     res.json(difficulties);

@@ -1,6 +1,8 @@
 "use strict";
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const challengeDifficulty = require('./challengeDifficulty');
 
 const challengeSchema = new mongoose.Schema({
@@ -13,9 +15,9 @@ const challengeSchema = new mongoose.Schema({
         required: ''
     },
     difficulty: {
-        type: challengeDifficulty.schema,
+        type: Schema.Types.ObjectId,
         required: '',
-        ref: 'challenges'  // TODO
+        ref: 'ChallengeDifficulty'
     },
 
     startingText: {
@@ -25,7 +27,12 @@ const challengeSchema = new mongoose.Schema({
     targetText: {
         type: String,
         required: ''
-    }
+    },
+    entries: [{
+        type: Schema.Types.ObjectId,
+        ref: 'BestChallengeDifficulty',
+        default: []
+    }]
 });
 
 module.exports = {

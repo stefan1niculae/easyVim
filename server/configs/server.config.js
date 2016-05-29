@@ -8,6 +8,7 @@ const logger = require('log4js').getDefaultLogger();
 const learnRouter = require('../routers/learn.router');
 const authRouter = require('../routers/auth.router');
 const userRouter = require('../routers/user.router');
+const commandRouter = require('../routers/command.router');
 const challengeRouter = require('../routers/challenge.router');
 
 function config(app) {
@@ -46,4 +47,5 @@ function config(app) {
             message: "Server error"
         });
     });
+}
 module.exports = config;

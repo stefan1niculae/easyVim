@@ -11,8 +11,7 @@
       "ngCookies",
       'ui.codemirror',
       'ui.bootstrap',
-      'oitozero.ngSweetAlert',
-      'toastr'
+      'oitozero.ngSweetAlert'
     ])
     .config(configure)
     .run(run);

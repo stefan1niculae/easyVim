@@ -2,7 +2,7 @@
 
 angular.module('easyVimWeb')
   .controller('challengeController', function ($scope, userService, mainService, $rootScope,$timeout,
-                                               challengeDifficulties, toastr, toastrConfig){
+                                               challengeDifficulties, SweetAlert){
 
     var $ctrl = this;
 
@@ -49,11 +49,26 @@ angular.module('easyVimWeb')
 
     $scope.$watch('initialContent', function(){
       if ($scope.initialContent == $ctrl.targetText){
-        toastr.success('You have completed your challenge', 'Congrats!', {
+        console.log("congrats")
+        SweetAlert.swal({
+          title: "Congratulations",
+          text: "Challenge completed!",
+          type: "success",
+          confirmButtonText: "Ok",
+          closeOnConfirm: true
+        }, function () {
+
         });
       }
     });
+
     $timeout(function(){$scope.initialContent = "Au trecut 10 secunde"}, 10000);
+
+    $ctrl.stopPasteEvent = function (ev) {
+      console.log("PASTE")
+      ev.preventDefault();
+      ev.stopPropagation();
+    };
 
     $ctrl.putAchievements = function (achievements) {
       userService.putAchievements(achievements)

@@ -34,14 +34,10 @@ angular.module("easyVim.login")
           return service.isLoggedIn();
         })
     };
-    
+
     service.logout = function () {
       currentUser = null;
       return makeCall("GET", '/auth/logout')
-    };
-    
-    service.getFriends = function () {
-      return makeCall('GET', 'auth/profile/friends')
     };
 
     return service;

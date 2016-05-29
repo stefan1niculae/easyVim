@@ -6,14 +6,6 @@ const achievement = require('./achievement');
 const levelInfo = require('./levelInfo');
 const editorTheme = require('./editorTheme');
 
-function cumSum(arr, idx) {
-    var sum = 0;
-    for (var i = 0; i < idx; i++) {
-        sum += arr[idx];
-    }
-    return sum;
-}
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -28,6 +20,7 @@ const userSchema = new mongoose.Schema({
         required: ''
     },
 
+    // TODO user level as a property
     xp: {
         type: Number,
         default: 0
@@ -62,11 +55,11 @@ const userSchema = new mongoose.Schema({
         ref: 'selectedByUsers'
         // TODO default solarized
     },
-
-    level: {  // TODO update this when xp is updated
-        type: Number,
-        default: 0
-    }
+    //
+    //level: {  // TODO update this when xp is updated
+    //    type: Number,
+    //    default: 0
+    //}
 });
 
 module.exports = mongoose.model('User', userSchema);

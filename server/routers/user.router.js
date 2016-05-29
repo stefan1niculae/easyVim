@@ -2,6 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
+const facebookLib = require('../facebook');
+
 const EditorTheme = require('./../models/editorTheme').model;
 
 const logger = require('log4js').getDefaultLogger();
@@ -9,6 +11,19 @@ const logger = require('log4js').getDefaultLogger();
 const Achievement = require('./../models/achievement').model;
 const User = require('./../models/user');
 
+
+router.route('/friends')
+    .get(function (req, res) {
+        User.find({})
+            .then(function (users) {
+
+                logger.info("USERS NUMBER", users.length);
+                res.json(users);
+            });
+        //facebookLib.getFbData(req.user.accessToken, '/me/friends', function (response) {
+        //    res.json(response);
+        //})
+    });
 
 router.route('/currentTheme')
     .put(function (req, res) {
@@ -36,7 +51,30 @@ router.route('/achievements')
         return Achievement.findOne(req.body)
       })
       .then(function (achievement) {
+        req.user.user.achievmentsUnlocked.push(achievement);
         currentUser.achievementsUnlocked.push(achievement);
+        return currentUser.save();
+      })
+      .then(function () {
+        res.status(200).send({});
+      })
+  });
+
+router.route('/lessonsCompleted')
+  .put(function (req, res) {
+    let currentUser = {};
+    User.findOne(req.user.user)
+      .then(function (user) {
+        currentUser = user;
+        return Lesson.findOne(req.body.lesson);
+      })
+      .then(function (lesson) {
+        req.user.user.lessonsCompleted.push(lesson);
+        req.user.user.xp += req.body.xp;
+        req.user.user.gold += req.body.gold;
+        currentUser.lessonsCompleted.push(lesson);
+        currentUser.xp += req.body.xp;
+        currentUser.gold += req.body.gold;
         return currentUser.save();
       })
       .then(function () {

@@ -52,21 +52,24 @@ router.route('/invitation')
     .post(function (req, res) {
         let promises = [];
 
-        promises.push(User.findOne({_id: req.user.user._id}));
+        promises.push(User.findOne({_id: req.body.sender._id}));
         promises.push(User.findOne({_id: req.body.receiver._id}));
         promises.push(Challenge.findOne({_id: req.body.challenge._id}));
         return Promise.all(promises)
-            // FIXME
-            .then(([sender, receiver, challenge]) => {
+            .then((arr) => {
                 const invitation = new ChallengeInvitation({
-                    sender: sender,
-                    receiver: receiver,
-                    challenge: challenge
+                    sender: arr[0],
+                    receiver: arr[1],
+                    challenge: arr[2]
                 });
-                return invitation.save().then(() => {
-                    res.status(200).json({})
-                })
-            });
+                return invitation.save()
+            })
+        .then(() => {
+            res.status(200).json({})
+        })
+        .catch((err) => {
+            console.error(err);
+        })
 
         // TODO maybe? send invitation to facebook
     });

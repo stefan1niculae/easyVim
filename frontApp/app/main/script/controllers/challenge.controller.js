@@ -1,16 +1,13 @@
 "use strict";
 
 angular.module('easyVimWeb')
-  .controller('challengeController', function ($scope, userService, mainService, friends, $rootScope) {
-    
-    console.log("FRIENDS", friends);
-
+  .controller('challengeController', function ($scope, userService, mainService, $rootScope, friends) {
     var $ctrl = this;
 
     $ctrl.user = $rootScope.user;
     $ctrl.challenges = [];
 
-    $ctrl.getChallenges = function (challenges) {
+    $ctrl.getChallenges = function () {
       mainService.getChallenges()
         .then(function (res) {
           $ctrl.challenges = res;
@@ -28,5 +25,5 @@ angular.module('easyVimWeb')
     };
 
     return $ctrl;
-    
+
   });

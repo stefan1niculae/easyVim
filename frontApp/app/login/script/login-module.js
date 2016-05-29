@@ -25,6 +25,19 @@ angular.module("easyVim.login",['ui.router'])
       resolve: {
         themes: function (mainService) {
           return mainService.getAllThemes()
+        },
+        achievements: function (mainService) {
+          return mainService.getAchievement();
+        },
+        levelInfos: function (userService) {
+          return userService.getLevelInfos()
+            .then(function (res) {
+              res.sort(function (a, b) {
+                return a.number - b.number;
+              });
+
+              return res;
+            });
         }
       }
     });

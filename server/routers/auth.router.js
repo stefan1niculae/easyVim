@@ -5,7 +5,6 @@ const router = express.Router();
 
 const passport = require('passport');
 const connectEnsureLogin = require('connect-ensure-login');
-const facebookLib = require('../facebook');
 
 router.get('/facebook', passport.authenticate('facebook'));
 
@@ -15,15 +14,6 @@ router.get('/facebook/callback',
              // Successful authentication, redirect home.
              res.redirect('http://localhost:9000/#/');
            });
-
-
-router.get('/profile/friends', function (req, res) {
-  facebookLib.getFbData(req.user.accessToken, '/me/friends', function (response) {
-
-    console.log("FRIENDS", response);
-    res.json(response);
-  })
-});
 
 router.get('/profile',
            connectEnsureLogin.ensureLoggedIn(

@@ -8,16 +8,17 @@ angular.module("easyVim.login")
 
     $ctrl.themes = themes;
 
-    $ctrl.theme = $rootScope.localTheme;
+    $ctrl.theme = $rootScope.user.currentTheme;
     $ctrl.busy = true;
     $ctrl.user = authService.getUser();
 
 
 
     $ctrl.changeTheme = function (theme) {
+      console.log("check");
       mainService.changeTheme(theme)
         .then(function (res) {
-          $rootScope.localTheme = theme;
+          $rootScope.user.currentTheme = theme;
           $ctrl.theme = theme;
           console.log("THEME CHANGED", res)
         })
@@ -27,13 +28,31 @@ angular.module("easyVim.login")
     };
 
     $ctrl.user.achievementsUnlocked = [1,5,6];
-    
-    $ctrl.user.lessonsCompleted = 100;
 
-    userService.getAchievement()
-      .then(function (res) {
-        $ctrl.achievements = res;
-      });
+    $ctrl.user.lessonsCompleted = 55;
+
+    var getData = function () {
+
+      $scope.busy = true;
+
+      userService.getAchievement()
+        .then(function (res) {
+          $ctrl.achievements = res;
+        });
+
+      userService.getLevelInfos()
+        .then(function (res) {
+          console.log("LEVEL INFO ", res)
+          res.sort(function (a, b) {
+            return a.number - b.number;
+          });
+          $ctrl.levelInfos = res;
+        })
+
+      $scope.busy = false;
+    };
+
+    getData();
 
     $ctrl.sidebarElements = [
       {

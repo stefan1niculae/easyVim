@@ -25,8 +25,8 @@ angular.module("easyVimWeb")
       return makeCall('POST', '/badges', {experience: 5});
     };
 
-    service.getCheatSheet = function () {
-      return makeCall('GET', '/cheat-sheet');
+    service.getCommandSections = function () {
+      return makeCall('GET', '/commandSection');
     };
 
     service.getLessons = function () {

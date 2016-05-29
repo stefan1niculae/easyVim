@@ -33,6 +33,7 @@ function config(app) {
     app.use('/api', learnRouter);
     app.use('/api/user', userRouter);
     app.use('/api', challengeRouter);
+    app.use('/api', commandRouter);
 
 
     // error handler
@@ -45,7 +46,4 @@ function config(app) {
             message: "Server error"
         });
     });
-
-}
-
 module.exports = config;

@@ -3,26 +3,21 @@
   <div class="col-lg-2">
     <ul class="list-group borderless">
       <h4>Sections</h4>
-      <li class="list-group-item">1 basic movement</li>
-      <li class="list-group-item">2 word movement</li>
-      <li class="list-group-item">3 basic movement</li>
-      <li class="list-group-item">4 basic movement</li>
-      <li class="list-group-item">5 basic movement</li>
-      <li class="list-group-item">6 basic movement</li>
-      <li class="list-group-item">7 basic movement</li>
-      <li class="list-group-item">8 basic movement</li>
+      <div ng-repeat="section in commandSections">
+        <li class="list-group-item">{{section.name}}</li>
+      </div>
     </ul>
   </div>
 
   <div class="col-lg-10">
     <ul class="cheatSheetItem" >
 
-      <li style="list-style-type: none;" ng-repeat="(sectionName, cheats) in sections">
-        <h2>{{sectionName}}</h2>
+      <li class="noStyleList" ng-repeat="section in commandSections">
+        <h2>{{section.name}}</h2>
 
-        <div ng-repeat="cheat in cheats" >
-          <strong class="leftCheatColumn">{{cheat.shortcut}}</strong>
-          <p class="rightKeyColumn">{{cheat.description}}</p>
+        <div ng-repeat="command in section.commands" >
+          <strong class="leftCheatColumn">{{command.key}}</strong>
+          <p class="rightKeyColumn">{{command.description}}</p>
         </div>
       </li>
 

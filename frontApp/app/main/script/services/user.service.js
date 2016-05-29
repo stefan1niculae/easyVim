@@ -24,5 +24,9 @@ angular.module("easyVimWeb")
       return makeCall("PUT", '/user/achievements', achievements)
     };
 
+    service.getLevelInfos = function () {
+      return makeCall("GET", "/levelInfo")
+    }
+
     return service;
   });

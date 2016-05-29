@@ -4,15 +4,17 @@ angular.module('easyVimWeb')
   .controller('cheatSheetController', function ($scope, mainService) {
 
     $scope.busy = false;
-    $scope.data = [];
+    $scope.commandSections = [];
 
     var getData = function () {
       $scope.busy = true;
 
-      mainService.getCheatSheet()
-        .then(function (cheats) {
-          var sections = _.groupBy(cheats, "section");
-          $scope.sections = sections;
+      mainService.getCommandSections()
+        .then(function (sections) {
+          sections.sort(function (a, b) {
+            return a.order - b.order;
+          });
+          $scope.commandSections = sections;
           console.log("CHEATS", sections)
         })
         .catch(function (err) {

@@ -14,13 +14,12 @@
     <!--progress bar-->
       <uib-progressbar class="progress active" value="lessonProgress" type="success">{{currentLesson.condition}}</uib-progressbar>
     <!--editor-->
-    <easy-vim-directive  progress-listener current-lesson=currentLesson add-history="addHistory(xp, command)"
-    theme="localTheme"></easy-vim-directive>
+    <easy-vim-directive  progress-listener current-lesson=currentLesson add-history="addHistory(xp, command)"></easy-vim-directive>
 
     <div class="row keySection">
       <div class="col-lg-6">
         <h3 class="keyHeader">new keys</h3>
-        <hr class="blueLine" width="110%"/>
+        <hr class="blueLine"/>
         <div class="keyDiv" ng-repeat="command in currentLesson.commands">
           <div class="leftKeyColumn greyLeft">{{command.key}}</div>
           <div class="rightKeyColumn greyRight">{{command.description}}</div>

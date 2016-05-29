@@ -1,8 +1,9 @@
+"use strict";
+
 angular.module('easyVimWeb')
   .controller('lessonController', function ($scope, mainService, $rootScope) {
 
-    $scope.localTheme = $rootScope.localTheme;
-    console.log("LOCAL THEME", $scope.localTheme)
+    $scope.localTheme = $rootScope.user.currentTheme;
 
     $scope.busy = false;
     $scope.chapters = [];

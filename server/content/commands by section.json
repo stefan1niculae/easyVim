@@ -447,9 +447,6 @@
           "g#": "previous matching search pattern under cursor"
         },
         {
-          ":[range]s/{old}/{new}/[args]": "substitute all occurrences {old} with {new} on each line in range. when {old} is empty, last searched pattern is used (from/ ? * # etc)"
-        },
-        {
           ":s": ":[range]s/{old}/{new}/[args] -> substitute all occurrences {old} with {new} on each line in range. when {old} is empty, last searched pattern is used (from/ ? * # etc)"
         },
         {
@@ -483,7 +480,7 @@
           "range: +|-{n}": "n is added/subtracted from the preceding line number (1 if omitted)"
         },
         {
-          "range: .,.5 (same as .,.+5) means current line and 5 more below (inclusive, six total)": "args"
+          "range: .,.5": "(same as .,.+5) means current line and 5 more below (inclusive, six total)"
         },
         {
           "args: c": "confirm each. (yes/no/all remaining/quit & keep changes/last/^e, ^y scroll up, down)"
@@ -502,9 +499,6 @@
         },
         {
           ":[range]d": "delete range"
-        },
-        {
-          ":[range]{mode}/{pattern}/{cmd}": "applies command to matched pattern in range"
         },
         {
           "mode: g": "global"
@@ -581,32 +575,32 @@
           "metachar: \\{uppercase}": "non-{lowercase} (\\S matches non-whitespace)"
         },
         {
-          "quantifiers": "apply to preceding character/range/metachar}"
+          "quants": "apply to preceding character/range/metachar}"
         },
         {
-          "quantifier: *": "zero or more"
+          "quant: *": "zero or more"
         },
         {
-          "quantifier: \\+": "one or more"
+          "quant: \\+": "one or more"
         },
         {
-          "quantifier: \\?": "zero or one (also =)"
+          "quant: \\?": "zero or one (also =)"
         },
         {
-          "quantifier: \\{n, m\\}": "from n to m"
+          "quant: \\{n, m\\}": "from n to m"
         },
         {
-          "quantifier: \\{n\\}": "exactly n times"
+          "quant: \\{n\\}": "exactly n times"
         },
         {
-          "quantifier: \\{,m\\}": "at most m (from zero to m)"
+          "quant: \\{,m\\}": "at most m (from zero to m)"
         },
         {
-          "quantifier: \\{n,\\}": "at least n"
+          "quant: \\{n,\\}": "at least n"
         },
         {
           "_extraInfo": [
-            "these quantifiers are greedy (match as much text as possible). eg in 'abc' 123 'xyz': '.*' will match 'abc' 123 'xyz': '.{-}' will match 'abc'"
+            "these quants are greedy (match as much text as possible). eg in 'abc' 123 'xyz': '.*' will match 'abc' 123 'xyz': '.{-}' will match 'abc'"
           ]
         },
         {

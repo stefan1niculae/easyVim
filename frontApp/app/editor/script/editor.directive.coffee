@@ -46,7 +46,7 @@ angular.module 'easyVim.editor'
         $scope.editorOptions =
           lineNumbers: true
           autofocus: true
-          theme: $scope.editorTheme || "solarized light"
+          theme: if $scope.localTheme then $scope.localTheme.codename else "solarized light"  # TODO: customize solarized theme
           keyMap: "vim"
           mode: "gfm"
           matchBrackets: true
@@ -56,7 +56,6 @@ angular.module 'easyVim.editor'
 
         $scope.codeMirrorOptions =
           onLoad: (editor) -> listener = new $$KeyListener editor
-
 
         $scope.getEditorContent = $scope.getEditorContent or contentLoader.getLandingContent
 

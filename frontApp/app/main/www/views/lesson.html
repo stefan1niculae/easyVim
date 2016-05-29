@@ -11,10 +11,11 @@
   </div>
 
   <div class="col-lg-8">
+    <div style="text-align: center">{{currentLesson.condition}}</div>
     <!--progress bar-->
-      <uib-progressbar class="progress active" value="lessonProgress" type="success">{{currentLesson.condition}}</uib-progressbar>
+    <uib-progressbar class="progress active" value="lessonProgress" type="success">{{getLessonProgress()}}%</uib-progressbar>
     <!--editor-->
-    <easy-vim-directive  progress-listener current-lesson=currentLesson add-history="addHistory(xp, command)"></easy-vim-directive>
+    <easy-vim-directive progress-listener current-lesson="currentLesson" add-history="addHistory(xp, command)" pressed-keys="pressedKeys"></easy-vim-directive>
 
     <div class="row keySection">
       <div class="col-lg-6">
@@ -44,11 +45,6 @@
       <li class="list-group-item" ng-repeat="action in history">
         <div ng-class="isActionPositive(action) ? 'leftHistoryColumn greenLeft' : 'leftHistoryColumn greyLeft'">{{action.xp}}xp</div>
         <div ng-class="isActionPositive(action) ? 'rightHistoryColumn greenRight' : 'rightHistoryColumn greyRight'">{{action.command}}</div>
-      </li>
-      <li class="list-group-item">
-        <img class="badgeColumn" src="/css/icons/Dice.png"/>
-        <div class="leftHistoryColumn greenLeft">Badge</div>
-        <div class="rightHistoryColumn greenRight">2w</div>
       </li>
     </ul>
   </div>

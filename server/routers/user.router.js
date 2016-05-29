@@ -43,20 +43,43 @@ router.route('/currentTheme')
     });
 
 router.route('/achievements')
-    .put(function (req, res) {
-        let currentUser = {};
-        User.findOne(req.user.user)
-            .then(function (user) {
-                currentUser = user;
-                return Achievement.findOne(req.body)
-            })
-            .then(function (achievement) {
-                currentUser.achievementsUnlocked.push(achievement);
-                return currentUser.save();
-            })
-            .then(function () {
-                res.status(200).send({});
-            })
-    });
+  .put(function (req, res) {
+    let currentUser = {};
+    User.findOne(req.user.user)
+      .then(function (user) {
+        currentUser = user;
+        return Achievement.findOne(req.body)
+      })
+      .then(function (achievement) {
+        req.user.user.achievmentsUnlocked.push(achievement);
+        currentUser.achievementsUnlocked.push(achievement);
+        return currentUser.save();
+      })
+      .then(function () {
+        res.status(200).send({});
+      })
+  });
+
+router.route('/lessonsCompleted')
+  .put(function (req, res) {
+    let currentUser = {};
+    User.findOne(req.user.user)
+      .then(function (user) {
+        currentUser = user;
+        return Lesson.findOne(req.body.lesson);
+      })
+      .then(function (lesson) {
+        req.user.user.lessonsCompleted.push(lesson);
+        req.user.user.xp += req.body.xp;
+        req.user.user.gold += req.body.gold;
+        currentUser.lessonsCompleted.push(lesson);
+        currentUser.xp += req.body.xp;
+        currentUser.gold += req.body.gold;
+        return currentUser.save();
+      })
+      .then(function () {
+        res.status(200).send({});
+      })
+  });
 
 module.exports = router;

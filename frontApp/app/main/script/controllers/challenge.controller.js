@@ -19,8 +19,17 @@ angular.module('easyVimWeb')
     $ctrl.currentQuest = {};
 
     $ctrl.sendInvitation = function(user){
-
-      mainService.addInvitation(invitation)
+      console.log("inside send invite");
+       var invitation = {
+        challenge: $ctrl.currentQuest._id,
+        sender: $ctrl.user._id,
+        receiver: user._id
+      };
+      mainService.addInvitation(invitation).then(function(){
+        console.log("Invitation send");
+      },function(err){
+        console.log("Error: "+err)
+      });
     }
 
     $ctrl.getFriends = function(){

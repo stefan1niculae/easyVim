@@ -62,7 +62,7 @@ angular.module("easyVimWeb")
     };
     
     service.addInvitation = function(invitation){
-      return makeCall("POST", '/invitation');
+      return makeCall("POST", '/invitation', {challengeInvitation: invitation});
     };
 
     return service;

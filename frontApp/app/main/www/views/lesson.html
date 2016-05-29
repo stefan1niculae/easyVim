@@ -3,14 +3,17 @@
   <div class="col-lg-2">
     <h3>Lessons</h3>
     <div class="chapter-list-item" ng-repeat="chapter in chapters" ng-class="getChapterClass(chapter)">
-      {{chapter.order}}) {{chapter.name}}
+      {{getChapterOrder(chapter)}} {{chapter.name}}
       <div class="lesson-list-item" ng-repeat="lesson in chapter.lessons" ng-class="isSelected(lesson) ? 'lesson-selected' : 'lesson-unselected'" ng-click="selectLesson(lesson, chapter)">
-        {{lesson.name}}
+        {{lesson.order}} {{lesson.name}}
+        <span ng-class="isCompleted(lesson) ? 'fa fa-check' : 'fa' "/>
       </div>
+      <br>
     </div>
   </div>
 
   <div class="col-lg-8">
+    <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Arata modala!</div>
     <div style="text-align: center">{{currentLesson.condition}}</div>
     <!--progress bar-->
     <uib-progressbar class="progress active" value="lessonProgress" type="success">{{getLessonProgress()}}%</uib-progressbar>
@@ -48,6 +51,19 @@
       </li>
     </ul>
   </div>
+
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+          Congratulations! <br>
+          Lesson "{{currentLesson.name}}" from chapter {{getChapterOrder(currentChapter)}} was completed! <br>
+          <input type="button" value="Next lesson" ng-click="">
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 

@@ -49,7 +49,7 @@
     <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Challenge a friend!</div>
     <br/>
     <easy-vim-directive progress-listener current-lesson="currentLesson" history="history"
-                        theme="localTheme.codename"></easy-vim-directive>
+                        theme="localTheme.codename" ng-paste="stopPasteEvent($event)"></easy-vim-directive>
 
 
     <div class="row keySection">
@@ -131,24 +131,6 @@
       </li>
     </ul>
   </div>
-
-
-  <!--<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">-->
-    <!--<div class="modal-dialog modal-sm">-->
-      <!--<div class="modal-content">-->
-        <!--<div class="modal-header">-->
-          <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span-->
-            <!--aria-hidden="true">&times;</span></button>-->
-          <!--<h4 class="modal-title">Congratulations!</h4>-->
-          <!--<small>Challenge completed!</small>-->
-        <!--</div>-->
-        <!--<div class="modal-body">-->
-          <!--+{{$ctrl.currentQuest.difficulty.completionExperience}}xp-->
-          <!--+{{$ctrl.currentQuest.difficulty.completionGold}}gold-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
 
 </div>
 

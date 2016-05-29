@@ -91,7 +91,7 @@
     <ul class="list-group borderless historyList">
       <h4 class="leftHistoryHeader">Experience</h4>
       <h4 class="rightHistoryHeader">History</h4>
-      <li class="list-group-item" ng-repeat="action in history">
+      <li class="list-group-item" ng-repeat="action in $ctrl.history">
         <div class="leftHistoryColumn greenLeft">{{action.xp}}xp</div>
         <div class="rightHistoryColumn greenRight">{{action.command}}</div>
       </li>

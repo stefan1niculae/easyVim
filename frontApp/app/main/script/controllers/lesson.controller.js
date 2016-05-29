@@ -33,6 +33,7 @@ angular.module('easyVimWeb')
     $scope.history = [];
     $scope.previousKeys = [];
     $scope.pressedKeys = [];
+    var finishedLessons = [];
     var levelXP = 0;
     var lessonXP = 0;
 
@@ -42,15 +43,11 @@ angular.module('easyVimWeb')
     }
 
     function getNextLesson() {
+      finishedLessons = $rootScope.user.lessonsCompleted;
       lessonXP = 0;
       if (!$scope.currentLesson._id) {
-        _.forEach($scope.currentChapter.lessons, function(lesson) {
-          if($rootScope.user.lessonsCompleted.indexOf(lesson) === -1) {
-            $scope.currentLesson = lesson;
-            return false;
-          }
-        });
-        return $scope.currentLesson;
+        var lastFinishedLesson = $rootScope.user.lessonsCompleted[$rootScope.user.lessonsCompleted.length-1];
+        return $scope.currentChapter.lessons[lastFinishedLesson.order]
       }
 
       $scope.pressedKeys = [];
@@ -122,6 +119,7 @@ angular.module('easyVimWeb')
     };
 
     var isLocked = function (chapter) {
+      return false;
       return chapter.order > $scope.currentChapter.order;
     };
 
@@ -142,7 +140,7 @@ angular.module('easyVimWeb')
     };
 
     $scope.isCompleted = function (lesson) {
-      return $rootScope.user.lessonsCompleted.indexOf(lesson) > -1;
+      return _.map($rootScope.user.lessonsCompleted, '_id').indexOf(lesson._id) > -1;
     };
 
     $scope.addHistory = function (xp, command) {
@@ -163,7 +161,7 @@ angular.module('easyVimWeb')
     var isChapterCompleted = function () {
       var completed = true;
       _.forEach($scope.currentChapter.lessons, function (lesson) {
-        if ($rootScope.user.lessonsCompleted.indexOf(lesson) === -1) {
+        if (!isCompleted(lesson)) {
           completed = false;
         }
       });

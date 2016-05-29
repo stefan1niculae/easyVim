@@ -66,12 +66,12 @@ router.route('/achievements')
 
 router.route('/lessonsCompleted')
   .put(function (req, res) {
-    Lesson.find(req.body.lesson)
+    Lesson.findOne({_id: req.body.lesson._id})
       .then(function(lesson) {
         req.user.user.lessonsCompleted.push(lesson);
         req.user.user.xp += req.body.xp;
         req.user.user.gold += req.body.gold;
-        return User.finOneAndUpdate({_id: req.user.user._id}, {lessonsCompleted: req.user.user.lessonsCompleted}, {xp: req.body.xp}, {gold: req.body.gold});
+        return User.update({_id: req.user.user._id}, {lessonsCompleted: req.user.user.lessonsCompleted, xp: req.body.xp, gold: req.body.gold});
       })
       .then(function () {
         res.status(200).send({});

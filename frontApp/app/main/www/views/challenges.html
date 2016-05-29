@@ -5,7 +5,7 @@
       <div class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
         {{difficulty.name}}<span class="xpSpent"> ({{difficulty.attemptPrice}} gold)</span>
         <div class="challenge-list-item" ng-repeat="challenge in difficulty.challenges"
-             ng-click="$ctrl.setCurrentQuest(difficulty,challenge)">
+             ng-click="$ctrl.setCurrentQuest(difficulty,challenge)" dismiss="modal">
           {{challenge.name}}
           <div ng-if="challenge.invitation">
             <p style="color: grey;">Invited by {{challenge.invitation.sender}}
@@ -15,7 +15,7 @@
         <br>
       </div>
 
-      <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">

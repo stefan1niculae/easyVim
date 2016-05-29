@@ -41,6 +41,7 @@ angular.module('easyVimWeb')
       mainService.addInvitation(invitation)
         .then(function () {
           console.log("Invitation sent");
+          $('#myModal').modal('hide');
         });
     };
 

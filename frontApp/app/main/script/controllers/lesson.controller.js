@@ -47,7 +47,11 @@ angular.module('easyVimWeb')
       lessonXP = 0;
       if (!$scope.currentLesson._id) {
         var lastFinishedLesson = $rootScope.user.lessonsCompleted[$rootScope.user.lessonsCompleted.length-1];
-        return $scope.currentChapter.lessons[lastFinishedLesson.order]
+        if (lastFinishedLesson) {
+          return $scope.currentChapter.lessons[lastFinishedLesson.order]
+        } else {
+          return $scope.currentChapter.lessons[0];
+        }
       }
 
       $scope.pressedKeys = [];
@@ -161,7 +165,7 @@ angular.module('easyVimWeb')
     var isChapterCompleted = function () {
       var completed = true;
       _.forEach($scope.currentChapter.lessons, function (lesson) {
-        if (!isCompleted(lesson)) {
+        if (!$scope.isCompleted(lesson)) {
           completed = false;
         }
       });

@@ -23,7 +23,7 @@ angular.module('easyVimWeb')
         name: 'Cheat Sheet',
         state: 'cheatSheet',
         isAccessible: function () {
-          return true;
+          return app.user !== null;
         }
       }
 

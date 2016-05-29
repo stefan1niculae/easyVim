@@ -24,11 +24,13 @@
 
       <div class="col-lg-11">
         <div class="progress">
+
+          <div class="progressInfo" ng-repeat="levelInfo in $ctrl.levelInfos">
+            <div>{{levelInfo.number}}</div>
+          </div>
           <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-style="{width: user.lessonsCompleted + '%'}"></div>
         </div>
-        <div style="width: 10%; display: inline-block" ng-repeat="levelInfo in $ctrl.levelInfos">
-          <div>{{levelInfo.number}}</div>
-        </div>
+
       </div>
 
       <div class="col-lg-1">

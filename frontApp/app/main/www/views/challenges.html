@@ -1,6 +1,7 @@
 <div class="row" ng-keypress="$ctrl.addKeyPressed($event)">
 
   <div class="col-lg-2">
+    <h3>Challanges</h3>
     <ul class="list-group borderless">
       <li class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
         {{difficulty.name}}<span class="xpSpent">{{difficulty.attemptPrice}}</span>

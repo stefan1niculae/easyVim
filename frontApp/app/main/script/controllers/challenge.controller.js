@@ -2,7 +2,7 @@
 
 angular.module('easyVimWeb')
   .controller('challengeController', function ($scope, userService, mainService, $rootScope,$timeout,
-                                               challengeDifficulties){
+                                               challengeDifficulties, toastr, toastrConfig){
 
     var $ctrl = this;
 
@@ -19,9 +19,8 @@ angular.module('easyVimWeb')
     $ctrl.currentQuest = {};
 
     $ctrl.sendInvitation = function(user){
-
       mainService.addInvitation(invitation)
-    }
+    };
 
     $ctrl.getFriends = function(){
       userService.getFriends().then(function(res){
@@ -48,10 +47,10 @@ angular.module('easyVimWeb')
       $ctrl.keysPressed += String.fromCharCode(e.keyCode);
     };
 
-    $scope.$watch('initialContent', function(event){
-      console.log('Modificare in editor');
+    $scope.$watch('initialContent', function(){
       if ($scope.initialContent == $ctrl.targetText){
-        console.log("Congrats! You reached target");
+        toastr.success('You have completed your challenge', 'Congrats!', {
+        });
       }
     });
     $timeout(function(){$scope.initialContent = "Au trecut 10 secunde"}, 10000);

@@ -146,7 +146,7 @@ angular.module('easyVimWeb')
     };
 
     $scope.addHistory = function (xp, command) {
-      $rootScope.user.xp += xp;
+      lessonXP += xp;
       $scope.history.push({
         xp: xp,
         command: command

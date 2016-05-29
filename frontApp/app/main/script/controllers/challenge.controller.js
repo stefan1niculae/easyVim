@@ -17,6 +17,8 @@ angular.module('easyVimWeb')
     $ctrl.currentQuest = {};
     $ctrl.targetText = '';
     $ctrl.scores = [];
+    $ctrl.history = [];
+    var challengeXP = 0;
 
     $ctrl.getInvitations = function () {
       mainService.getInvitations().then(function (res) {
@@ -76,6 +78,7 @@ angular.module('easyVimWeb')
 
     $ctrl.addKeyPressed = function (e) {
       $ctrl.keysPressed += String.fromCharCode(e.keyCode);
+      addHistory(3, String.fromCharCode(e.keyCode));
     };
 
     $scope.$watch('initialContent', function (event) {
@@ -126,6 +129,17 @@ angular.module('easyVimWeb')
         .catch(function (err) {
           console.error("error on put achievement", err);
         })
+    };
+
+    var addHistory = function (xp, command) {
+      challengeXP += xp;
+      $ctrl.history.push({
+        xp: xp,
+        command: command
+      });
+      if ($ctrl.history.length == 10) {
+        $ctrl.history.shift();
+      }
     };
 
     return $ctrl;

@@ -7,6 +7,7 @@ const Chapter = require("./../models/chapter").model;
 const Lesson = require("./../models/lesson").model;
 const Theme = require("./../models/editorTheme").model;
 const Achievement = require('./../models/achievement').model;
+const LevelInfo = require('./../models/levelInfo').model;
 
 router.route('/lesson')
   .get(function (req, res) {
@@ -67,5 +68,14 @@ router.route('/achievement')
         res.json(achievements)
       })
   });
+
+router.route('/levelInfo')
+    .get(function (req, res) {
+        LevelInfo.find({})
+            .then(function (levelInfos) {
+                res.json(levelInfos)
+            })
+        }
+    );
 
 module.exports = router;

@@ -8,6 +8,7 @@ const logger = require('log4js').getDefaultLogger();
 const learnRouter = require('../routers/learn.router');
 const authRouter = require('../routers/auth.router');
 const userRouter = require('../routers/user.router');
+const commandRouter = require('../routers/command.router');
 
 function config(app) {
   app.use(bodyParser.json());
@@ -30,6 +31,7 @@ function config(app) {
 
 app.use('/api', learnRouter);
 app.use('/api/user', userRouter);
+app.use('/api', commandRouter);
 
 
 // error handler

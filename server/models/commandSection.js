@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const Command = require('./command');
 
 const commandSectionSchema = new mongoose.Schema({
     name: {

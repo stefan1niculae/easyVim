@@ -18,22 +18,17 @@
 
     <div class="row">
 
-      <h4 ng-class="$ctrl.sidebarElements[1].clicked ? 'clicked' : ''">
-        {{$ctrl.sidebarElements[1].name}}
+      <h4 ng-class="$ctrl.sidebarElements[2].clicked ? 'clicked' : ''">
+        {{$ctrl.sidebarElements[2].name}}
       </h4>
 
       <div class="col-lg-11">
-
-        <div ng-repeat="achievement in $ctrl.achievements" class="badges-profile">
-          <div ng-class="$ctrl.user.achievementsUnlocked.indexOf(achievement.order) > -1 ? 'availableAchievement' : 'unavailableAchievement'">
-            <img class="col-lg-4" style="width: 24%" ng-src="{{'css/icons/' + achievement.picturePath}}"/>
-            <div class="col-lg-8">
-              <h4 style="margin-bottom: 0">{{achievement.name}}</h4>
-              <p>{{achievement.description}} </p>
-            </div>
-          </div>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-style="{width: user.lessonsCompleted + '%'}"></div>
         </div>
-
+        <div style="width: 10%; display: inline-block" ng-repeat="levelInfo in $ctrl.levelInfos">
+          <div>{{levelInfo.number}}</div>
+        </div>
       </div>
 
       <div class="col-lg-1">
@@ -42,26 +37,31 @@
           Sign out
         </a>
       </div>
-
-    </div>
-
-    <div class="row" style="width: 99%">
-
-      <h4 ng-class="$ctrl.sidebarElements[2].clicked ? 'clicked' : ''">
-        {{$ctrl.sidebarElements[2].name}}
-      </h4>
-      <div class="progress">
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-style="{width: user.lessonsCompleted + '%'}"></div>
-      </div>
-
       <!--<div>-->
       <!--<div ng-repeat="i in [1, 2, 3, 4]" style="display: inline-block">movement lessons</div>-->
       <!--</div>-->
 
     </div>
 
+    <div class="row">
 
-    <div class="row" style="width: 99%">
+      <h4 ng-class="$ctrl.sidebarElements[1].clicked ? 'clicked' : ''">
+        {{$ctrl.sidebarElements[1].name}}
+      </h4>
+
+        <div ng-repeat="achievement in $ctrl.achievements" class="badges-profile">
+          <div ng-class="$ctrl.user.achievementsUnlocked.indexOf(achievement.order) > -1 ? 'availableAchievement' : 'unavailableAchievement'">
+            <img class="col-lg-4 badgeFormat" ng-src="{{'css/icons/' + achievement.picturePath}}"/>
+            <div class="col-lg-8 badgeDescription">
+              <h4 style="margin-bottom: 0">{{achievement.name}}</h4>
+              <p>{{achievement.description}} </p>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="row themesWidth">
       <h4 ng-class="$ctrl.sidebarElements[3].clicked ? 'clicked' : ''">
         {{$ctrl.sidebarElements[3].name}}
       </h4>

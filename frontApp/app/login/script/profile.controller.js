@@ -28,13 +28,31 @@ angular.module("easyVim.login")
     };
 
     $ctrl.user.achievementsUnlocked = [1,5,6];
-    
-    $ctrl.user.lessonsCompleted = 100;
 
-    userService.getAchievement()
-      .then(function (res) {
-        $ctrl.achievements = res;
-      });
+    $ctrl.user.lessonsCompleted = 55;
+
+    var getData = function () {
+
+      $scope.busy = true;
+
+      userService.getAchievement()
+        .then(function (res) {
+          $ctrl.achievements = res;
+        });
+
+      userService.getLevelInfos()
+        .then(function (res) {
+          console.log("LEVEL INFO ", res)
+          res.sort(function (a, b) {
+            return a.number - b.number;
+          });
+          $ctrl.levelInfos = res;
+        })
+
+      $scope.busy = false;
+    };
+
+    getData();
 
     $ctrl.sidebarElements = [
       {

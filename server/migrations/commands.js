@@ -19,11 +19,9 @@ const generator = function () {
             order: index + 1,
             extraInfo: "TODO"
         });
-
-        promises.push(dbSection.save());
+        let currentCommands = [];
 
         _.forEach(section.commands, function (command, index) {
-
             const key = Object.keys(command)[0];
 
             if(key === '_extraInfo'){
@@ -36,11 +34,19 @@ const generator = function () {
                 key: key,
                 description: description,
                 order: index + 1,
-                section: dbSection
+                section: dbSection._id
             });
 
+            currentCommands.push(dbCommand);
+
             promises.push(dbCommand.save());
-        })
+        });
+        dbSection.commands = _.map(currentCommands, function (elem) {
+            return elem._id;
+        });
+
+        promises.push(dbSection.save());
+
     });
 
     return Promise.all(promises);

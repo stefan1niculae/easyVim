@@ -25,7 +25,6 @@ function generateLessons(commandModels) {
     let promises = [];
 
     _.forEach(chapters, function (chapter, index) {
-        let chapterLessons = [];
         let promiseLessons = [];
 
         const dbChapter = new Chapter({

@@ -4,7 +4,8 @@
     <ul class="list-group borderless">
       <li class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
         {{difficulty.name}}<span class="xpSpent">{{difficulty.attemptPrice}}</span>
-        <div class="lesson-list-item" ng-repeat="challenge in difficulty.challenges" ng-click="$ctrl.setCurrentQuest(difficulty,challenge)">
+        <div class="lesson-list-item" ng-repeat="challenge in difficulty.challenges"
+             ng-click="$ctrl.setCurrentQuest(difficulty,challenge)">
           {{challenge.name}}<span class="fa fa-check"/>
         </div>
       </li>
@@ -13,7 +14,8 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Select a friend</h4>
               Invite for {{$ctrl.currentQuest.difficulty.invitePrice}}
             </div>
@@ -131,21 +133,22 @@
   </div>
 
 
-  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Congratulations!</h4>
-          <small>Challenge completed!</small>
-        </div>
-        <div class="modal-body">
-          +{{$ctrl.currentQuest.difficulty.completionExperience}}xp
-          +{{$ctrl.currentQuest.difficulty.completionGold}}gold
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">-->
+    <!--<div class="modal-dialog modal-sm">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span-->
+            <!--aria-hidden="true">&times;</span></button>-->
+          <!--<h4 class="modal-title">Congratulations!</h4>-->
+          <!--<small>Challenge completed!</small>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--+{{$ctrl.currentQuest.difficulty.completionExperience}}xp-->
+          <!--+{{$ctrl.currentQuest.difficulty.completionGold}}gold-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
 </div>
 

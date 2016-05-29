@@ -6,9 +6,9 @@ const router = express.Router();
 const Challenge = require("./../models/challenge").model;
 const ChallengeDifficulty = require("./../models/challengeDifficulty").model;
 const ChallengeInvitation = require("./../models/challengeInvitation").model;
+const ChallengeEntry = require("./../models/bestChallengeEntry").model;
 const User = require('./../models/user');
 const Promise = require('bluebird');
-
 
 
 router.route('/challengeDifficulty')
@@ -21,6 +21,25 @@ router.route('/challengeDifficulty')
             })
     });
 
+router.route('/challengeEntry')
+    .post((req, res) => {
+        ChallengeEntry.find({user: req.body.user, challenge: req.body.challenge})
+        .then((challengeEntries) =>{
+            if (challengeEntries.length === 0){
+                const challengeEntry = new ChallengeEntry(req.body);
+                return challengeEntry.save();
+            }
+
+           if(challengeEntries[0].keySequence.length > req.body.keySequence.length){
+               return ChallengeEntry.update({user: req.body.user, challenge: req.body.challenge}, {keySequence: req.body.keySequence});
+           }
+            return Promise.resolve('');
+        })
+        .then(() => {
+            res.status(200).json({})
+        })
+    });
+
 router.route('/invitation')
     .get(function (req, res) {
         ChallengeInvitation.find({receiver: {
@@ -31,7 +50,7 @@ router.route('/invitation')
             })
     })
     .put(function (req, res) {
-        Challenge.find({_id: req.body.challenge._id})
+        Challenge.find({_id: req.body.challenge.challenge._id})
             .then((challenge) => {
                 return ChallengeInvitation.update({
                     receiver: req.user.user,
@@ -47,6 +66,7 @@ router.route('/invitation')
                         })
                 });
             })
+
             .then(() => {
                 res.status(200).json({})
             })

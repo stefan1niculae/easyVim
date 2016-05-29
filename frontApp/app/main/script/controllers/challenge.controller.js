@@ -2,7 +2,7 @@
 
 angular.module('easyVimWeb')
   .controller('challengeController', function ($scope, userService, mainService, $rootScope,$timeout,
-                                               challengeDifficulties){
+                                               challengeDifficulties, toastr, toastrConfig){
 
     var $ctrl = this;
 

@@ -10,7 +10,9 @@
       'ngTouch',
       "ngCookies",
       'ui.codemirror',
-      'ui.bootstrap'
+      'ui.bootstrap',
+      'oitozero.ngSweetAlert',
+      'toastr'
     ])
     .config(configure)
     .run(run);
@@ -39,7 +41,18 @@
       templateUrl: 'views/cheatSheet.html',
       controller: 'cheatSheetController',
       controllerAs: 'cheatSheetCtrl',
-      hideNavbar: false
+      hideNavbar: false,
+      resolve: {
+        commandSections: function (mainService) {
+          return mainService.getCommandSections()
+            .then(function (sections) {
+              sections.sort(function (a, b) {
+                return a.order - b.order;
+              });
+              return sections;
+            })
+        }
+      }
     });
 
     $stateProvider.state('lesson', {

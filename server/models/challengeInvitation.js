@@ -8,18 +8,18 @@ const challenge = require('./challenge');
 const challengeInvitationSchema = new mongoose.Schema({
     sender: {
         type: user.schema,
-        required: '',
-        ref: 'challengeInvitationsSent'
+        required: ''
+        // ref: 'challengeInvitationsSent'
     },
     receiver: {
         type: user.schema,
-        required: '',
-        ref: 'challengeInvitationsReceived'
+        required: ''
+        // ref: 'challengeInvitationsReceived'
     },
     challenge: {
         type: challenge.schema,
-        required: '',
-        ref: 'challengeInvitations'
+        required: ''
+        // ref: 'challengeInvitations'
     },
     honored: {
         type: Boolean,

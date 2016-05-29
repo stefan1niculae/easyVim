@@ -2,11 +2,13 @@
 
 const express = require('express');
 const router = express.Router();
-const _ = require('lodash');
 
 const Challenge = require("./../models/challenge").model;
 const ChallengeDifficulty = require("./../models/challengeDifficulty").model;
 const ChallengeInvitation = require("./../models/challengeInvitation").model;
+const User = require('./../models/user');
+const Promise = require('bluebird');
+
 
 
 router.route('/challengeDifficulty')
@@ -32,19 +34,40 @@ router.route('/invitation')
                 return ChallengeInvitation.update({
                     receiver: req.user.user,
                     challenge: challenge
-                }, {honored: true}, {multi: true});
-                // TODO add gold & xp
+                }, {honored: true}, {multi: true})
+                .then(() => {
+                    req.user.user.xp   += req.body.challenge.difficulty.xpAwarded;
+                    req.user.user.gold += req.body.challenge.difficulty.goldAwarded;
+
+                    return User.findOneAndUpdate({ _id: req.user.user._id }, {
+                            xp: req.user.user.xp,
+                            gold: req.user.user.gold
+                        })
+                });
             })
             .then(() => {
                 res.status(200).json({})
             })
     })
     .post(function (req, res) {
-        // TODO change in req.body: find sender (user), receiver (user) and challenge
-        const invitation = new ChallengeInvitation(req.body);
-        invitation.save(() => {
-            res.status(200).json({})
-        })
+        let promises = [];
+
+        promises.push(User.findOne({_id: req.user.user._id}));
+        promises.push(User.findOne({_id: req.body.receiver._id}));
+        promises.push(Challenge.findOne({_id: req.body.challenge._id}));
+        return Promise.all(promises)
+            // FIXME
+            .then(([sender, receiver, challenge]) => {
+                const invitation = new ChallengeInvitation({
+                    sender: sender,
+                    receiver: receiver,
+                    challenge: challenge
+                });
+                return invitation.save().then(() => {
+                    res.status(200).json({})
+                })
+            });
+
         // TODO maybe? send invitation to facebook
     });
 

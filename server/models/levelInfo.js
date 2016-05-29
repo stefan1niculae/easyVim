@@ -5,7 +5,8 @@ const chapter = require('./chapter');
 const challengeDifficulty = require('./challengeDifficulty');
 
 
-const levelInfoSchema = new mongoose.Schema({
+const levelInfoSchema = new
+    mongoose.Schema({
     number: {
         type: Number,
         required: ''

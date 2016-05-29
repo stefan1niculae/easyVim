@@ -31,8 +31,8 @@ angular.module('easyVimWeb')
           if (isNormalMode) {
             isNormalMode = !insertModeKeys.contains(keyCodeMapper(keyCode));
           } else {
-            isNormalMode = keyCode == 27;
-            if (isValidCommand("Esc")) {
+            isNormalMode = (keyCode == 27);
+            if (isNormalMode && isValidCommand("Esc")) {
               scope.pressedKeys.push("Esc");
               scope.addHistory({xp: 3, command: "Esc"});
               $rootScope.$emit('progressChanged', getIncrement());
@@ -58,7 +58,7 @@ angular.module('easyVimWeb')
         };
 
         var isValidCommand = function(key) {
-          return isCorrect(key) && isUsedOnce(key);
+          return isCorrect(key) && isUsedOnce(key) && !$rootScope.user.lessonsCompleted.contains(scope.currentLesson);
         };
 
         element.bind("keypress", function(event) {

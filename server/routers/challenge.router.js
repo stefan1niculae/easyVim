@@ -23,7 +23,9 @@ router.route('/challengeDifficulty')
 
 router.route('/invitation')
     .get(function (req, res) {
-        ChallengeInvitation.find({receiver: req.user.user})
+        ChallengeInvitation.find({receiver: {
+            facebookId: req.user.user.facebookId
+            }})
             .then(function (invitations) {
                 res.json(invitations);
             })
@@ -51,6 +53,8 @@ router.route('/invitation')
     })
     .post(function (req, res) {
         let promises = [];
+
+        console.log(req);
 
         promises.push(User.findOne({_id: req.body.sender._id}));
         promises.push(User.findOne({_id: req.body.receiver._id}));

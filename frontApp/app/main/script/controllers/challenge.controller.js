@@ -14,16 +14,27 @@ angular.module('easyVimWeb')
     $ctrl.friends = [];
 
     $ctrl.invitations = [];
-    $ctrl.targetText = 'textTarget luat din model';
     $ctrl.keysPressed ='';
     $ctrl.currentQuest = {};
+    $ctrl.targetText = '';
+
+    $ctrl.getInvitations = function(){
+      mainService.getInvitations().then(function(res){
+        console.log('get invitations')
+        console.log(res);
+        $ctrl.invitations = res;
+      },function(err){
+        console.log("Error: "+ err);
+      })
+    };
+    $ctrl.getInvitations();
 
     $ctrl.sendInvitation = function(user){
       console.log("inside send invite");
        var invitation = {
-        challenge: $ctrl.currentQuest._id,
-        sender: $ctrl.user._id,
-        receiver: user._id
+        challenge: {_id: $ctrl.currentQuest._id},
+        sender: {_id: $ctrl.user._id},
+        receiver:{_id: user._id}
       };
       mainService.addInvitation(invitation).then(function(){
         console.log("Invitation send");
@@ -51,6 +62,7 @@ angular.module('easyVimWeb')
       $scope.initialContent = quest.startingText;
       $ctrl.keysPressed ='';
     };
+    $ctrl.setCurrentQuest($ctrl.challengeDifficulties[0],$ctrl.challengeDifficulties[0].challenges[1]);
 
     $ctrl.addKeyPressed = function(e){
       console.log('inside add key pressed' + String.fromCharCode(e.keyCode));
@@ -63,7 +75,6 @@ angular.module('easyVimWeb')
         console.log("Congrats! You reached target");
       }
     });
-    $timeout(function(){$scope.initialContent = "Au trecut 10 secunde"}, 10000);
 
     $ctrl.putAchievements = function (achievements) {
       userService.putAchievements(achievements)

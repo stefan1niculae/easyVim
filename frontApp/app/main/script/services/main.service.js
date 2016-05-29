@@ -48,7 +48,7 @@ angular.module("easyVimWeb")
     service.getChallenges = function () {
       return makeCall("GET", "/challenges")
     };
-    
+
     service.updateLessonsCompleted = function(lesson, xp, gold) {
       return makeCall("PUT", "/user/lessonsCompleted", {lesson: lesson, xp: xp, gold: gold});
     };
@@ -60,10 +60,14 @@ angular.module("easyVimWeb")
     service.getAchievement = function () {
       return makeCall("GET", '/achievement')
     };
-    
+
     service.addInvitation = function(invitation){
-      return makeCall("POST", '/invitation', {challengeInvitation: invitation});
+      return makeCall("POST", '/invitation', invitation);
     };
+
+    service.getInvitations = function(){
+      return makeCall("GET", '/invitation');
+    }
 
     return service;
   });

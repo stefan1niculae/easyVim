@@ -15,7 +15,7 @@ const challengeSchema = new mongoose.Schema({
     difficulty: {
         type: challengeDifficulty.schema,
         required: '',
-        ref: 'challenges'
+        ref: 'challenges'  // TODO
     },
 
     startingText: {

@@ -9,12 +9,16 @@ const bestChallengeEntry = new mongoose.Schema({
     user: {
         type: user.schema,
         required: '',
-        ref: 'bestChallengeEntries'
+        ref: 'bestChallengeEntries' // TODO
     },
     challenge: {
         type: challenge.schema,
         required: '',
-        ref: 'bestEntries'
+        ref: 'bestEntries' // TODO
+    },
+    keySequence: {
+        type: String,
+        required: ''
     }
 });
 

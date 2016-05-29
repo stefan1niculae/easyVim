@@ -60,6 +60,10 @@ angular.module("easyVimWeb")
     service.getAchievement = function () {
       return makeCall("GET", '/achievement')
     };
+    
+    service.addInvitation = function(invitation){
+      return makeCall("POST", '/invitation');
+    };
 
     return service;
   });

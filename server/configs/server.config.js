@@ -8,8 +8,8 @@ const logger = require('log4js').getDefaultLogger();
 const learnRouter = require('../routers/learn.router');
 const authRouter = require('../routers/auth.router');
 const userRouter = require('../routers/user.router');
-const commandRouter = require('../routers/command.router');
 const challengeRouter = require('../routers/challenge.router');
+const commandRouter = require('../routers/command.router');
 
 function config(app) {
     app.use(bodyParser.json());

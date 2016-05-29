@@ -25,10 +25,10 @@
       url: "/challenges",
       templateUrl: "views/challenges.html",
       controller: 'challengeController',
-      controllerAs: 'challengeCtrl',
+      controllerAs: '$ctrl',
       hideNavbar: false,
       resolve: {
-        challenges: function (mainService) {
+        challengeDifficulties: function (mainService) {
           return mainService.getChallengeDifficulties();
         }
       }

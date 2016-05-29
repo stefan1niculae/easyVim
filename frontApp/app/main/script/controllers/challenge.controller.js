@@ -18,7 +18,6 @@ angular.module('easyVimWeb')
     $ctrl.targetText = '';
     $ctrl.scores = [];
     $ctrl.history = [];
-    var challengeXP = 0;
 
     $ctrl.personalBest = 0;
 
@@ -143,7 +142,6 @@ angular.module('easyVimWeb')
     };
 
     var addHistory = function (xp, command) {
-      challengeXP += xp;
       $ctrl.history.push({
         xp: xp,
         command: command

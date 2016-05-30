@@ -43,7 +43,7 @@
 
 
     <ul class="nav navbar-nav">
-      <li ng-repeat="view in views">
+      <li ng-repeat="view in views" style="padding-right: 50px">
         <a href="" ui-sref="{{view.state}}" class="nav-header" ng-class="view.isAccessible() ? '' : 'greyed-out' ">
           {{view.name}}
         </a>
@@ -53,7 +53,7 @@
 
     <ul class="nav navbar-nav navbar-right">
 
-      <li style="padding-top: 3px">
+      <li style="padding-top: 3px; padding-right: 15px">
         <a href="" ng-if="app.user!==null" class="navbar-profile nav-profile-name" ui-sref="profile">
 
           <img class="user-pic" ng-src="{{app.user.picture}}" style="margin-right: 7px">

@@ -44,7 +44,7 @@
 
         {
             "name": "Unlocker",
-            "description": "Unlock 3 thremes",
+            "description": "Unlock 3 themes",
             "picture": "Locked",
             "trigger": "profile shop"
         },

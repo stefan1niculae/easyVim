@@ -52,6 +52,10 @@ angular.module("easyVimWeb")
     service.updateLessonsCompleted = function(lesson, xp, gold) {
       return makeCall("PUT", "/user/lessonsCompleted", {lesson: lesson, xp: xp, gold: gold});
     };
+    
+    service.updateUnLockedChapters = function(chapter) {
+      return makeCall("PUT", "/user/unLockedChapters", {chapter: chapter});
+    };
 
     service.getChallengeDifficulties = function () {
       return makeCall("GET", "/challengeDifficulty")

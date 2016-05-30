@@ -20,7 +20,7 @@ angular.module('easyVimWeb')
     $ctrl.history = [];
     var challengeXP = 0;
 
-    $ctrl.personalBest = 0;
+    $ctrl.personalBest = '';
 
     $ctrl.getInvitations = function () {
       mainService.getInvitations().then(function (res) {
@@ -73,10 +73,10 @@ angular.module('easyVimWeb')
           return score.user.name === $ctrl.user.name;
         });
         if(personalBest.length > 0){
-          $ctrl.personalBest = personalBest[0].keySequence.length;
+          $ctrl.personalBest = personalBest[0].keySequence;
         }
         else {
-          $ctrl.personalBest = 0;
+          $ctrl.personalBest = '';
         }
       })
 
@@ -107,8 +107,8 @@ angular.module('easyVimWeb')
             .then(function () {
               console.log("finished save challenge");
 
-              if($ctrl.keysPressed.length < $ctrl.personalBest || $ctrl.personalBest === 0) {
-                $ctrl.personalBest = $ctrl.keysPressed.length;
+              if($ctrl.keysPressed.length < $ctrl.personalBest.length || $ctrl.personalBest.length === 0) {
+                $ctrl.personalBest = $ctrl.keysPressed;
               }
 
               SweetAlert.swal({

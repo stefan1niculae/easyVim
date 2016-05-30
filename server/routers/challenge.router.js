@@ -11,6 +11,7 @@ const User = require('./../models/user').model;
 const Promise = require('bluebird');
 
 const logger = require('log4js').getDefaultLogger();
+const _ = require('lodash');
 
 router.route('/challengeDifficulty')
     .get(function (req, res) {
@@ -34,23 +35,24 @@ router.route('/challengeEntry')
 
     })
     .post((req, res) => {
-        ChallengeEntry.find({user: {_id: req.user.user._id}, challenge: req.body.challenge._id})
+        ChallengeEntry.find({challenge: req.body.challenge._id})
             .then((challengeEntries) => {
-                logger.info('ENTRIES', challengeEntries[0])
+                challengeEntries = _.filter(challengeEntries, function (elem) {
+                    return elem.user.name === req.user.user.name;
+                });
+                logger.info('ENTRIES', challengeEntries[0].keySequence.length, req.body.keySequence.length);
                 if (challengeEntries.length === 0) {
                     const challengeEntry = new ChallengeEntry({
-                                user: req.user.user,
-                                challenge: req.body.challenge._id,
-                                keySequence: req.body.keySequence
-                            });
+                        user: req.user.user,
+                        challenge: req.body.challenge._id,
+                        keySequence: req.body.keySequence
+                    });
                     return challengeEntry.save();
                 }
 
                 if (challengeEntries[0].keySequence.length > req.body.keySequence.length) {
-                    return ChallengeEntry.update({
-                        user: req.user.user,
-                        challenge: req.body.challenge._id
-                    }, {keySequence: req.body.keySequence});
+                    challengeEntries[0].keySequence = req.body.keySequence
+                    return challengeEntries[0].save();
                 }
                 return Promise.resolve('');
             })

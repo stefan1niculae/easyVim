@@ -61,19 +61,21 @@
 
     <div class="row challenge-scores">
       <div class="col-lg-6">
-        <h3 class="keyHeader">Top scores</h3>
+        <h3 class="keyHeader">top scores</h3>
         <hr class="blueLine" width="110%"/>
         <div class="keyDiv pull-left" ng-repeat="score in $ctrl.scores">
           <div ng-if="score.user.name !== $ctrl.user.name" class="leftKeyColumn greyLeft">{{score.keySequence.length}}</div>
-          <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}</div>
+          <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}
+            <img class="challenge-user-pic" ng-src="{{score.user.picture}}">
+          </div>
         </div>
       </div>
       <div class="col-lg-6">
-        <h3 class="keyHeader">Your best</h3>
+        <h3 class="keyHeader">your best</h3>
         <hr class="blueLine"/>
         <div class="keyDiv">
-          <div ng-if="$ctrl.personalBest !== 0" class="leftKeyColumn greyLeft doneChallenge">{{$ctrl.personalBest}}</div>
           <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Challenge a friend!</div>
+          <div ng-if="$ctrl.personalBest !== ''" class="leftKeyColumn greyLeft doneChallenge">{{$ctrl.personalBest}}</div>
         </div>
 
       </div>

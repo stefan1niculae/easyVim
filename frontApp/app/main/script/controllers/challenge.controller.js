@@ -83,6 +83,16 @@ angular.module('easyVimWeb')
     };
     $ctrl.setCurrentQuest($ctrl.challengeDifficulties[0], $ctrl.challengeDifficulties[0].challenges[0]);
 
+    // hardcode some invitations
+    $ctrl.challengeDifficulties[0].challenges[0].invitation = {
+      sender: 'Catalin',
+      pic: 'https://scontent.xx.fbcdn.net/v/t1.0-1/c19.0.50.50/p50x50/11018346_1025117317538288_8637195073437319525_n.jpg?oh=ae3b8cbb203141ef5c094124133a66b7&oe=57DBE2E6'
+    };
+    $ctrl.challengeDifficulties[0].challenges[3].invitation = {
+      sender: 'Razvan',
+      pic: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/12717933_1209347179093662_204283182703864292_n.jpg?oh=cdda16be07f4cbde013e15a49badb71c&oe=57D35890'
+    };
+
     $ctrl.addKeyPressed = function (e) {
       $ctrl.keysPressed += String.fromCharCode(e.keyCode);
       addHistory(3, String.fromCharCode(e.keyCode));

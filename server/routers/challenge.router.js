@@ -67,6 +67,7 @@ router.route('/challengeEntry')
 
 router.route('/invitation')
     .get(function (req, res) {
+        // console.log('>>>>>>>>>>>>>>>>fb id', req.user.user.facebookId)
         ChallengeInvitation.find({
                 receiver: {
                     facebookId: req.user.user.facebookId

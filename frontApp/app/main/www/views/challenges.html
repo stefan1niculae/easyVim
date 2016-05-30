@@ -7,6 +7,10 @@
         <div class="challenge-list-item" ng-repeat="challenge in difficulty.challenges"
              ng-click="$ctrl.setCurrentQuest(difficulty,challenge)">
           {{challenge.name}}
+          <div ng-if="challenge.invitation">
+            <p style="color: grey;">Invited by {{challenge.invitation.sender}}
+              <img class="invitation-sender-pic" ng-src="{{challenge.invitation.pic}}"></p>
+          </div>
         </div>
         <br>
       </div>
@@ -18,13 +22,13 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Select a friend</h4>
-              Invite for {{$ctrl.currentQuest.difficulty.invitePrice}}
+              Invite for <span class="xpSpent">{{$ctrl.currentQuest.difficulty.invitePrice}} gold</span>
             </div>
             <div class="modal-body">
-              <ul class="no-bull-list">
-                <li ng-repeat="friend in $ctrl.friends" ng-click="$ctrl.sendInvitation(friend)">
-                  <img class="user-pic" ng-src="{{friend.picture}}"/>
-                  <span>{{friend.name}}</span>
+              <ul class="no-bull-list" style="margin-left: 25px">
+                <li ng-repeat="friend in $ctrl.friends" ng-click="$ctrl.sendInvitation(friend)" style="margin-bottom: 15px">
+                  <img class="user-pic" ng-src="{{friend.picture}}" style="width: 30px; height: 30px">
+                  <span style="font-size: 1.25em; margin-left: 5px">{{friend.name}}</span>
                 </li>
               </ul>
             </div>
@@ -61,11 +65,10 @@
     <div class="row challenge-scores">
       <div class="col-lg-6">
         <h3 class="keyHeader">top scores</h3>
-        <hr class="blueLine" width="110%"/>
+        <hr class="blueLine"/>
         <div class="keyDiv pull-left" ng-repeat="score in $ctrl.scores">
           <div ng-if="score.user.name !== $ctrl.user.name" class="leftKeyColumn greyLeft">{{score.keySequence.length}}</div>
-          <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}
-          </div>
+          <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}</div>
           <img ng-if="score.user.name !== $ctrl.user.name" class="challenge-user-pic" ng-src="{{score.user.picture}}">
         </div>
       </div>
@@ -73,8 +76,11 @@
         <h3 class="keyHeader">your best</h3>
         <hr class="blueLine"/>
         <div class="keyDiv">
+          <div ng-if="$ctrl.personalBest !== ''">
+            <p class="leftKeyColumn greyLeft">{{$ctrl.personalBest.length}}</p>
+            <pclass="rightKeyColumn greyRight">{{$ctrl.personalBest}}</p>
+          </div>
           <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Challenge a friend!</div>
-          <div ng-if="$ctrl.personalBest !== ''" class="leftKeyColumn greyLeft doneChallenge">{{$ctrl.personalBest}}</div>
         </div>
 
       </div>

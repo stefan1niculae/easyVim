@@ -25,25 +25,25 @@ router.route('/challengeDifficulty')
 //todo fix this
 router.route('/challengeEntry')
     .get((req, res) => {
-        logger.info()
-        ChallengeEntry.find({challenge: {_id: req.param('challengeId')}})
-            .then((entries) => {
-                res.json(entries);
+        ChallengeEntry.find({challenge: req.param('challengeId')})
+            .populate('challenges')
+            .exec(function (err, entries) {
+                if (!err)
+                    res.json(entries);
             })
-            .catch((err) => {
-                logger.error("error get best entries", err);
-            })
+
     })
     .post((req, res) => {
-        ChallengeEntry.find({user: {_id: req.user.user._id}, challenge: {_id: req.body.challenge._id}})
+        ChallengeEntry.find({user: {_id: req.user.user._id}, challenge: req.body.challenge._id})
             .then((challengeEntries) => {
+                logger.info('ENTRIES', challengeEntries[0])
                 if (challengeEntries.length === 0) {
-                            const challengeEntry = new ChallengeEntry({
+                    const challengeEntry = new ChallengeEntry({
                                 user: req.user.user,
                                 challenge: req.body.challenge._id,
                                 keySequence: req.body.keySequence
                             });
-                            return challengeEntry.save();
+                    return challengeEntry.save();
                 }
 
                 if (challengeEntries[0].keySequence.length > req.body.keySequence.length) {

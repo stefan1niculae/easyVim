@@ -20,6 +20,8 @@ angular.module('easyVimWeb')
     $ctrl.history = [];
     var challengeXP = 0;
 
+    $ctrl.personalBest = 0;
+
     $ctrl.getInvitations = function () {
       mainService.getInvitations().then(function (res) {
         console.log('invitations', res);
@@ -67,14 +69,20 @@ angular.module('easyVimWeb')
       .then(function (scores) {
         $ctrl.scores = scores;
 
-        var pesronalBest = _.fiter(_.groupBy)
-
-        console.log("scores", scores);
+        var personalBest = _.filter(scores, function (score) {
+          return score.user.name === $ctrl.user.name;
+        });
+        if(personalBest.length > 0){
+          $ctrl.personalBest = personalBest[0].keySequence.length;
+        }
+        else {
+          $ctrl.personalBest = 0;
+        }
       })
 
 
     };
-    $ctrl.setCurrentQuest($ctrl.challengeDifficulties[0], $ctrl.challengeDifficulties[0].challenges[1]);
+    $ctrl.setCurrentQuest($ctrl.challengeDifficulties[0], $ctrl.challengeDifficulties[0].challenges[0]);
 
     $ctrl.addKeyPressed = function (e) {
       $ctrl.keysPressed += String.fromCharCode(e.keyCode);
@@ -83,7 +91,6 @@ angular.module('easyVimWeb')
 
     $scope.$watch('initialContent', function (event) {
         if ($scope.initialContent == $ctrl.targetText) {
-          console.log("DIFFICULTY", $ctrl.currentQuest)
           mainService.honorInvitation({
               _id: $ctrl.currentQuest._id,
               difficulty: {
@@ -99,6 +106,11 @@ angular.module('easyVimWeb')
             })
             .then(function () {
               console.log("finished save challenge");
+
+              if($ctrl.keysPressed.length < $ctrl.personalBest || $ctrl.personalBest === 0) {
+                $ctrl.personalBest = $ctrl.keysPressed.length;
+              }
+
               SweetAlert.swal({
                 title: "Congratulations",
                 text: "Challenge completed!",
@@ -116,7 +128,6 @@ angular.module('easyVimWeb')
     );
 
     $ctrl.stopPasteEvent = function (ev) {
-      console.log("PASTE")
       ev.preventDefault();
       ev.stopPropagation();
     };

@@ -39,7 +39,7 @@ angular.module('easyVimWeb')
     function getNextChapter() {
       var currentChapterIndex = $rootScope.user.unLockedChapters.length;
       return $scope.chapters[currentChapterIndex];
-    };
+    }
 
     function getNextLesson() {
       lessonXP = 0;

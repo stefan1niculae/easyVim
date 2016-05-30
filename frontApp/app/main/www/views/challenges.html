@@ -2,14 +2,14 @@
 
   <div class="col-lg-2">
     <h3>Challanges</h3>
-      <div class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
-        {{difficulty.name}}<span class="xpSpent"> ({{difficulty.attemptPrice}} gold)</span>
+    <ul class="list-group borderless">
+      <li class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
+        {{difficulty.name}}<span class="xpSpent">{{difficulty.attemptPrice}}</span>
         <div class="lesson-list-item" ng-repeat="challenge in difficulty.challenges"
              ng-click="$ctrl.setCurrentQuest(difficulty,challenge)">
-          {{challenge.name}}
+          {{challenge.name}}<span class="fa fa-check"/>
         </div>
-        <br>
-      </div>
+      </li>
 
       <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm">
@@ -32,6 +32,7 @@
         </div>
       </div>
 
+    </ul>
   </div>
 
   <div class="col-lg-8">
@@ -43,7 +44,7 @@
       </strong>
       <p>Turn the text in the editor into the following in as few keystrokes as possible:</p>
       <strong ng-repeat="line in $ctrl.targetTextLines">
-          {{line}}<br>
+        {{line}}<br>
       </strong>
       <!--<strong>{{$ctrl.targetText}}</strong>-->
     </div>
@@ -53,18 +54,17 @@
       <strong>{{$ctrl.keysPressed}}</strong>
     </div>
     <br/>
-    <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Challenge a friend!</div>
     <br/>
     <easy-vim-directive current-lesson="currentLesson" history="history"
                         theme="localTheme.codename" ng-paste="stopPasteEvent($event)"></easy-vim-directive>
 
 
-    <div class="row keySection">
+    <div class="row challenge-scores">
       <div class="col-lg-6">
         <h3 class="keyHeader">Top scores</h3>
         <hr class="blueLine" width="110%"/>
-        <div class="keyDiv" ng-repeat="score in $ctrl.scores">
-          <div class="leftKeyColumn greyLeft">{{score.keySequence.length + ' keys'}}</div>
+        <div class="keyDiv pull-left" ng-repeat="score in $ctrl.scores">
+          <div ng-if="score.user.name !== $ctrl.user.name" class="leftKeyColumn greyLeft">{{score.keySequence.length}}</div>
           <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}</div>
         </div>
       </div>
@@ -72,7 +72,8 @@
         <h3 class="keyHeader">Your best</h3>
         <hr class="blueLine"/>
         <div class="keyDiv">
-          <div class="leftKeyColumn greyLeft">{{$ctrl.personalBest + ' keys'}}</div>
+          <div ng-if="$ctrl.personalBest !== 0" class="leftKeyColumn greyLeft doneChallenge">{{$ctrl.personalBest}}</div>
+          <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Challenge a friend!</div>
         </div>
 
       </div>
@@ -83,13 +84,47 @@
     <ul class="list-group borderless historyList">
       <h4 class="leftHistoryHeader">Experience</h4>
       <h4 class="rightHistoryHeader">History</h4>
-      <li class="list-group-item" ng-repeat="action in history">
-        <div class="leftHistoryColumn greenLeft">{{action.xp}}xp</div>
-        <div class="rightHistoryColumn greenRight">{{action.command}}</div>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greyLeft">-2 xp</div>
+        <div class="rightHistoryColumn greyRight">click</div>
       </li>
-      <div style="text-align: center; width: 100%">
-        When you do something in the editor you will gain experience, gold or achievements.
-      </div>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greenLeft">+3 xp</div>
+        <div class="rightHistoryColumn greenRight">2w</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greyLeft">-2 xp</div>
+        <div class="rightHistoryColumn greyRight">click</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greenLeft">+3 xp</div>
+        <div class="rightHistoryColumn greenRight">2w</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greenLeft">LEVEL 5</div>
+        <div class="rightHistoryColumn greenRight">reached</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greyLeft">-2 xp</div>
+        <div class="rightHistoryColumn greyRight">click</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greenLeft">+3 xp</div>
+        <div class="rightHistoryColumn greenRight">2w</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greyLeft">-2 xp</div>
+        <div class="rightHistoryColumn greyRight">click</div>
+      </li>
+      <li class="list-group-item">
+        <div class="leftHistoryColumn greenLeft">+3 xp</div>
+        <div class="rightHistoryColumn greenRight">2w</div>
+      </li>
+      <li class="list-group-item">
+        <img class="badgeColumn" src="/css/icons/Dice.png"/>
+        <div class="leftHistoryColumn greenLeft">Badge</div>
+        <div class="rightHistoryColumn greenRight">2w</div>
+      </li>
     </ul>
   </div>
 

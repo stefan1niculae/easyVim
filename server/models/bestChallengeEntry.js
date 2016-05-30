@@ -4,13 +4,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const user = require('./user');
-const challenge = require('./challenge');
-
 
 const bestChallengeEntry = new mongoose.Schema({
     user: {
         type: user.schema,
-        required: ''
+        required: 'User required for entry'
         // No need for back-ref from user to their best entries
     },
     challenge: {

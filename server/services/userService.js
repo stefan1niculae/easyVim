@@ -1,6 +1,6 @@
 'use strict';
 
-const User = require('../models/user');
+const User = require('../models/user').model;
 const EditorTheme = require('../models/editorTheme').model;
 const Promise = require('bluebird');
 

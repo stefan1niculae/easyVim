@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('easyVimWeb')
-  .controller('lessonController', function ($scope, mainService, $rootScope, SweetAlert) {
+  .controller('lessonController', function ($scope, mainService, $rootScope, SweetAlert, chapters) {
 
     var openModalLessonComplete = function (lesson) {
       SweetAlert.swal({
@@ -20,11 +20,15 @@ angular.module('easyVimWeb')
 
     $scope.localTheme = $rootScope.user.currentTheme;
 
-    $scope.busy = false;
-    $scope.chapters = [];
-    $scope.lessons = [];
-    $scope.currentChapter = {};
+    $scope.chapters = chapters;
+    _.forEach($scope.chapters, function (chapter) {
+      chapter.lessons = _.sortBy(chapter.lessons, 'order');
+    });
+    $scope.currentChapter = getNextChapter();
     $scope.currentLesson = {};
+    $scope.currentLesson = getNextLesson();
+    $scope.initialContent = $scope.currentLesson.content;
+
     $scope.lessonProgress = 0;
     $scope.history = [];
     $scope.previousKeys = [];
@@ -37,7 +41,7 @@ angular.module('easyVimWeb')
       return $scope.chapters[currentChapterIndex];
     };
 
-    var getNextLesson = function () {
+    function getNextLesson() {
       lessonXP = 0;
       if (!$scope.currentLesson._id) {
         _.forEach($scope.currentChapter.lessons, function(lesson) {
@@ -71,30 +75,7 @@ angular.module('easyVimWeb')
       } else {
         return $scope.currentChapter.lessons[$scope.currentLesson.order]
       }
-    };
-
-    var getData = function () {
-      $scope.busy = true;
-
-      mainService.getChapters()
-        .then(function (res) {
-          console.log("DATA FOR CHAPTERS", res);
-          $scope.chapters = res;
-          $scope.chapters = _.sortBy($scope.chapters, 'order');
-          _.forEach($scope.chapters, function (chapter) {
-            chapter.lessons = _.sortBy(chapter.lessons, 'order');
-          });
-          $scope.currentChapter = getNextChapter();
-          $scope.currentLesson = getNextLesson();
-          $scope.initialContent = $scope.currentLesson.content;
-        })
-        .catch(function (err) {
-          console.error(err);
-        })
-        .finally(function () {
-          $scope.busy = false;
-        });
-    };
+    }
 
     $scope.getLessonProgress = function () {
       return Math.ceil($scope.lessonProgress);
@@ -205,8 +186,6 @@ angular.module('easyVimWeb')
         levelXP += (25 - levelXP);
       }
     };
-
-    getData();
 
     var unWatchProgress = $rootScope.$on('progressChanged', function (event, increment) {
 

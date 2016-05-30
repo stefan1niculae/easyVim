@@ -8,7 +8,7 @@ Promise = require('bluebird');
 const passport = require('passport');
 const connectEnsureLogin = require('connect-ensure-login');
 
-const User = require('./../models/user');
+const User = require('./../models/user').model;
 
 router.get('/facebook', passport.authenticate('facebook'));
 

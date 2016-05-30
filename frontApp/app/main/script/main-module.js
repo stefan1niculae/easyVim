@@ -59,7 +59,15 @@
       templateUrl: 'views/lesson.html',
       controller: 'lessonController',
       controllerAs: 'lessonCtrl',
-      hideNavBar: false
+      hideNavBar: false,
+      resolve: {
+        chapters: function (mainService) {
+          return  mainService.getChapters()
+            .then(function (res) {
+              return _.sortBy(res, 'order');
+            })
+        }
+      }
     })
 
   }

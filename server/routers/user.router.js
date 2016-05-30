@@ -10,9 +10,10 @@ const logger = require('log4js').getDefaultLogger();
 
 const Achievement = require('./../models/achievement').model;
 const Lesson = require('./../models/lesson').model;
+const User = require('./../models/user').model;
+
 const Chapter = require('./../models/chapter').model;
 
-const User = require('./../models/user');
 
 
 router.route('/friends')

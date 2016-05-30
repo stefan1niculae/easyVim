@@ -7,9 +7,10 @@ const Challenge = require("./../models/challenge").model;
 const ChallengeDifficulty = require("./../models/challengeDifficulty").model;
 const ChallengeInvitation = require("./../models/challengeInvitation").model;
 const ChallengeEntry = require("./../models/bestChallengeEntry").model;
-const User = require('./../models/user');
+const User = require('./../models/user').model;
 const Promise = require('bluebird');
 
+const logger = require('log4js').getDefaultLogger();
 
 router.route('/challengeDifficulty')
     .get(function (req, res) {
@@ -21,61 +22,83 @@ router.route('/challengeDifficulty')
             })
     });
 
+//todo fix this
 router.route('/challengeEntry')
+    .get((req, res) => {
+        logger.info()
+        ChallengeEntry.find({challenge: {_id: req.param('challengeId')}})
+            .then((entries) => {
+                res.json(entries);
+            })
+            .catch((err) => {
+                logger.error("error get best entries", err);
+            })
+    })
     .post((req, res) => {
-        ChallengeEntry.find({user: req.body.user, challenge: req.body.challenge})
-        .then((challengeEntries) =>{
-            if (challengeEntries.length === 0){
-                const challengeEntry = new ChallengeEntry(req.body);
-                return challengeEntry.save();
-            }
+        ChallengeEntry.find({user: {_id: req.user.user._id}, challenge: {_id: req.body.challenge._id}})
+            .then((challengeEntries) => {
+                if (challengeEntries.length === 0) {
+                            const challengeEntry = new ChallengeEntry({
+                                user: req.user.user,
+                                challenge: req.body.challenge._id,
+                                keySequence: req.body.keySequence
+                            });
+                            return challengeEntry.save();
+                }
 
-           if(challengeEntries[0].keySequence.length > req.body.keySequence.length){
-               return ChallengeEntry.update({user: req.body.user, challenge: req.body.challenge}, {keySequence: req.body.keySequence});
-           }
-            return Promise.resolve('');
-        })
-        .then(() => {
-            res.status(200).json({})
-        })
+                if (challengeEntries[0].keySequence.length > req.body.keySequence.length) {
+                    return ChallengeEntry.update({
+                        user: req.user.user,
+                        challenge: req.body.challenge._id
+                    }, {keySequence: req.body.keySequence});
+                }
+                return Promise.resolve('');
+            })
+            .then(() => {
+                res.status(200).json({})
+            })
+            .catch((err) => {
+                logger.error('Error post challenge entry', err)
+            })
+
     });
 
 router.route('/invitation')
     .get(function (req, res) {
-        ChallengeInvitation.find({receiver: {
-            facebookId: req.user.user.facebookId
-            }})
+        ChallengeInvitation.find({
+                receiver: {
+                    facebookId: req.user.user.facebookId
+                }
+            })
             .then(function (invitations) {
                 res.json(invitations);
             })
     })
     .put(function (req, res) {
-        Challenge.find({_id: req.body.challenge.challenge._id})
+        Challenge.find({_id: req.body.challenge._id})
             .then((challenge) => {
-                return ChallengeInvitation.update({
-                    receiver: req.user.user,
-                    challenge: challenge
-                }, {honored: true}, {multi: true})
-                .then(() => {
-                    req.user.user.xp   += req.body.challenge.difficulty.xpAwarded;
-                    req.user.user.gold += req.body.challenge.difficulty.goldAwarded;
-
-                    return User.findOneAndUpdate({ _id: req.user.user._id }, {
+                ChallengeInvitation.update({
+                        receiver: req.user.user,
+                        challenge: challenge
+                    }, {honored: true}, {multi: true})
+                    .then(() => {
+                        req.user.user.xp += req.body.challenge.difficulty.completionExperience;
+                        req.user.user.gold += req.body.challenge.difficulty.completionGold;
+                        return User.update({_id: req.user.user._id}, {
                             xp: req.user.user.xp,
                             gold: req.user.user.gold
                         })
-                });
-            })
-
-            .then(() => {
-                res.status(200).json({})
+                    })
+                    .then(() => {
+                        res.status(200).json({})
+                    })
+                    .catch((err) => {
+                        logger.error('Error put challenge invitation', err);
+                    })
             })
     })
     .post(function (req, res) {
         let promises = [];
-
-        console.log(req);
-
         promises.push(User.findOne({_id: req.body.sender._id}));
         promises.push(User.findOne({_id: req.body.receiver._id}));
         promises.push(Challenge.findOne({_id: req.body.challenge._id}));
@@ -88,12 +111,12 @@ router.route('/invitation')
                 });
                 return invitation.save()
             })
-        .then(() => {
-            res.status(200).json({})
-        })
-        .catch((err) => {
-            console.error(err);
-        })
+            .then(() => {
+                res.status(200).json({})
+            })
+            .catch((err) => {
+                logger.error('Error post challenge invitation', err);
+            });
 
         // TODO maybe? send invitation to facebook
     });

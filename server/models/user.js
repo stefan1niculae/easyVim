@@ -119,5 +119,7 @@ userSchema.statics.getUnlockedDifficulties = function (user) {
         })
 };
 
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = {
+    model: mongoose.model('User', userSchema),
+    schema: userSchema
+};

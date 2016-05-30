@@ -1,11 +1,10 @@
 "use strict";
 
 angular.module('easyVimWeb')
-  .controller('challengeController', function ($scope, userService, mainService, $rootScope,$timeout,
-                                               challengeDifficulties, SweetAlert){
+  .controller('challengeController', function ($scope, userService, mainService, $rootScope, $timeout,
+                                               challengeDifficulties, SweetAlert) {
 
     var $ctrl = this;
-
     $ctrl.showModal = true;
 
     $scope.localTheme = $rootScope.user.currentTheme;
@@ -14,78 +13,104 @@ angular.module('easyVimWeb')
     $ctrl.friends = [];
 
     $ctrl.invitations = [];
-    $ctrl.keysPressed ='';
+    $ctrl.keysPressed = '';
     $ctrl.currentQuest = {};
     $ctrl.targetText = '';
+    $ctrl.scores = [];
 
-    $ctrl.getInvitations = function(){
-      mainService.getInvitations().then(function(res){
-        console.log('get invitations')
-        console.log(res);
+    $ctrl.getInvitations = function () {
+      mainService.getInvitations().then(function (res) {
+        console.log('invitations', res);
         $ctrl.invitations = res;
-      },function(err){
-        console.log("Error: "+ err);
+      }, function (err) {
+        console.log("Error: " + err);
       })
     };
+
     $ctrl.getInvitations();
 
-    $ctrl.sendInvitation = function(user){
-      console.log("inside send invite");
-       var invitation = {
+    $ctrl.sendInvitation = function (user) {
+      var invitation = {
         challenge: {_id: $ctrl.currentQuest._id},
         sender: {_id: $ctrl.user._id},
-        receiver:{_id: user._id}
+        receiver: {_id: user._id}
       };
-      mainService.addInvitation(invitation).then(function(){
-        console.log("Invitation send");
-      },function(err){
-        console.log("Error: "+err)
-      });
-    }
+      mainService.addInvitation(invitation)
+        .then(function () {
+          console.log("Invitation sent");
+        });
+    };
 
-    $ctrl.getFriends = function(){
-      userService.getFriends().then(function(res){
+    $ctrl.getFriends = function () {
+      userService.getFriends().then(function (res) {
         $ctrl.friends = res;
         console.log($ctrl.friends[0]);
-      },function(err){
-        console.log("Error: "+ err);
+      }, function (err) {
+        console.log("Error: " + err);
       });
     };
 
     $ctrl.getFriends();
 
-    $ctrl.setCurrentQuest = function(difficulty, quest){
+    $ctrl.setCurrentQuest = function (difficulty, quest) {
       quest.difficulty = difficulty;
-      console.log(quest.difficulty);
       $ctrl.currentQuest = quest;
       $ctrl.descriptionLines = quest.description.split('\n');
       $ctrl.targetText = quest.targetText;
       $ctrl.targetTextLines = quest.targetText.split('\n');
       $scope.initialContent = quest.startingText;
-      $ctrl.keysPressed ='';
-    };
-    $ctrl.setCurrentQuest($ctrl.challengeDifficulties[0],$ctrl.challengeDifficulties[0].challenges[1]);
+      $ctrl.keysPressed = '';
 
-    $ctrl.addKeyPressed = function(e){
-      console.log('inside add key pressed' + String.fromCharCode(e.keyCode));
+      mainService.getChallengeEntries(quest)
+      .then(function (scores) {
+        $ctrl.scores = scores;
+
+        var pesronalBest = _.fiter(_.groupBy)
+
+        console.log("scores", scores);
+      })
+
+
+    };
+    $ctrl.setCurrentQuest($ctrl.challengeDifficulties[0], $ctrl.challengeDifficulties[0].challenges[1]);
+
+    $ctrl.addKeyPressed = function (e) {
       $ctrl.keysPressed += String.fromCharCode(e.keyCode);
     };
 
-    $scope.$watch('initialContent', function(event){
-      console.log('Modificare in editor');
-      if ($scope.initialContent == $ctrl.targetText){
-        console.log("congrats")
-        SweetAlert.swal({
-          title: "Congratulations",
-          text: "Challenge completed!",
-          type: "success",
-          confirmButtonText: "Ok",
-          closeOnConfirm: true
-        }, function () {
+    $scope.$watch('initialContent', function (event) {
+        if ($scope.initialContent == $ctrl.targetText) {
+          console.log("DIFFICULTY", $ctrl.currentQuest)
+          mainService.honorInvitation({
+              _id: $ctrl.currentQuest._id,
+              difficulty: {
+                completionExperience: $ctrl.currentQuest.difficulty.completionExperience,
+                completionGold: $ctrl.currentQuest.difficulty.completionGold
+              }
+            })
+            .then(function (res) {
+              return mainService.sendChallengeEntry({
+                challenge: {_id: $ctrl.currentQuest._id},
+                keySequence: $ctrl.keysPressed
+              })
+            })
+            .then(function () {
+              console.log("finished save challenge");
+              SweetAlert.swal({
+                title: "Congratulations",
+                text: "Challenge completed!",
+                type: "success",
+                confirmButtonText: "Ok",
+                closeOnConfirm: true
+              });
+            })
+            .catch(function (err) {
+              console.log('Error at challenge complete', err);
+            })
 
-        });
+        }
       }
-    });
+    );
 
     $ctrl.stopPasteEvent = function (ev) {
       console.log("PASTE")

@@ -56,38 +56,26 @@
     <br/>
     <div class="doneChallenge" data-toggle="modal" data-target=".bs-example-modal-sm">Challenge a friend!</div>
     <br/>
-    <easy-vim-directive progress-listener current-lesson="currentLesson" history="history"
+    <easy-vim-directive current-lesson="currentLesson" history="history"
                         theme="localTheme.codename" ng-paste="stopPasteEvent($event)"></easy-vim-directive>
 
 
     <div class="row keySection">
       <div class="col-lg-6">
-        <h3 class="keyHeader">new keys</h3>
+        <h3 class="keyHeader">Top scores</h3>
         <hr class="blueLine" width="110%"/>
-        <div class="keyDiv">
-          <div class="leftKeyColumn greyLeft">w</div>
-          <div class="rightKeyColumn greyRight">next word</div>
-        </div>
-        <div class="keyDiv">
-          <div class="leftKeyColumn greyLeft">w</div>
-          <div class="rightKeyColumn greyRight">next word</div>
-        </div>
-        <div class="keyDiv">
-          <div class="leftKeyColumn greyLeft">w</div>
-          <div class="rightKeyColumn greyRight">next word</div>
+        <div class="keyDiv" ng-repeat="score in $ctrl.scores">
+          <div class="leftKeyColumn greyLeft">{{score.keySequence.length + ' keys'}}</div>
+          <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}</div>
         </div>
       </div>
       <div class="col-lg-6">
-        <h3 class="keyHeader">previous keys</h3>
+        <h3 class="keyHeader">Your best</h3>
         <hr class="blueLine"/>
         <div class="keyDiv">
-          <div class="leftKeyColumn greyLeft">h</div>
-          <div class="rightKeyColumn greyRight">left</div>
+          <div class="leftKeyColumn greyLeft">{{$ctrl.personalBest + ' keys'}}</div>
         </div>
-        <div class="keyDiv">
-          <div class="leftKeyColumn greyLeft">l</div>
-          <div class="rightKeyColumn greyRight">right</div>
-        </div>
+
       </div>
     </div>
   </div>

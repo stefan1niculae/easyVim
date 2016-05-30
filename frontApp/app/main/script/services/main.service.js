@@ -17,14 +17,6 @@ angular.module("easyVimWeb")
         })
     };
 
-    service.getBadges = function () {
-      return makeCall('GET', '/badges');
-    };
-
-    service.addBadge = function () {
-      return makeCall('POST', '/badges', {experience: 5});
-    };
-
     service.getCommandSections = function () {
       return makeCall('GET', '/commandSection');
     };
@@ -71,7 +63,19 @@ angular.module("easyVimWeb")
 
     service.getInvitations = function(){
       return makeCall("GET", '/invitation');
-    }
+    };
+
+    service.honorInvitation = function(challenge){
+      return makeCall("PUT", '/invitation',{challenge: challenge});
+    };
+
+    service.sendChallengeEntry = function(challengeEntry){
+      return makeCall("POST", '/challengeEntry', challengeEntry);
+    };
+
+    service.getChallengeEntries = function (challenge) {
+      return makeCall('GET', '/challengeEntry', null, {challengeId: challenge._id});
+    };
 
     return service;
   });

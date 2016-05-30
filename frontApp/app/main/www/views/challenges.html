@@ -37,9 +37,16 @@
 
   <div class="col-lg-8">
     <div>
-      <strong>Quest Description: {{$ctrl.currentQuest.description}}</strong>
+      <!--<strong>Quest Description: {{$ctrl.currentQuest.description}}</strong>-->
+      <h4>{{$ctrl.currentQuest.name}}</h4>
+      <strong ng-repeat="line in $ctrl.descriptionLines">
+        {{line}}<br>
+      </strong>
       <p>Turn the text in the editor into the following in as few keystrokes as possible:</p>
-      <strong>{{$ctrl.targetText}}</strong>
+      <strong ng-repeat="line in $ctrl.targetTextLines">
+        {{line}}<br>
+      </strong>
+      <!--<strong>{{$ctrl.targetText}}</strong>-->
     </div>
     <br/>
     <div>

@@ -58,7 +58,9 @@ angular.module('easyVimWeb')
       quest.difficulty = difficulty;
       console.log(quest.difficulty);
       $ctrl.currentQuest = quest;
+      $ctrl.descriptionLines = quest.description.split('\n');
       $ctrl.targetText = quest.targetText;
+      $ctrl.targetTextLines = quest.targetText.split('\n');
       $scope.initialContent = quest.startingText;
       $ctrl.keysPressed ='';
     };

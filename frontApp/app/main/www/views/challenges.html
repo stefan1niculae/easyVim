@@ -2,14 +2,14 @@
 
   <div class="col-lg-2">
     <h3>Challanges</h3>
-    <ul class="list-group borderless">
-      <li class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
-        {{difficulty.name}}<span class="xpSpent">{{difficulty.attemptPrice}}</span>
-        <div class="lesson-list-item" ng-repeat="challenge in difficulty.challenges"
+      <div class="chapter-list-item" ng-repeat="difficulty in $ctrl.challengeDifficulties">
+        {{difficulty.name}}<span class="xpSpent"> ({{difficulty.attemptPrice}} gold)</span>
+        <div class="challenge-list-item" ng-repeat="challenge in difficulty.challenges"
              ng-click="$ctrl.setCurrentQuest(difficulty,challenge)">
-          {{challenge.name}}<span class="fa fa-check"/>
+          {{challenge.name}}
         </div>
-      </li>
+        <br>
+      </div>
 
       <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm">
@@ -32,11 +32,10 @@
         </div>
       </div>
 
-    </ul>
   </div>
 
   <div class="col-lg-8">
-    <div>
+    <div style="margin-left: 10%; margin-right: 10%">
       <!--<strong>Quest Description: {{$ctrl.currentQuest.description}}</strong>-->
       <h4>{{$ctrl.currentQuest.name}}</h4>
       <strong ng-repeat="line in $ctrl.descriptionLines">
@@ -49,7 +48,7 @@
       <!--<strong>{{$ctrl.targetText}}</strong>-->
     </div>
     <br/>
-    <div>
+    <div style="margin-left: 10%; margin-right: 10%">
       <p>Keys so far ({{$ctrl.keysPressed.length}}):</p>
       <strong>{{$ctrl.keysPressed}}</strong>
     </div>
@@ -86,47 +85,13 @@
     <ul class="list-group borderless historyList">
       <h4 class="leftHistoryHeader">Experience</h4>
       <h4 class="rightHistoryHeader">History</h4>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greyLeft">-2 xp</div>
-        <div class="rightHistoryColumn greyRight">click</div>
+      <li class="list-group-item" ng-repeat="action in history">
+        <div class="leftHistoryColumn greenLeft">{{action.xp}}xp</div>
+        <div class="rightHistoryColumn greenRight">{{action.command}}</div>
       </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greenLeft">+3 xp</div>
-        <div class="rightHistoryColumn greenRight">2w</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greyLeft">-2 xp</div>
-        <div class="rightHistoryColumn greyRight">click</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greenLeft">+3 xp</div>
-        <div class="rightHistoryColumn greenRight">2w</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greenLeft">LEVEL 5</div>
-        <div class="rightHistoryColumn greenRight">reached</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greyLeft">-2 xp</div>
-        <div class="rightHistoryColumn greyRight">click</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greenLeft">+3 xp</div>
-        <div class="rightHistoryColumn greenRight">2w</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greyLeft">-2 xp</div>
-        <div class="rightHistoryColumn greyRight">click</div>
-      </li>
-      <li class="list-group-item">
-        <div class="leftHistoryColumn greenLeft">+3 xp</div>
-        <div class="rightHistoryColumn greenRight">2w</div>
-      </li>
-      <li class="list-group-item">
-        <img class="badgeColumn" src="/css/icons/Dice.png"/>
-        <div class="leftHistoryColumn greenLeft">Badge</div>
-        <div class="rightHistoryColumn greenRight">2w</div>
-      </li>
+      <div style="text-align: center; width: 100%">
+        When you do something in the editor you will gain experience, gold or achievements.
+      </div>
     </ul>
   </div>
 

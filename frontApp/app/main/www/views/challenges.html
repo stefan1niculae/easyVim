@@ -65,8 +65,8 @@
         <div class="keyDiv pull-left" ng-repeat="score in $ctrl.scores">
           <div ng-if="score.user.name !== $ctrl.user.name" class="leftKeyColumn greyLeft">{{score.keySequence.length}}</div>
           <div ng-if="score.user.name !== $ctrl.user.name" class="rightKeyColumn greyRight">{{score.user.name}}
-            <img class="challenge-user-pic" ng-src="{{score.user.picture}}">
           </div>
+          <img ng-if="score.user.name !== $ctrl.user.name" class="challenge-user-pic" ng-src="{{score.user.picture}}">
         </div>
       </div>
       <div class="col-lg-6">

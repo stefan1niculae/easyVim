@@ -2,16 +2,18 @@
 
 angular.module('easyVimWeb')
   .controller('lessonController', function ($scope, mainService, $rootScope, SweetAlert) {
-    
+
     var openModalLessonComplete = function (lesson) {
       SweetAlert.swal({
         title: "Congratulations",
-        text: "Lesson " + lesson.name + " completed!",
+        text: "Lesson \"" + lesson.name + "\" completed!",
         type: "success",
         confirmButtonText: "Next lesson",
         closeOnConfirm: true
       }, function (isConfirm) {
-        
+        $scope.currentLesson = getNextLesson();
+        $scope.initialContent = $scope.currentLesson.content;
+        updateLessonProgress();
       });
     };
 
@@ -65,11 +67,6 @@ angular.module('easyVimWeb')
       }
     };
 
-    $scope.setNextLesson = function () {
-      $scope.currentLesson = getNextLesson();
-      updateLessonProgress();
-    };
-
     var getData = function () {
       $scope.busy = true;
 
@@ -83,6 +80,7 @@ angular.module('easyVimWeb')
           });
           $scope.currentChapter = getNextChapter();
           $scope.currentLesson = getNextLesson();
+          $scope.initialContent = $scope.currentLesson.content;
         })
         .catch(function (err) {
           console.error(err);
@@ -90,18 +88,6 @@ angular.module('easyVimWeb')
         .finally(function () {
           $scope.busy = false;
         });
-
-      mainService.getLessons()
-        .then(function (res) {
-          console.log("DATA FOR LESSONS", res);
-          $scope.lessons = res;
-        })
-        .catch(function (err) {
-          console.error(err);
-        })
-        .finally(function () {
-          $scope.busy = false;
-        })
     };
 
     $scope.getLessonProgress = function () {
@@ -120,8 +106,8 @@ angular.module('easyVimWeb')
           i = 3;
         while (i--)
           roman = (key[+digits.pop() + (i * 10)] || "") + roman;
-        return Array(+digits.join("") + 1).join("M") + roman;
-      }
+        return new Array(+digits.join("") + 1).join("M") + roman;
+      };
       return romanize(chapter.order)
     };
 
@@ -144,6 +130,7 @@ angular.module('easyVimWeb')
       $scope.pressedKeys = [];
       $scope.previousKeys = $scope.previousKeys.concat($scope.currentLesson.commands);
       $scope.currentLesson = newLesson;
+      $scope.initialContent = $scope.currentLesson.content;
       updateLessonProgress();
     };
 
@@ -209,20 +196,22 @@ angular.module('easyVimWeb')
     var unWatchProgress = $rootScope.$on('progressChanged', function (event, increment) {
 
       $scope.$apply(function () {
-        $scope.lessonProgress += increment;
-        if ($scope.lessonProgress > 99 && !$rootScope.user.lessonsCompleted.contains($scope.currentLesson)) {
-          $rootScope.user.lessonsCompleted.push($scope.currentLesson);
-          $scope.previousKeys = $scope.previousKeys.concat($scope.currentLesson.commands);
-          var goldAwarded = 0;
-          if (isChapterCompleted()) {
-            $scope.addHistory($scope.currentChapter.xpAwarded, "Chapter " + $scope.currentChapter.order + " completed");
-            goldAwarded = $scope.currentChapter.goldAwarded;
-            lessonXP += $scope.currentChapter.xpAwarded;
-            levelXP += $scope.currentChapter.xpAwarded;
+        if (!$rootScope.user.lessonsCompleted.contains($scope.currentLesson)) {
+          $scope.lessonProgress += increment;
+          if ($scope.lessonProgress > 99) {
+            $rootScope.user.lessonsCompleted.push($scope.currentLesson);
+            $scope.previousKeys = $scope.previousKeys.concat($scope.currentLesson.commands);
+            var goldAwarded = 0;
+            if (isChapterCompleted()) {
+              $scope.addHistory($scope.currentChapter.xpAwarded, "Chapter " + $scope.currentChapter.order + " completed");
+              goldAwarded = $scope.currentChapter.goldAwarded;
+              lessonXP += $scope.currentChapter.xpAwarded;
+              levelXP += $scope.currentChapter.xpAwarded;
+            }
+            mainService.updateLessonsCompleted($scope.currentLesson, lessonXP, goldAwarded);
+            checkLevel();
+            openModalLessonComplete($scope.currentLesson);
           }
-          mainService.updateLessonsCompleted($scope.currentLesson, lessonXP, goldAwarded);
-          checkLevel();
-          openModalLessonComplete($scope.currentLesson);
         }
       });
     });

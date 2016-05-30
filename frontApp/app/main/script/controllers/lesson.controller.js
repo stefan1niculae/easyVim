@@ -36,7 +36,7 @@ angular.module('easyVimWeb')
     var levelXP = 0;
     var lessonXP = 0;
 
-    var getNextChapter = function () {
+    function getNextChapter() {
       var currentChapterIndex = $rootScope.user.unLockedChapters.length;
       return $scope.chapters[currentChapterIndex];
     };

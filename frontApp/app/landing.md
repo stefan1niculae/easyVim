@@ -7,7 +7,7 @@ Very powerful Unix text editor
 ## Why learn it?
  - Fastest & most effective way to navigate, edit,insert or delete text
  - It works for _code, prose, or class-notes_
- - It's available almost everywhere (any Unix dist, your VM, etc)
+ - It's available almost everywhere (by default on Unix, macOS, your VM, etc)
 
 
 ## Any downsides?
